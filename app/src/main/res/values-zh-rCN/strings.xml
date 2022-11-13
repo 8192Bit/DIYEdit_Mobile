@@ -18,4 +18,5 @@
     <string name="title_activity_settings">设置</string>
     <string name="noFMKey">抱歉。您的系统中未安装文件管理器。</string>
     <string name="permissonNeedKey">请为此软件授权来读取存档文件或mio文件。</string>
+    <string name="editGameKey">编辑游戏</string>
 </resources>

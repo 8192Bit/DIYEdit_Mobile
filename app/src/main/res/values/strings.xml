@@ -26,5 +26,6 @@
     <string name="exitKey">Exit</string>
     <string name="noFMKey">Sorry. There is no File Manager in your system.</string>
     <string name="permissonNeedKey">Please give the permisson to this program to read save file or mio file.</string>
+    <string name="editGameKey">Edit Games</string>
 
 </resources>
