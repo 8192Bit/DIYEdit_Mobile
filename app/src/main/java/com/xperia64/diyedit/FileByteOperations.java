@@ -61,10 +61,9 @@ public class FileByteOperations {
 	    log("Writing binary file...");
 	    try {
 	      OutputStream output = null;
-	      try {
-	        output = new BufferedOutputStream(new FileOutputStream(aOutputFileName));
-	      
-	    	   output.write(aInput);
+		  try {
+			  output = new BufferedOutputStream(new FileOutputStream(aOutputFileName));
+			  output.write(aInput);
 	       
 	       
 	      }

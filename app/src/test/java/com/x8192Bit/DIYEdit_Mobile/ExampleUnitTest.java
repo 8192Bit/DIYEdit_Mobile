@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.x8192Bit.DIYEdit_Mobile;
 
 import org.junit.Test;
 

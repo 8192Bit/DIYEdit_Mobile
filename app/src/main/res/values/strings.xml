@@ -27,5 +27,10 @@
     <string name="noFMKey">Sorry. There is no File Manager in your system.</string>
     <string name="permissonNeedKey">Please give the permisson to this program to read save file or mio file.</string>
     <string name="editGameKey">Edit Games</string>
+    <string name="dsSaveKey">DS Save</string>
+    <string name="wiiSaveKey">Wii Save</string>
+    <string name="couldNotReadFileKey">It seems that the file which you opened could not be read or parsed. If you used Android system built-in file manager, try a third-party one.</string>
+    <string name="warningKey">Warning</string>
+    <string name="backKey">Back</string>
 
 </resources>

@@ -197,8 +197,8 @@ public class DSSave implements Save {
 	    {
 	            int slot;
 	            slot = slotNumber* 2;
-	            saveFile[(int) (save_offset + data_index + slot)]=0;
-	    	    return;
+				saveFile[(int) (save_offset + data_index + slot)]=0;
+				return;
 	        }
 	        else
 	        {

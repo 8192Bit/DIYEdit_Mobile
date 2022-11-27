@@ -19,4 +19,9 @@
     <string name="noFMKey">抱歉。您的系统中未安装文件管理器。</string>
     <string name="permissonNeedKey">请为此软件授权来读取存档文件或mio文件。</string>
     <string name="editGameKey">编辑游戏</string>
+    <string name="dsSaveKey">NDS 存档</string>
+    <string name="wiiSaveKey">Wii 存档</string>
+    <string name="couldNotReadFileKey">您打开的文件似乎无法被读取或被操作。若您使用了 Android 系统内置的文件管理器，请使用第三方文件管理器。</string>
+    <string name="warningKey">警告</string>
+    <string name="backKey">返回</string>
 </resources>

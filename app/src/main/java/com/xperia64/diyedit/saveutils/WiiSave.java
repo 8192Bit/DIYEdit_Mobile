@@ -55,7 +55,7 @@ public class WiiSave implements Save {
 		
 	    
 	    ArrayList<byte[]> mios = new ArrayList<byte[]>();
-	    for(int i = 0; i<72; i++ )
+		for(int i = 0; i<72; i++ )
 	    {
 	    	
 	    	int gamepos = 0, slot=-1;
@@ -67,7 +67,7 @@ public class WiiSave implements Save {
 	            	mios.add(null);
 	            }else{
 			        byte[] item = new byte[(int) data_size];
-			        for(int o = gamepos; o<(item.length+gamepos); o++)
+					for(int o = gamepos; o<(item.length+gamepos); o++)
 			        {
 			        	item[o-gamepos]=wiiSave[o];
 			        }	
@@ -128,7 +128,7 @@ public class WiiSave implements Save {
 		if(delete)
 		{
 			int gamepos, slot;
-	        slot = wiiSave[(int) (slotNumber+0x20)];
+			slot = wiiSave[(int) (slotNumber+0x20)];
 			gamepos = (int) (0x4A8+data_size*slot);
 	        for(int o = gamepos; o<(data_size+gamepos); o++)
 	        {
@@ -140,7 +140,7 @@ public class WiiSave implements Save {
     	    return;
 		}else{
 			int gamepos, slot;
-	        slot = wiiSave[(int) (slotNumber+0x20)];
+			slot = wiiSave[(int) (slotNumber+0x20)];
 			gamepos = (int) (0x4A8+data_size*slot);
 	        for(int o = gamepos; o<(data_size+gamepos); o++)
 	        {
