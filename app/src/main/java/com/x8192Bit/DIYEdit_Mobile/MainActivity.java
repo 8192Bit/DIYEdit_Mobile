@@ -1,14 +1,11 @@
 package com.x8192Bit.DIYEdit_Mobile;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -35,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int CHOOSE_FILE_CODE = 0;
 
 
-    // Call System File Manager
+    // Called when the first button is pressed
     public void chooseFile(View v) {
 
         //使用兼容库就无需判断系统版本
@@ -49,24 +46,51 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // Called when the second button is pressed
+    public void openRecentFile(View view){
+        SharedPreferences sp = this.getSharedPreferences("SP",MODE_PRIVATE);
+        String history = sp.getString("history",null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        if(history == null){
+            alertDialogBuilder.setTitle(R.string.warningKey).setMessage(R.string.noHistoryKey).show();
+        }else {
+            alertDialogBuilder.setTitle(R.string.openRecentFileKey).setItems(history.split(","), (dialog, which) -> openFile(null)).show();
+        }
+    }
+
+    // Called when the third button is pressed
+    public void settingsMenu(View view){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    // Called when the fourth button is pressed
+    public void exit(View view){
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(0);
+    }
+
+    // Open sys fileman
     private void fileChooser() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*").addCategory(Intent.CATEGORY_OPENABLE);
         try {
             startActivityForResult(Intent.createChooser(intent, "Choose File"), CHOOSE_FILE_CODE);
+            // 我偏要用
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, R.string.noFMKey, Toast.LENGTH_SHORT).show();
         }
     }
 
+    // Common method for open a file
     private void openFile(String realPath){
         Intent intent = new Intent(this, SaveFileMenu.class);
         intent.putExtra(EXTRA_MESSAGE, realPath);
         startActivity(intent);
     }
-    // System call on File Manager Done
-    @SuppressLint("NewApi")
+
     @Override
+    // System call on fileman Done
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == CHOOSE_FILE_CODE) {
@@ -79,25 +103,4 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-
-
-    public void openRecentFile(View view){
-        // TODO : Read data from
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-        String[] listdemo = {"0","1","2","3","4","5","6","7","8","9"};
-        alertDialogBuilder.setTitle(R.string.openRecentFileKey).setItems(listdemo, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                openFile(null);
-            }
-        });
-    }
-
-    public void settingsMenu(View view){
-        // TODO : Jump to another Activity
-    }
-    public void exit(View view){
-        android.os.Process.killProcess(android.os.Process.myPid());    //获取PID
-        System.exit(0);   //常规java、c#的标准退出法，返回值为0代表正常退出
-    }
 }

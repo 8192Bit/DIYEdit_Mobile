@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.myapplication", appContext.getPackageName());
+        assertEquals("com.x8192Bit.DIYEdit_Mobile", appContext.getPackageName());
     }
 }

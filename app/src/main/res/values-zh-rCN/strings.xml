@@ -24,4 +24,5 @@
     <string name="couldNotReadFileKey">您打开的文件似乎无法被读取或被操作。若您使用了 Android 系统内置的文件管理器，请使用第三方文件管理器。</string>
     <string name="warningKey">警告</string>
     <string name="backKey">返回</string>
+    <string name="noHistoryKey">无文件打开历史。</string>
 </resources>

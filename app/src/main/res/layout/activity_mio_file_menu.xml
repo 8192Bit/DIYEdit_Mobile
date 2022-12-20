@@ -32,7 +32,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/textView"
+                        android:id="@+id/nameView"
                         android:layout_width="113dp"
                         android:layout_height="wrap_content"
                         android:text="Game Name"
@@ -40,10 +40,9 @@
                         android:textColor="#263238" />
 
                     <TextView
-                        android:id="@+id/textView5"
+                        android:id="@+id/nameValue"
                         android:layout_width="116dp"
                         android:layout_height="wrap_content"
-                        android:text="GameName"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="#263238" />
                 </TableRow>
@@ -53,7 +52,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/authorView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Author"
@@ -61,10 +60,9 @@
                         android:textColor="#263238" />
 
                     <TextView
-                        android:id="@+id/textView7"
+                        android:id="@+id/authorValue"
                         android:layout_width="207dp"
                         android:layout_height="wrap_content"
-                        android:text="GameName"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="#263238" />
                 </TableRow>
@@ -74,7 +72,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/companyView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Company"
@@ -82,10 +80,9 @@
                         android:textColor="#263238" />
 
                     <TextView
-                        android:id="@+id/textView6"
+                        android:id="@+id/companyValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="GameName"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="#263238" />
                 </TableRow>
@@ -95,7 +92,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/textView4"
+                        android:id="@+id/timeView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Time"
@@ -103,10 +100,9 @@
                         android:textColor="#263238" />
 
                     <TextView
-                        android:id="@+id/textView8"
+                        android:id="@+id/timeValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="GameName"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:textColor="#263238" />
                 </TableRow>

@@ -1,11 +1,9 @@
 package com.x8192Bit.DIYEdit_Mobile;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -16,21 +14,19 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 
 import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 public class FileTools {
+
     /**
-     * 根据Uri获取文件绝对路径，解决Android4.4以上版本Uri转换 兼容Android 10
+     * Get filepath ( API BELOW KITKAT/ABOVE QUINCE-TART ARE SUPPORTED )
      *
-     * @param context
-     * @param imageUri
+     * @param context the context.
+     * @param imageUri the URI needed to translate to filepath.
      */
     public static String getFileAbsolutePath(Context context, Uri imageUri) {
         if (context == null || imageUri == null) {
@@ -87,7 +83,7 @@ public class FileTools {
         return null;
     }
 
-    //此方法 只能用于4.4以下的版本
+    // FOR BELOW KITKAT
     private static String getRealFilePath(final Context context, final Uri uri) {
         if (null == uri) {
             return null;
@@ -169,7 +165,7 @@ public class FileTools {
 
 
     /**
-     * Android 10 以上适配
+     * FOR ABOVE QUINCE-TART(10)
      * @param context
      * @param uri
      * @return

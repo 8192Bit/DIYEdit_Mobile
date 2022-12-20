@@ -32,5 +32,12 @@
     <string name="couldNotReadFileKey">It seems that the file which you opened could not be read or parsed. If you used Android system built-in file manager, try a third-party one.</string>
     <string name="warningKey">Warning</string>
     <string name="backKey">Back</string>
+    <string name="noHistoryKey">No open file history.</string>
+
+    <!-- Preference Titles -->
+
+    <!-- Messages Preferences -->
+
+    <!-- Sync Preferences -->
 
 </resources>
