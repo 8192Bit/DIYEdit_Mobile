@@ -3,12 +3,15 @@ package com.x8192Bit.DIYEdit_Mobile;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -27,6 +30,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ImageView iv = findViewById(R.id.imageViewIcon);
+
+        GraphicsTools gt = new GraphicsTools();
+        GraphicsTools.GameIcon gi = gt.new GameIcon();
+        gi.setCartridgeColor(gt.LIGHTBLUE);
+        gi.setCartridgeShape(gt.GG_GBA);
+        gi.setIconColor(gt.GREEN);
+        gi.setIconShape(gt.GI_PULSE);
+        iv.setImageDrawable(gi.renderImage(this,iv.getWidth(),iv.getHeight()));
     }
 
     private static final int CHOOSE_FILE_CODE = 0;
@@ -54,7 +66,13 @@ public class MainActivity extends AppCompatActivity {
         if(history == null){
             alertDialogBuilder.setTitle(R.string.warningKey).setMessage(R.string.noHistoryKey).show();
         }else {
-            alertDialogBuilder.setTitle(R.string.openRecentFileKey).setItems(history.split(","), (dialog, which) -> openFile(null)).show();
+            String[] items = history.split(",");
+            alertDialogBuilder.setTitle(R.string.openRecentFileKey).setItems(items, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    openFile(items[which].toString());
+                }
+            }).show();
         }
     }
 
@@ -71,12 +89,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Open sys fileman
+    @SuppressWarnings("deprecation")// 我偏要用startActivityForResult
     private void fileChooser() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*").addCategory(Intent.CATEGORY_OPENABLE);
         try {
             startActivityForResult(Intent.createChooser(intent, "Choose File"), CHOOSE_FILE_CODE);
-            // 我偏要用
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, R.string.noFMKey, Toast.LENGTH_SHORT).show();
         }

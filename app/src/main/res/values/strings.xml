@@ -33,6 +33,11 @@
     <string name="warningKey">Warning</string>
     <string name="backKey">Back</string>
     <string name="noHistoryKey">No open file history.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="unlockGameKey">Unlock Games...</string>
+    <string name="unlockRecordKey">Unlock Records...</string>
+    <string name="unlockMangaKey">Unlock Mangas...</string>
+    <string name="unlockMedalKey">Unlock Medals...</string>
 
     <!-- Preference Titles -->
 

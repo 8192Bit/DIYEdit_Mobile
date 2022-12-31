@@ -22,6 +22,7 @@ import com.xperia64.diyedit.FileByteOperations;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import x8192Bit.DIYEdit_Mobile.R;
 
@@ -43,14 +44,12 @@ public class SaveFileMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         String path = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        tabs = findViewById(R.id.tabs);
         initEnable(path);
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null){
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
     }
 
     @Override
@@ -62,114 +61,126 @@ public class SaveFileMenu extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void addTab(TabLayout.Tab t, TabLayout tl){
-        tl.addTab(getAddNewTab(t));
-    }
-
-    private TabLayout.Tab getAddNewTab(@NonNull TabLayout.Tab tab) {
-        try {
-            Field mParent = TabLayout.Tab.class.getDeclaredField("mParent");
-            mParent.setAccessible(true);
-            Object o = mParent.get(tab);
-            if (o != this) { //检测tab的mParent是不是this。
-                return getAddNewTab(tabs.newTab());//如果不是从新获取并重新检查。
-            } else {
-                return tab;//如果是直接返回。
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Failed creating Tab", e);
-        }
-    }
-
     /**
      *
      * @param filePath Provide the filepath which got by the Sys FM.
      */
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("SetTextI18n")//well at least, GDATA, MDATA and RDATA IS I18N
     public void initEnable(String filePath) {
         if (filePath != null){
             file = FileByteOperations.read(filePath);
-            // 待会儿再来处理这坨意面屎罢
-            // 能跑就行
-            // 额
-            // TODO: deal with these Italian codes
-            int positionIndex = 0;
-            if (file.length == 33554432 || file.length == 33566720 || file.length == 33554554 || file.length == 4719808 || file.length == 6438592) {
+            if (file.length == 4719808) {
+                //GDATA
                 savetype |= 1;
                 setMenuType(contentViewType.SAVE);
-                tabs = findViewById(R.id.tabs);
+                TextView saveView = findViewById(R.id.saveView);
+                saveView.setText(getText(R.string.wiiSaveKey) + " (GDATA)");
                 TabLayout.Tab t0 = tabs.newTab();
                 t0.setText(R.string.editGameKey);
-                tabs.addTab(t0,positionIndex++);
+                tabs.addTab(t0,0);
             }
-            if (file.length == 33554432 || file.length == 33566720 || file.length == 33554554 || file.length == 591040 || file.length == 6438592) {
+            if (file.length == 591040) {
+                //RDATA
                 savetype |= 2;
                 setMenuType(contentViewType.SAVE);
-                tabs = findViewById(R.id.tabs);
+                TextView saveView = findViewById(R.id.saveView);
+                saveView.setText(getText(R.string.wiiSaveKey) + " (RDATA)");
                 TabLayout.Tab t0 = tabs.newTab();
                 t0.setText(R.string.editRecordKey);
-                tabs.addTab(t0,positionIndex++);
+                tabs.addTab(t0,0);
             }
-            if (file.length == 33554432 || file.length == 33566720 || file.length == 33554554 || file.length == 1033408 || file.length == 6438592) {
+            if (file.length == 1033408) {
+                //MDATA
                 savetype |= 4;
                 setMenuType(contentViewType.SAVE);
-                tabs = findViewById(R.id.tabs);
+                TextView saveView = findViewById(R.id.saveView);
+                saveView.setText(getText(R.string.wiiSaveKey) + " (MDATA)");
                 TabLayout.Tab t0 = tabs.newTab();
                 t0.setText(R.string.editMangaKey);
-                tabs.addTab(t0,positionIndex++);
+                tabs.addTab(t0,0);
             }
-            if (file.length == 33554432 || file.length == 33554554 || file.length == 33566720) {
+            if (file.length == 6438592) {
+                //maybe wii all-in-one save file?
+                //don't know
+                savetype |= 7;
                 setMenuType(contentViewType.SAVE);
-                tabs = findViewById(R.id.tabs);
-                TabLayout.Tab t0 = tabs.newTab();
-                t0.setText(R.string.unlockKey);
-                tabs.addTab(t0,positionIndex++);
-            }
-            if(file.length==8192)
-            {
-                miotype = 1;
-                setMenuType(contentViewType.MIO);
+                setContentView(R.layout.activity_save_file_menu);
+                TextView saveView = findViewById(R.id.saveView);
+                saveView.setText(R.string.wiiSaveKey);
                 tabs = findViewById(R.id.tabs);
                 TabLayout.Tab t0 = tabs.newTab();
                 TabLayout.Tab t1 = tabs.newTab();
-                t0.setText(R.string.metaDataEditKey);
-                t1.setText(R.string.midiToolsKey);
-                tabs.addTab(t0);
-                tabs.addTab(t1);
-            }else if(file.length==14336)
-            {
-                miotype = 2;
-                setMenuType(contentViewType.MIO);
-                tabs = findViewById(R.id.tabs);
-                TabLayout.Tab t0 = tabs.newTab();
-                TabLayout.Tab t1 = tabs.newTab();
-                t0.setText(R.string.metaDataEditKey);
-                t1.setText(R.string.viewMangaKey);
+                TabLayout.Tab t2 = tabs.newTab();
+                t0.setText(R.string.editGameKey);
+                t1.setText(R.string.editRecordKey);
+                t2.setText(R.string.editMangaKey);
                 tabs.addTab(t0,0);
                 tabs.addTab(t1,1);
-            }else if(file.length==65536)
-            {
-                miotype = 3;
-                setMenuType(contentViewType.MIO);
+                tabs.addTab(t2,2);
+            }
+
+            if (file.length == 33554432 || file.length == 33554554 || file.length == 33566720) {
+                savetype |= 8;
+                setMenuType(contentViewType.SAVE);
+                TextView saveView = findViewById(R.id.saveView);
+                saveView.setText(R.string.dsSaveKey);
                 tabs = findViewById(R.id.tabs);
                 TabLayout.Tab t0 = tabs.newTab();
                 TabLayout.Tab t1 = tabs.newTab();
                 TabLayout.Tab t2 = tabs.newTab();
                 TabLayout.Tab t3 = tabs.newTab();
-                t0.setText(R.string.metaDataEditKey);
-                t1.setText(R.string.viewBGKey);
-                t2.setText(R.string.midiToolsKey);
-                t3.setText(R.string.exportAllOBJKey);
+                t0.setText(R.string.editGameKey);
+                t1.setText(R.string.editRecordKey);
+                t2.setText(R.string.editMangaKey);
+                t3.setText(R.string.unlockKey);
                 tabs.addTab(t0,0);
                 tabs.addTab(t1,1);
                 tabs.addTab(t2,2);
                 tabs.addTab(t3,3);
             }
+            // Only detect when the file is not a save file
+            if(savetype == 0) {
+                if (file.length == 8192) {
+                    miotype = 1;
+                    setMenuType(contentViewType.MIO);
+                    TabLayout.Tab t0 = tabs.newTab();
+                    TabLayout.Tab t1 = tabs.newTab();
+                    t0.setText(R.string.metaDataEditKey);
+                    t1.setText(R.string.midiToolsKey);
+                    tabs.addTab(t0);
+                    tabs.addTab(t1);
+                } else if (file.length == 14336) {
+                    miotype = 2;
+                    setMenuType(contentViewType.MIO);
+                    TabLayout.Tab t0 = tabs.newTab();
+                    TabLayout.Tab t1 = tabs.newTab();
+                    t0.setText(R.string.metaDataEditKey);
+                    t1.setText(R.string.viewMangaKey);
+                    tabs.addTab(t0, 0);
+                    tabs.addTab(t1, 1);
+                } else if (file.length == 65536) {
+                    miotype = 3;
+                    setMenuType(contentViewType.MIO);
+                    TabLayout.Tab t0 = tabs.newTab();
+                    TabLayout.Tab t1 = tabs.newTab();
+                    TabLayout.Tab t2 = tabs.newTab();
+                    TabLayout.Tab t3 = tabs.newTab();
+                    t0.setText(R.string.metaDataEditKey);
+                    t1.setText(R.string.viewBGKey);
+                    t2.setText(R.string.midiToolsKey);
+                    t3.setText(R.string.exportAllOBJKey);
+                    tabs.addTab(t0, 0);
+                    tabs.addTab(t1, 1);
+                    tabs.addTab(t2, 2);
+                    tabs.addTab(t3, 3);
+                }
+            }
             if(savetype != 0){
+                updateDetection(filePath,fileType.SAVE);
+            }else if (miotype != 0){
                 updateDetection(filePath,fileType.MIO);
                 MTimeLabel = findViewById(R.id.timeValue);
-            }else if (miotype != 0){
-                updateDetection(filePath,fileType.SAVE);
+
             }else{
                 updateDetection(filePath,fileType.UNREADABLE);
                 fileUnavailableAlert();
@@ -185,6 +196,11 @@ public class SaveFileMenu extends AppCompatActivity {
         }
         if (tvv == contentViewType.SAVE && savetype != 0){
             setContentView(R.layout.activity_save_file_menu);
+        }
+        if(tabs != null) {
+
+        }else {
+            tabs = findViewById(R.id.tabs);
         }
     }
 

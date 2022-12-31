@@ -1,7 +1,9 @@
 package com.x8192Bit.DIYEdit_Mobile;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,12 +40,26 @@ public class SettingsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public static class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceChangeListener  {
+    public static class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener  {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+            Preference maxHistoryCount = findPreference("maxHistoryCount");
+            Preference cleanAllHistory = findPreference("cleanAllHistory");
+            assert maxHistoryCount != null;
+            maxHistoryCount.setOnPreferenceChangeListener(this);
+            cleanAllHistory.setOnPreferenceClickListener(this);
         }
 
+        @Override
+        public boolean onPreferenceClick(Preference preference){
+            String key = preference.getKey();
+            if (key.equals("cleanAllHistory") ) {
+                SharedPreferences sp = this.getContext().getSharedPreferences("SP",MODE_PRIVATE);
+                sp.edit().putString("history",null).commit();
+            }
+            return false;
+        }
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
             String key = preference.getKey();
@@ -51,6 +67,9 @@ public class SettingsActivity extends AppCompatActivity {
                 if(CharUtils.isNumeric((String) newValue)) {
                     return true;  // 保存
                 }else {
+                    Toast t = new Toast(getContext());
+                    t.setText("fuck you it must be a number");
+                    t.show();
                     return false;
                 }
             }

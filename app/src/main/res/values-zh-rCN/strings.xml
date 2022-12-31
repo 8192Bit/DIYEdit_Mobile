@@ -25,4 +25,8 @@
     <string name="warningKey">警告</string>
     <string name="backKey">返回</string>
     <string name="noHistoryKey">无文件打开历史。</string>
+    <string name="unlockGameKey">解锁游戏......</string>
+    <string name="unlockRecordKey">解锁唱片......</string>
+    <string name="unlockMangaKey">解锁漫画......</string>
+    <string name="unlockMedalKey">解锁奖牌......</string>
 </resources>
