@@ -103,6 +103,7 @@ public class SaveEditFragment extends Fragment {
         popupMenu.show();
     }
     public class SaveItemAdapter extends BaseAdapter{
+        ArrayList<GraphicsTools.ShelfItem> shelfItems = new ArrayList<>();
         /**
          * How many items are in the data set represented by this Adapter.
          *
@@ -110,7 +111,7 @@ public class SaveEditFragment extends Fragment {
          */
         @Override
         public int getCount() {
-            return 0;
+            return shelfItems.size();
         }
 
         /**
@@ -122,7 +123,7 @@ public class SaveEditFragment extends Fragment {
          */
         @Override
         public Object getItem(int position) {
-            return null;
+            return shelfItems.get(position);
         }
 
         /**
@@ -133,7 +134,7 @@ public class SaveEditFragment extends Fragment {
          */
         @Override
         public long getItemId(int position) {
-            return 0;
+            return 1919810;
         }
 
         /**
