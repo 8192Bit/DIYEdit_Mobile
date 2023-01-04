@@ -2,15 +2,23 @@ package com.x8192Bit.DIYEdit_Mobile;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.xperia64.diyedit.metadata.GameMetadata;
 import com.xperia64.diyedit.saveutils.SaveHandler;
 
 import java.util.ArrayList;
@@ -26,52 +34,145 @@ public class SaveEditFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_NAME = "name";
+    private static final String ARG_MIOTYPE = "miotype";
 
     // TODO: Rename and change types of parameters
     private SaveHandler s;
-    private String mParam1;
-    private String mParam2;
+    private String name;
+    private int miotype;
+    private int shelfNo = 1;
+    private ArrayList<byte[]> mios;
+    private SaveItemAdapter si;
+    private ImageButton diy1;
+    private ImageButton diy2;
+    private ImageButton diy3;
+    private ImageButton diy4;
+    private ImageButton diy5;
+
+
+    // f. y. mem.
 
     public SaveEditFragment() {
         // Required empty public constructor
+    }
+
+    @Nullable
+    @Override
+    public View getView() {
+        return super.getView();
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param name name of the file.
+     * @param miotype mio type.
      * @return A new instance of fragment GameEditFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SaveEditFragment newInstance(String param1, String param2) {
+    public static SaveEditFragment newInstance(String name, int miotype) {
         SaveEditFragment fragment = new SaveEditFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_NAME, name);
+        args.putInt(ARG_MIOTYPE, miotype);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void onDIY1Pressed(){
+        shelfNo = 1;
+        refreshShelf();
+    }
+    public void onDIY2Pressed(){
+        shelfNo = 2;
+        refreshShelf();
+    }
+    public void onDIY3Pressed(){
+        shelfNo = 3;
+        refreshShelf();
+    }
+    public void onDIY4Pressed(){
+        shelfNo = 4;
+        refreshShelf();
+    }
+    public void onDIY5Pressed(){
+        shelfNo = 5;
+        refreshShelf();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            name = getArguments().getString(ARG_NAME);
+            miotype = getArguments().getInt(ARG_MIOTYPE);
         }
-        ArrayList<byte[]> b = s.getMios(0);
+        s = new SaveHandler(name);
+        si = new SaveItemAdapter();
+        refreshShelf();
+    }
 
+    public void refreshShelf(){
+        GraphicsTools gt = new GraphicsTools();
+        for(int i = 18*(shelfNo-1); i<18*shelfNo; i++){
+            GraphicsTools.GameItem gi = gt.new GameItem();
+            GameMetadata gm = new GameMetadata(s.getMio(miotype, i));
+            gi.setCartridgeColor(gm.getCartColor());
+            gi.setCartridgeShape(gm.getCartType());
+            gi.setIconColor(gm.getLogoColor());
+            gi.setIconShape(gm.getLogo());
+            si.shelfItems.set(i-(18*shelfNo-1),gi);
+        }
+        GridView gv = (GridView) getView().findViewById(R.id.ShelfGridView);
+        gv.setAdapter(si);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_saveedit, container, false);
+/*
+        diy1 = getView().findViewById(R.id.diy_1);
+        diy2 = getView().findViewById(R.id.diy_2);
+        diy3 = getView().findViewById(R.id.diy_3);
+        diy4 = getView().findViewById(R.id.diy_4);
+        diy5 = getView().findViewById(R.id.diy_5);
+        diy1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDIY1Pressed();
+            }
+        });
+        diy2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDIY2Pressed();
+            }
+        });
+        diy3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDIY3Pressed();
+            }
+        });
+        diy4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDIY4Pressed();
+            }
+        });
+        diy5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDIY5Pressed();
+            }
+        });
+        */
+
+
+        return inflater.inflate(R.layout.fragment_saveedit, container, true);
     }
 
     private void showMioPopupMenu(View view) {
@@ -102,8 +203,16 @@ public class SaveEditFragment extends Fragment {
 
         popupMenu.show();
     }
+
     public class SaveItemAdapter extends BaseAdapter{
-        ArrayList<GraphicsTools.ShelfItem> shelfItems = new ArrayList<>();
+        public ArrayList<GraphicsTools.ShelfItem> shelfItems = new ArrayList<>();
+        private LayoutInflater layoutInflater;
+
+        public SaveItemAdapter(){
+            layoutInflater = LayoutInflater.from(getActivity());
+            // Needs to be invoked after parent activity started
+        }
+
         /**
          * How many items are in the data set represented by this Adapter.
          *
@@ -134,7 +243,7 @@ public class SaveEditFragment extends Fragment {
          */
         @Override
         public long getItemId(int position) {
-            return 1919810;
+            return position/6;
         }
 
         /**
@@ -157,7 +266,27 @@ public class SaveEditFragment extends Fragment {
          */
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            return null;
+
+            ViewHolder holder = null;
+            if (convertView == null) {
+                convertView = layoutInflater.inflate(R.layout.shelf_item_layout, null);
+                holder = new ViewHolder();
+                holder.iv = (ImageView) convertView.findViewById(R.id.ShelfItemImageView);
+                convertView.setTag(holder);
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            GraphicsTools.ShelfItem si = shelfItems.get(position);
+            if (si != null) {
+                holder.iv.setImageDrawable(si.renderImage(getContext(),60,60));
+            }
+            return convertView;
+        }
+
+        class ViewHolder{
+            ImageView iv;
+            TextView tv;
         }
     }
+
 }

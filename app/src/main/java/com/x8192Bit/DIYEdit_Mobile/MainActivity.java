@@ -27,9 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.x8192Bit.DIYEdit_Mobile.MESSAGE";
 
-    GraphicsTools gt = new GraphicsTools();
-    GraphicsTools.MangaItem gi = gt.new MangaItem();
-    ImageView iv = null;
     // Create Method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,27 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    @Override
-    protected void onStart(){
-        super.onStart();
-        iv = findViewById(R.id.imageViewIcon);
-        gi.setMangaColor(gt.LIGHTBLUE);
-        gi.setMangaShape(gt.GG_ROUND);
-        gi.setIconColor(gt.GREEN);
-        gi.setIconShape(gt.GI_PULSE);
-        iv.setImageDrawable(gi.renderImage(this,160,160));
 
-    }
-
-    public void test(View v){
-        Random r = new Random();
-        gi.setMangaColor(r.nextInt(7));
-        gi.setMangaShape(r.nextInt(7));
-        gi.setIconColor(r.nextInt(7));
-        gi.setIconShape(r.nextInt(7));
-        iv.setImageDrawable(gi.renderImage(this,160,160));
-        iv.invalidate();
-    }
 
     private static final int CHOOSE_FILE_CODE = 0;
 

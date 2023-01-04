@@ -98,7 +98,7 @@ public class GraphicsTools {
         }
     }
 
-    // feel better with just_color_picker.
+    // feel better with CrystalDiskInfo.
     // strongly recommend
     public int getDIYSecondaryColor(int dc) {
         switch (dc) {
@@ -391,33 +391,64 @@ public class GraphicsTools {
             ccccccccccc.drawColor(getDIYColor(recordColor), PorterDuff.Mode.MULTIPLY);
             c.drawBitmap(temp, 0, 0, p);
             // get icon drawable
-            switch (iconShape) {
-                case RI_HEART:
-                    ResID = R.drawable.spr_record_logo1;
-                    break;
-                case RI_FLOWER:
-                    ResID = R.drawable.spr_record_logo2;
-                    break;
-                case RI_STORM:
-                    ResID = R.drawable.spr_record_logo3;
-                    break;
-                case RI_CROSS:
-                    ResID = R.drawable.spr_record_logo4;
-                    break;
-                case RI_LEAF:
-                    ResID = R.drawable.spr_record_logo5;
-                    break;
-                case RI_DROPLET:
-                    ResID = R.drawable.spr_record_logo6;
-                    break;
-                case RI_LIGHTNING:
-                    ResID = R.drawable.spr_record_logo7;
-                    break;
-                case RI_SMILE:
-                    ResID = R.drawable.spr_record_logo8;
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + iconShape);
+            if (iconColor == recordColor){
+                switch (iconShape) {
+                    case RI_HEART:
+                        ResID = R.drawable.spr_record_logo1_r;
+                        break;
+                    case RI_FLOWER:
+                        ResID = R.drawable.spr_record_logo2_r;
+                        break;
+                    case RI_STORM:
+                        ResID = R.drawable.spr_record_logo3_r;
+                        break;
+                    case RI_CROSS:
+                        ResID = R.drawable.spr_record_logo4_r;
+                        break;
+                    case RI_LEAF:
+                        ResID = R.drawable.spr_record_logo5_r;
+                        break;
+                    case RI_DROPLET:
+                        ResID = R.drawable.spr_record_logo6_r;
+                        break;
+                    case RI_LIGHTNING:
+                        ResID = R.drawable.spr_record_logo7_r;
+                        break;
+                    case RI_SMILE:
+                        ResID = R.drawable.spr_record_logo8_r;
+                        break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + iconShape);
+                }
+            } else {
+                switch (iconShape) {
+                    case RI_HEART:
+                        ResID = R.drawable.spr_record_logo1;
+                        break;
+                    case RI_FLOWER:
+                        ResID = R.drawable.spr_record_logo2;
+                        break;
+                    case RI_STORM:
+                        ResID = R.drawable.spr_record_logo3;
+                        break;
+                    case RI_CROSS:
+                        ResID = R.drawable.spr_record_logo4;
+                        break;
+                    case RI_LEAF:
+                        ResID = R.drawable.spr_record_logo5;
+                        break;
+                    case RI_DROPLET:
+                        ResID = R.drawable.spr_record_logo6;
+                        break;
+                    case RI_LIGHTNING:
+                        ResID = R.drawable.spr_record_logo7;
+                        break;
+                    case RI_SMILE:
+                        ResID = R.drawable.spr_record_logo8;
+                        break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + iconShape);
+                }
             }
             drawableToDraw = (BitmapDrawable) AppCompatResources.getDrawable(ctx, ResID);
             temp = drawableToDraw.getBitmap().copy(Bitmap.Config.ARGB_8888, true);

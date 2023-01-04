@@ -4,6 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -17,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 import com.xperia64.diyedit.FileByteOperations;
 
 import java.lang.reflect.Field;
@@ -37,6 +42,7 @@ public class SaveFileMenu extends AppCompatActivity {
     TextView MAuthorLabel = null;
     TextView MCompanyLabel = null;
     TextView MTimeLabel = null;
+    ViewPager2 vp2 = null;
 
 
     @Override
@@ -65,10 +71,11 @@ public class SaveFileMenu extends AppCompatActivity {
      *
      * @param filePath Provide the filepath which got by the Sys FM.
      */
-    @SuppressLint("SetTextI18n")//well at least, GDATA, MDATA and RDATA IS I18N
+    @SuppressLint("SetTextI18n")// well at least, GDATA, MDATA and RDATA IS I18N
     public void initEnable(String filePath) {
         if (filePath != null){
             file = FileByteOperations.read(filePath);
+            ArrayList<Fragment> fl = new ArrayList<>();
             if (file.length == 4719808) {
                 //GDATA
                 savetype |= 1;
@@ -78,8 +85,8 @@ public class SaveFileMenu extends AppCompatActivity {
                 TabLayout.Tab t0 = tabs.newTab();
                 t0.setText(R.string.editGameKey);
                 tabs.addTab(t0,0);
-            }
-            if (file.length == 591040) {
+                fl.add(SaveEditFragment.newInstance(filePath,0));
+            }else if (file.length == 591040) {
                 //RDATA
                 savetype |= 2;
                 setMenuType(contentViewType.SAVE);
@@ -88,8 +95,8 @@ public class SaveFileMenu extends AppCompatActivity {
                 TabLayout.Tab t0 = tabs.newTab();
                 t0.setText(R.string.editRecordKey);
                 tabs.addTab(t0,0);
-            }
-            if (file.length == 1033408) {
+                fl.add(SaveEditFragment.newInstance(filePath,1));
+            }else if (file.length == 1033408) {
                 //MDATA
                 savetype |= 4;
                 setMenuType(contentViewType.SAVE);
@@ -98,8 +105,8 @@ public class SaveFileMenu extends AppCompatActivity {
                 TabLayout.Tab t0 = tabs.newTab();
                 t0.setText(R.string.editMangaKey);
                 tabs.addTab(t0,0);
-            }
-            if (file.length == 6438592) {
+                fl.add(SaveEditFragment.newInstance(filePath,2));
+            }else if (file.length == 6438592) {
                 //maybe wii all-in-one save file?
                 //don't know
                 savetype |= 7;
@@ -117,9 +124,10 @@ public class SaveFileMenu extends AppCompatActivity {
                 tabs.addTab(t0,0);
                 tabs.addTab(t1,1);
                 tabs.addTab(t2,2);
-            }
-
-            if (file.length == 33554432 || file.length == 33554554 || file.length == 33566720) {
+                fl.add(SaveEditFragment.newInstance(filePath,0));
+                fl.add(SaveEditFragment.newInstance(filePath,1));
+                fl.add(SaveEditFragment.newInstance(filePath,2));
+            } else if (file.length == 33554432 || file.length == 33554554 || file.length == 33566720) {
                 savetype |= 8;
                 setMenuType(contentViewType.SAVE);
                 TextView saveView = findViewById(R.id.saveView);
@@ -137,6 +145,10 @@ public class SaveFileMenu extends AppCompatActivity {
                 tabs.addTab(t1,1);
                 tabs.addTab(t2,2);
                 tabs.addTab(t3,3);
+                fl.add(SaveEditFragment.newInstance(filePath,0));
+                fl.add(SaveEditFragment.newInstance(filePath,1));
+                fl.add(SaveEditFragment.newInstance(filePath,2));
+                fl.add(UnlockFragment.newInstance(filePath));
             }
             // Only detect when the file is not a save file
             if(savetype == 0) {
@@ -175,6 +187,24 @@ public class SaveFileMenu extends AppCompatActivity {
                     tabs.addTab(t3, 3);
                 }
             }
+            vp2 = findViewById(R.id.saveViewPager);
+            vp2.setAdapter(new FragmentStateAdapter(this) {
+                @NonNull
+                @Override
+                public Fragment createFragment(int position) {
+                    return fl.get(position);
+                }
+
+                @Override
+                public int getItemCount() {
+                    return fl.size();
+                }
+            });
+            new TabLayoutMediator(tabs, vp2, new TabLayoutMediator.TabConfigurationStrategy() {
+                @Override
+                public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                }
+            }).attach();
             if(savetype != 0){
                 updateDetection(filePath,fileType.SAVE);
             }else if (miotype != 0){
@@ -197,9 +227,7 @@ public class SaveFileMenu extends AppCompatActivity {
         if (tvv == contentViewType.SAVE && savetype != 0){
             setContentView(R.layout.activity_save_file_menu);
         }
-        if(tabs != null) {
-
-        }else {
+        if(tabs == null) {
             tabs = findViewById(R.id.tabs);
         }
     }
@@ -215,7 +243,7 @@ public class SaveFileMenu extends AppCompatActivity {
         SAVE
     }
 
-    private void updateFileHistory(SharedPreferences sp, String realPath){
+    private void updateFileHistory(@NonNull SharedPreferences sp, String realPath){
         int historyCount =sp.getInt("historyCount",10);
         SharedPreferences.Editor ed = sp.edit();
         String history = sp.getString("history","0");

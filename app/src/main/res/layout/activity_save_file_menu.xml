@@ -59,6 +59,7 @@
         app:layout_insetEdge="right">
 
         <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/saveViewPager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </androidx.core.widget.NestedScrollView>

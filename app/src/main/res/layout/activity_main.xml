@@ -54,13 +54,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="test"
-        android:text="Button" />
-
     <TextView
         android:id="@+id/textView9"
         android:layout_width="match_parent"
