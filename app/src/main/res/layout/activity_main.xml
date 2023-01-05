@@ -16,6 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:contentDescription="@string/desIconKey"
+        android:rotationX="49"
+        android:rotationY="60"
         app:srcCompat="@mipmap/ic_launcher" />
 
     <Button
@@ -23,6 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:onClick="chooseFile"
+        android:rotationX="44"
+        android:rotationY="-69"
         android:text="@string/openFileKey"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,6 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:onClick="openRecentFile"
+        android:rotationX="28"
+        android:rotationY="69"
         android:text="@string/openRecentFileKey"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,6 +47,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:onClick="settingsMenu"
+        android:rotationX="53"
+        android:rotationY="-138"
         android:text="@string/settingsKey"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -50,6 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:onClick="exit"
+        android:rotationY="77"
         android:text="@string/exitKey"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

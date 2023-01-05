@@ -2,6 +2,7 @@ package com.x8192Bit.DIYEdit_Mobile;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
@@ -44,6 +45,7 @@ public class SaveEditFragment extends Fragment {
     private int shelfNo = 1;
     private ArrayList<byte[]> mios;
     private SaveItemAdapter si;
+    private GridView gv;
     private ImageButton diy1;
     private ImageButton diy2;
     private ImageButton diy3;
@@ -57,10 +59,48 @@ public class SaveEditFragment extends Fragment {
         // Required empty public constructor
     }
 
-    @Nullable
+
     @Override
-    public View getView() {
-        return super.getView();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        gv = (GridView) getView().findViewById(R.id.ShelfGridView);
+
+        diy1 = getView().findViewById(R.id.diy_1);
+        diy2 = getView().findViewById(R.id.diy_2);
+        diy3 = getView().findViewById(R.id.diy_3);
+        diy4 = getView().findViewById(R.id.diy_4);
+        diy5 = getView().findViewById(R.id.diy_5);
+        diy1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDIY1Pressed(v);
+            }
+        });
+        diy2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDIY2Pressed(v);
+            }
+        });
+        diy3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDIY3Pressed(v);
+            }
+        });
+        diy4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDIY4Pressed(v);
+            }
+        });
+        diy5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDIY5Pressed(v);
+            }
+        });
+        refreshShelf();
     }
 
     /**
@@ -81,23 +121,23 @@ public class SaveEditFragment extends Fragment {
         return fragment;
     }
 
-    public void onDIY1Pressed(){
+    public void onDIY1Pressed(View v){
         shelfNo = 1;
         refreshShelf();
     }
-    public void onDIY2Pressed(){
+    public void onDIY2Pressed(View v){
         shelfNo = 2;
         refreshShelf();
     }
-    public void onDIY3Pressed(){
+    public void onDIY3Pressed(View v){
         shelfNo = 3;
         refreshShelf();
     }
-    public void onDIY4Pressed(){
+    public void onDIY4Pressed(View v){
         shelfNo = 4;
         refreshShelf();
     }
-    public void onDIY5Pressed(){
+    public void onDIY5Pressed(View v){
         shelfNo = 5;
         refreshShelf();
     }
@@ -111,21 +151,27 @@ public class SaveEditFragment extends Fragment {
         }
         s = new SaveHandler(name);
         si = new SaveItemAdapter();
-        refreshShelf();
     }
 
     public void refreshShelf(){
         GraphicsTools gt = new GraphicsTools();
+        si.shelfItems.clear();
+        si.titles.clear();
         for(int i = 18*(shelfNo-1); i<18*shelfNo; i++){
             GraphicsTools.GameItem gi = gt.new GameItem();
-            GameMetadata gm = new GameMetadata(s.getMio(miotype, i));
-            gi.setCartridgeColor(gm.getCartColor());
-            gi.setCartridgeShape(gm.getCartType());
-            gi.setIconColor(gm.getLogoColor());
-            gi.setIconShape(gm.getLogo());
-            si.shelfItems.set(i-(18*shelfNo-1),gi);
+            byte[] file = s.getMio(miotype, i);
+            if(file!=null){
+                GameMetadata gm = new GameMetadata(file);
+                gi.setCartridgeColor(gm.getCartColor());
+                gi.setCartridgeShape(gm.getCartType());
+                gi.setIconColor(gm.getLogoColor());
+                gi.setIconShape(gm.getLogo());
+                si.titles.add(gm.getName());
+                si.shelfItems.add(i - 18 * (shelfNo - 1), gi);
+            } else {
+                si.shelfItems.add(i - 18 * (shelfNo - 1), null);
+            }
         }
-        GridView gv = (GridView) getView().findViewById(R.id.ShelfGridView);
         gv.setAdapter(si);
     }
 
@@ -133,44 +179,6 @@ public class SaveEditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-/*
-        diy1 = getView().findViewById(R.id.diy_1);
-        diy2 = getView().findViewById(R.id.diy_2);
-        diy3 = getView().findViewById(R.id.diy_3);
-        diy4 = getView().findViewById(R.id.diy_4);
-        diy5 = getView().findViewById(R.id.diy_5);
-        diy1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDIY1Pressed();
-            }
-        });
-        diy2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDIY2Pressed();
-            }
-        });
-        diy3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDIY3Pressed();
-            }
-        });
-        diy4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDIY4Pressed();
-            }
-        });
-        diy5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDIY5Pressed();
-            }
-        });
-        */
-
 
         return inflater.inflate(R.layout.fragment_saveedit, container, true);
     }
@@ -205,7 +213,8 @@ public class SaveEditFragment extends Fragment {
     }
 
     public class SaveItemAdapter extends BaseAdapter{
-        public ArrayList<GraphicsTools.ShelfItem> shelfItems = new ArrayList<>();
+        public ArrayList<GraphicsTools.ShelfItem> shelfItems = new ArrayList<>(18);
+        public ArrayList<String> titles = new ArrayList<>();
         private LayoutInflater layoutInflater;
 
         public SaveItemAdapter(){
@@ -243,7 +252,7 @@ public class SaveEditFragment extends Fragment {
          */
         @Override
         public long getItemId(int position) {
-            return position/6;
+            return position%6;
         }
 
         /**
@@ -272,6 +281,7 @@ public class SaveEditFragment extends Fragment {
                 convertView = layoutInflater.inflate(R.layout.shelf_item_layout, null);
                 holder = new ViewHolder();
                 holder.iv = (ImageView) convertView.findViewById(R.id.ShelfItemImageView);
+                holder.tv = (TextView) convertView.findViewById(R.id.ShelfItemTextView);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -279,6 +289,7 @@ public class SaveEditFragment extends Fragment {
             GraphicsTools.ShelfItem si = shelfItems.get(position);
             if (si != null) {
                 holder.iv.setImageDrawable(si.renderImage(getContext(),60,60));
+                holder.tv.setText(titles.get(position));
             }
             return convertView;
         }

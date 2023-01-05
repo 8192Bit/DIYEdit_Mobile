@@ -19,6 +19,8 @@
             android:layout_weight="1"
             android:minHeight="48dp"
             android:onClick="onDIY1Pressed"
+            android:rotationX="125"
+            android:rotationY="-190"
             android:src="@drawable/diy_1" />
 
         <ImageButton
@@ -28,6 +30,8 @@
             android:layout_weight="1"
             android:minHeight="48dp"
             android:onClick="onDIY2Pressed"
+            android:rotation="77"
+            android:rotationX="28"
             android:src="@drawable/diy_2" />
 
         <ImageButton
@@ -37,6 +41,8 @@
             android:layout_weight="1"
             android:minHeight="48dp"
             android:onClick="onDIY3Pressed"
+            android:rotationX="44"
+            android:rotationY="20"
             android:src="@drawable/diy_3" />
 
         <ImageButton
@@ -46,6 +52,8 @@
             android:layout_weight="1"
             android:minHeight="48dp"
             android:onClick="onDIY4Pressed"
+            android:rotationX="-133"
+            android:rotationY="44"
             android:src="@drawable/diy_4" />
 
         <ImageButton
@@ -55,6 +63,8 @@
             android:layout_weight="1"
             android:minHeight="48dp"
             android:onClick="onDIY5Pressed"
+            android:rotation="-81"
+            android:rotationX="44"
             android:src="@drawable/diy_5" />
 
     </LinearLayout>
@@ -63,6 +73,6 @@
         android:id="@+id/ShelfGridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="3" />
+        android:numColumns="6" />
 
 </LinearLayout>

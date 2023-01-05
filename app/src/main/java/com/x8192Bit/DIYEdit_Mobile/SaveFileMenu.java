@@ -203,6 +203,7 @@ public class SaveFileMenu extends AppCompatActivity {
             new TabLayoutMediator(tabs, vp2, new TabLayoutMediator.TabConfigurationStrategy() {
                 @Override
                 public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                    tab.setText(tab.getText());
                 }
             }).attach();
             if(savetype != 0){
