@@ -182,7 +182,8 @@ public class Globals {
 		translation.put(0xEFBC9E, ">");
 		translation.put(0xEFBC9F, "?");
 		translation.put(0xEFBCA0, "@");
-		// Capital Letters
+		// TODO: improve it!! some latin characters couldn't be shown correctly
+        // Capital Letters
 		for(int i = 0; i<26; i++)
 		{
 			translation.put(0xEFBCA1+i, Character.toString((char)(i+0x41)));

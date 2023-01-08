@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="tagAllKey">重命名所有......</string>
     <string name="metaDataEditKey">编辑元数据......</string>
     <string name="midiToolsKey">播放/导出 MIDI</string>
-    <string name="exportAllKey">导出所有......</string>
     <string name="exportAllOBJKey">导出所有OBJ......</string>
     <string name="viewMangaKey">查看漫画......</string>
     <string name="viewBGKey">查看游戏BG......</string>
@@ -16,8 +14,6 @@
     <string name="editRecordKey">编辑唱片</string>
     <string name="editMangaKey">编辑漫画</string>
     <string name="title_activity_settings">设置</string>
-    <string name="noFMKey">抱歉。您的系统中未安装文件管理器。</string>
-    <string name="permissonNeedKey">请为此软件授权来读取存档文件或mio文件。</string>
     <string name="editGameKey">编辑游戏</string>
     <string name="dsSaveKey">NDS 存档</string>
     <string name="wiiSaveKey">Wii 存档</string>

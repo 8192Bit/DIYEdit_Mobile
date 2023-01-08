@@ -1,33 +1,26 @@
 package com.x8192Bit.DIYEdit_Mobile;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
-
-import android.annotation.SuppressLint;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.xperia64.diyedit.FileByteOperations;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import x8192Bit.DIYEdit_Mobile.R;
 
@@ -43,6 +36,7 @@ public class SaveFileMenu extends AppCompatActivity {
     TextView MCompanyLabel = null;
     TextView MTimeLabel = null;
     ViewPager2 vp2 = null;
+    ArrayList<String> titleList = new ArrayList<>();
 
 
     @Override
@@ -83,8 +77,8 @@ public class SaveFileMenu extends AppCompatActivity {
                 TextView saveView = findViewById(R.id.saveView);
                 saveView.setText(getText(R.string.wiiSaveKey) + " (GDATA)");
                 TabLayout.Tab t0 = tabs.newTab();
-                t0.setText(R.string.editGameKey);
-                tabs.addTab(t0,0);
+                titleList.add(getResources().getString(R.string.editGameKey));
+                tabs.addTab(t0, 0);
                 fl.add(SaveEditFragment.newInstance(filePath,0));
             }else if (file.length == 591040) {
                 //RDATA
@@ -93,8 +87,8 @@ public class SaveFileMenu extends AppCompatActivity {
                 TextView saveView = findViewById(R.id.saveView);
                 saveView.setText(getText(R.string.wiiSaveKey) + " (RDATA)");
                 TabLayout.Tab t0 = tabs.newTab();
-                t0.setText(R.string.editRecordKey);
-                tabs.addTab(t0,0);
+                titleList.add(getResources().getString(R.string.editRecordKey));
+                tabs.addTab(t0, 0);
                 fl.add(SaveEditFragment.newInstance(filePath,1));
             }else if (file.length == 1033408) {
                 //MDATA
@@ -103,8 +97,8 @@ public class SaveFileMenu extends AppCompatActivity {
                 TextView saveView = findViewById(R.id.saveView);
                 saveView.setText(getText(R.string.wiiSaveKey) + " (MDATA)");
                 TabLayout.Tab t0 = tabs.newTab();
-                t0.setText(R.string.editMangaKey);
-                tabs.addTab(t0,0);
+                titleList.add(getResources().getString(R.string.editMangaKey));
+                tabs.addTab(t0, 0);
                 fl.add(SaveEditFragment.newInstance(filePath,2));
             }else if (file.length == 6438592) {
                 //maybe wii all-in-one save file?
@@ -118,15 +112,15 @@ public class SaveFileMenu extends AppCompatActivity {
                 TabLayout.Tab t0 = tabs.newTab();
                 TabLayout.Tab t1 = tabs.newTab();
                 TabLayout.Tab t2 = tabs.newTab();
-                t0.setText(R.string.editGameKey);
-                t1.setText(R.string.editRecordKey);
-                t2.setText(R.string.editMangaKey);
-                tabs.addTab(t0,0);
-                tabs.addTab(t1,1);
-                tabs.addTab(t2,2);
-                fl.add(SaveEditFragment.newInstance(filePath,0));
-                fl.add(SaveEditFragment.newInstance(filePath,1));
-                fl.add(SaveEditFragment.newInstance(filePath,2));
+                titleList.add(getResources().getString(R.string.editGameKey));
+                titleList.add(getResources().getString(R.string.editRecordKey));
+                titleList.add(getResources().getString(R.string.editMangaKey));
+                tabs.addTab(t0, 0);
+                tabs.addTab(t1, 1);
+                tabs.addTab(t2, 2);
+                fl.add(SaveEditFragment.newInstance(filePath, 0));
+                fl.add(SaveEditFragment.newInstance(filePath, 1));
+                fl.add(SaveEditFragment.newInstance(filePath, 2));
             } else if (file.length == 33554432 || file.length == 33554554 || file.length == 33566720) {
                 savetype |= 8;
                 setMenuType(contentViewType.SAVE);
@@ -137,17 +131,17 @@ public class SaveFileMenu extends AppCompatActivity {
                 TabLayout.Tab t1 = tabs.newTab();
                 TabLayout.Tab t2 = tabs.newTab();
                 TabLayout.Tab t3 = tabs.newTab();
-                t0.setText(R.string.editGameKey);
-                t1.setText(R.string.editRecordKey);
-                t2.setText(R.string.editMangaKey);
-                t3.setText(R.string.unlockKey);
-                tabs.addTab(t0,0);
-                tabs.addTab(t1,1);
-                tabs.addTab(t2,2);
-                tabs.addTab(t3,3);
-                fl.add(SaveEditFragment.newInstance(filePath,0));
-                fl.add(SaveEditFragment.newInstance(filePath,1));
-                fl.add(SaveEditFragment.newInstance(filePath,2));
+                titleList.add(getResources().getString(R.string.editGameKey));
+                titleList.add(getResources().getString(R.string.editRecordKey));
+                titleList.add(getResources().getString(R.string.editMangaKey));
+                titleList.add(getResources().getString(R.string.unlockKey));
+                tabs.addTab(t0, 0);
+                tabs.addTab(t1, 1);
+                tabs.addTab(t2, 2);
+                tabs.addTab(t3, 3);
+                fl.add(SaveEditFragment.newInstance(filePath, 0));
+                fl.add(SaveEditFragment.newInstance(filePath, 1));
+                fl.add(SaveEditFragment.newInstance(filePath, 2));
                 fl.add(UnlockFragment.newInstance(filePath));
             }
             // Only detect when the file is not a save file
@@ -157,8 +151,8 @@ public class SaveFileMenu extends AppCompatActivity {
                     setMenuType(contentViewType.MIO);
                     TabLayout.Tab t0 = tabs.newTab();
                     TabLayout.Tab t1 = tabs.newTab();
-                    t0.setText(R.string.metaDataEditKey);
-                    t1.setText(R.string.midiToolsKey);
+                    titleList.add(getResources().getString(R.string.metaDataEditKey));
+                    titleList.add(getResources().getString(R.string.midiToolsKey));
                     tabs.addTab(t0);
                     tabs.addTab(t1);
                 } else if (file.length == 14336) {
@@ -166,8 +160,8 @@ public class SaveFileMenu extends AppCompatActivity {
                     setMenuType(contentViewType.MIO);
                     TabLayout.Tab t0 = tabs.newTab();
                     TabLayout.Tab t1 = tabs.newTab();
-                    t0.setText(R.string.metaDataEditKey);
-                    t1.setText(R.string.viewMangaKey);
+                    titleList.add(getResources().getString(R.string.metaDataEditKey));
+                    titleList.add(getResources().getString(R.string.viewMangaKey));
                     tabs.addTab(t0, 0);
                     tabs.addTab(t1, 1);
                 } else if (file.length == 65536) {
@@ -177,10 +171,10 @@ public class SaveFileMenu extends AppCompatActivity {
                     TabLayout.Tab t1 = tabs.newTab();
                     TabLayout.Tab t2 = tabs.newTab();
                     TabLayout.Tab t3 = tabs.newTab();
-                    t0.setText(R.string.metaDataEditKey);
-                    t1.setText(R.string.viewBGKey);
-                    t2.setText(R.string.midiToolsKey);
-                    t3.setText(R.string.exportAllOBJKey);
+                    titleList.add(getResources().getString(R.string.metaDataEditKey));
+                    titleList.add(getResources().getString(R.string.viewBGKey));
+                    titleList.add(getResources().getString(R.string.midiToolsKey));
+                    titleList.add(getResources().getString(R.string.exportAllOBJKey));
                     tabs.addTab(t0, 0);
                     tabs.addTab(t1, 1);
                     tabs.addTab(t2, 2);
@@ -203,7 +197,7 @@ public class SaveFileMenu extends AppCompatActivity {
             new TabLayoutMediator(tabs, vp2, new TabLayoutMediator.TabConfigurationStrategy() {
                 @Override
                 public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                    tab.setText(tab.getText());
+                    tab.setText(titleList.get(position));
                 }
             }).attach();
             if(savetype != 0){

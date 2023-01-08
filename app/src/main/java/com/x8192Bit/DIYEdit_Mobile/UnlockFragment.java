@@ -1,12 +1,14 @@
 package com.x8192Bit.DIYEdit_Mobile;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.xperia64.diyedit.FileByteOperations;
 import com.xperia64.diyedit.saveutils.SaveHandler;
@@ -23,10 +25,28 @@ public class UnlockFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_NAME = "name";
+    Button unlockGames = null;
+    Button unlockRecords = null;
+    Button unlockMangas = null;
+    Button unlockMedals = null;
+
 
     // TODO: Rename and change types of parameters
     private String name;
     private SaveHandler s;
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        unlockGames = view.findViewById(R.id.unlockGames);
+        unlockRecords = view.findViewById(R.id.unlockRecords);
+        unlockMangas = view.findViewById(R.id.unlockMangas);
+        unlockMedals = view.findViewById(R.id.unlockMedals);
+        unlockGames.setOnClickListener(v -> unlockGame(v));
+        unlockRecords.setOnClickListener(v -> unlockRecord(v));
+        unlockMangas.setOnClickListener(v -> unlockManga(v));
+        unlockMedals.setOnClickListener(v -> unlockMedal(v));
+    }
 
     public UnlockFragment() {
         // Required empty public constructor

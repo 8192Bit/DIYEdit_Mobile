@@ -1,27 +1,35 @@
 package com.x8192Bit.DIYEdit_Mobile;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
-import android.app.Activity;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.GridView;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-
+import com.hzc.widget.picker.file.FilePicker;
+import com.hzc.widget.picker.file.FilePickerUiParams;
+import com.xperia64.diyedit.FileByteOperations;
 import com.xperia64.diyedit.metadata.GameMetadata;
+import com.xperia64.diyedit.metadata.MangaMetadata;
+import com.xperia64.diyedit.metadata.RecordMetadata;
 import com.xperia64.diyedit.saveutils.SaveHandler;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import x8192Bit.DIYEdit_Mobile.R;
@@ -70,36 +78,16 @@ public class SaveEditFragment extends Fragment {
         diy3 = getView().findViewById(R.id.diy_3);
         diy4 = getView().findViewById(R.id.diy_4);
         diy5 = getView().findViewById(R.id.diy_5);
-        diy1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDIY1Pressed(v);
-            }
-        });
-        diy2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDIY2Pressed(v);
-            }
-        });
-        diy3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDIY3Pressed(v);
-            }
-        });
-        diy4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDIY4Pressed(v);
-            }
-        });
-        diy5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onDIY5Pressed(v);
-            }
-        });
+        int length = FileByteOperations.read(name).length;
+        if (length == 4719808 || length == 591040 || length == 1033408/*||length == 6438592*/) {
+            ((LinearLayout) getView().findViewById(R.id.ShelfItemsLayout)).removeView(diy5);
+        } else {
+            diy5.setOnClickListener(v -> onDIY5Pressed(v));
+        }
+        diy1.setOnClickListener(v -> onDIY1Pressed(v));
+        diy2.setOnClickListener(v -> onDIY2Pressed(v));
+        diy3.setOnClickListener(v -> onDIY3Pressed(v));
+        diy4.setOnClickListener(v -> onDIY4Pressed(v));
         refreshShelf();
     }
 
@@ -153,23 +141,61 @@ public class SaveEditFragment extends Fragment {
         si = new SaveItemAdapter();
     }
 
-    public void refreshShelf(){
+    public void refreshShelf() {
         GraphicsTools gt = new GraphicsTools();
         si.shelfItems.clear();
         si.titles.clear();
-        for(int i = 18*(shelfNo-1); i<18*shelfNo; i++){
-            GraphicsTools.GameItem gi = gt.new GameItem();
-            byte[] file = s.getMio(miotype, i);
-            if(file!=null){
-                GameMetadata gm = new GameMetadata(file);
-                gi.setCartridgeColor(gm.getCartColor());
-                gi.setCartridgeShape(gm.getCartType());
-                gi.setIconColor(gm.getLogoColor());
-                gi.setIconShape(gm.getLogo());
-                si.titles.add(gm.getName());
-                si.shelfItems.add(i - 18 * (shelfNo - 1), gi);
-            } else {
-                si.shelfItems.add(i - 18 * (shelfNo - 1), null);
+        if (miotype == 0) {
+            for (int i = 18 * (shelfNo - 1); i < 18 * shelfNo; i++) {
+                GraphicsTools.GameItem gi = gt.new GameItem();
+                byte[] file = s.getMio(miotype, i);
+                if (file != null) {
+                    GameMetadata gm = new GameMetadata(file);
+                    gi.setCartridgeColor(gm.getCartColor());
+                    gi.setCartridgeShape(gm.getCartType());
+                    gi.setIconColor(gm.getLogoColor());
+                    gi.setIconShape(gm.getLogo());
+                    si.titles.add(gm.getName());
+                    si.shelfItems.add(i - 18 * (shelfNo - 1), gi);
+                } else {
+                    si.titles.add("");
+                    si.shelfItems.add(i - 18 * (shelfNo - 1), null);
+                }
+            }
+        }
+        if (miotype == 1) {
+            for (int i = 18 * (shelfNo - 1); i < 18 * shelfNo; i++) {
+                GraphicsTools.RecordItem gi = gt.new RecordItem();
+                byte[] file = s.getMio(miotype, i);
+                if (file != null) {
+                    RecordMetadata rm = new RecordMetadata(file);
+                    gi.setRecordColor(rm.getRecordColor());
+                    gi.setRecordShape(rm.getRecordType());
+                    gi.setIconColor(rm.getLogoColor());
+                    gi.setIconShape(rm.getLogo());
+                    si.titles.add(rm.getName());
+                    si.shelfItems.add(i - 18 * (shelfNo - 1), gi);
+                } else {
+                    si.titles.add("");
+                    si.shelfItems.add(i - 18 * (shelfNo - 1), null);
+                }
+            }
+        }
+        if (miotype == 2) {
+            for (int i = 18 * (shelfNo - 1); i < 18 * shelfNo; i++) {
+                GraphicsTools.MangaItem gi = gt.new MangaItem();
+                byte[] file = s.getMio(miotype, i);
+                if (file != null) {
+                    MangaMetadata mm = new MangaMetadata(file);
+                    gi.setMangaColor(mm.getMangaColor());
+                    gi.setIconColor(mm.getLogoColor());
+                    gi.setIconShape(mm.getLogo());
+                    si.titles.add(mm.getName());
+                    si.shelfItems.add(i - 18 * (shelfNo - 1), gi);
+                } else {
+                    si.titles.add("");
+                    si.shelfItems.add(i - 18 * (shelfNo - 1), null);
+                }
             }
         }
         gv.setAdapter(si);
@@ -183,7 +209,24 @@ public class SaveEditFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_saveedit, container, true);
     }
 
-    private void showMioPopupMenu(View view) {
+    private void openAssignFolder(String path) {
+        File file = new File(path);
+        if (file == null || !file.exists()) {
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setDataAndType(Uri.fromFile(file), "file/*");
+        try {
+            startActivity(intent);
+//            startActivity(Intent.createChooser(intent,"选择浏览工具"));
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void showMioPopupMenu(View view, int count) {
         // View当前PopupMenu显示的相对View的位置
         PopupMenu popupMenu = new PopupMenu(this.getContext(), view);
 
@@ -193,11 +236,52 @@ public class SaveEditFragment extends Fragment {
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId() == R.id.importFile) {
+                if (item.getItemId() == R.id.importFile) {
+                    //Intent i = new Intent(Intent.AC)
+                    //s.setMio();
+                    FilePicker.build(SaveEditFragment.this, 1)
+                            .setOpenFile(new File("sdcard/"))
+                            .setPickFileType(FilePickerUiParams.PickType.FILE)
+                            .setSinglePick(new FilePicker.OnSinglePickListener() {
+                                @Override
+                                public void pick(@NonNull File path) {
+                                    path.getAbsolutePath();
+                                }
+
+                                @Override
+                                public void cancel() {
+                                    Log.i("blahblahblah", "峨");
+                                }
+                            })
+                            //打开选择界面
+                            .open();
+                    s.saveChanges();
+                    refreshShelf();
                 }
                 if(item.getItemId() == R.id.extractFile) {
+                    FilePicker.build(SaveEditFragment.this, 1)
+                            .setOpenFile(new File("sdcard/"))
+                            .setPickFileType(FilePickerUiParams.PickType.FOLDER)
+                            .setSinglePick(new FilePicker.OnSinglePickListener() {
+                                @Override
+                                public void pick(@NonNull File path) {
+                                    path.getAbsolutePath();
+                                }
+
+                                @Override
+                                public void cancel() {
+                                    Log.i("blahblahblah", "峨");
+                                }
+                            })
+                            //打开选择界面
+                            .open();
+                    s.saveChanges();
+                    refreshShelf();
                 }
                 if(item.getItemId() == R.id.deleteFile) {
+                    s.deleteMio(miotype, count);
+                    s.saveChanges();
+                    refreshShelf();
                 }
                 return false;
             }
@@ -206,6 +290,7 @@ public class SaveEditFragment extends Fragment {
         popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
             @Override
             public void onDismiss(PopupMenu menu) {
+                Log.i("blahblahblah", "峨");
             }
         });
 
@@ -275,7 +360,6 @@ public class SaveEditFragment extends Fragment {
          */
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-
             ViewHolder holder = null;
             if (convertView == null) {
                 convertView = layoutInflater.inflate(R.layout.shelf_item_layout, null);
@@ -288,8 +372,13 @@ public class SaveEditFragment extends Fragment {
             }
             GraphicsTools.ShelfItem si = shelfItems.get(position);
             if (si != null) {
-                holder.iv.setImageDrawable(si.renderImage(getContext(),60,60));
+                holder.iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                holder.iv.setImageDrawable(si.renderImage(getContext(), 128, 128));
                 holder.tv.setText(titles.get(position));
+                holder.iv.setOnClickListener(v -> showMioPopupMenu(v, position));
+            } else {
+                holder.tv.setText(titles.get(position));
+                holder.iv.setOnClickListener(v -> showMioPopupMenu(v, position));
             }
             return convertView;
         }
@@ -299,5 +388,4 @@ public class SaveEditFragment extends Fragment {
             TextView tv;
         }
     }
-
 }

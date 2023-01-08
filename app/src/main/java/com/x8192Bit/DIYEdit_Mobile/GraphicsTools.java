@@ -2,10 +2,7 @@ package com.x8192Bit.DIYEdit_Mobile;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BlendMode;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.DrawFilter;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -171,10 +168,8 @@ public class GraphicsTools {
         @Deprecated
         @Override
         public BitmapDrawable renderImage(Context ctx, int width, int height) {
-            // the final one
-            Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
             // the one to draw 16x16 icons directly
-            Bitmap plane = Bitmap.createBitmap(28, 23, Bitmap.Config.RGB_565);
+            Bitmap plane = Bitmap.createBitmap(28, 23, Bitmap.Config.ARGB_8888);
             // common paint
             Paint p = new Paint();
             // common canvas
@@ -219,8 +214,8 @@ public class GraphicsTools {
                     throw new IllegalStateException("Unexpected value: " + cartridgeShape);
             }
             // fill with color, and draw them to the buffer
-            plane.eraseColor(0xFFFFFFFF);
-            b.eraseColor(0xFFFFFFFF);
+            plane.eraseColor(0x00FFFFFF);
+            //b.eraseColor(0xFFFFFFFF);
 
             BitmapDrawable drawableToDraw = (BitmapDrawable) AppCompatResources.getDrawable(ctx, ResID);
             Bitmap temp = drawableToDraw.getBitmap().copy(Bitmap.Config.ARGB_8888, true);
@@ -293,8 +288,7 @@ public class GraphicsTools {
             c.drawBitmap(temp, left, top, p);
             // fill with color, and draw them to the buffer
             // then draw the buffer to a big picture
-            new Canvas(b).drawBitmap(plane, new Rect(0, 0, 28, 23), new Rect(0, 0, width, 23 * width / 28), p);
-            return new BitmapDrawable(b);
+            return new BitmapDrawable(plane);
         }
 
     }
@@ -600,5 +594,5 @@ public class GraphicsTools {
     }
 
     // yes i copied them
-    // especially manga_item, the top and left art COMPLETELY SAME AS RECORD_ITEM!!!!!!!!!!!
+    // especially manga_item, the top and left are COMPLETELY SAME AS RECORD_ITEM!!!!!!!!!!!
 }

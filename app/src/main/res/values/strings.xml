@@ -1,10 +1,8 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name" translatable="false">DIYEdit</string>
     <string name="openFileKey">Open file...</string>
-    <string name="tagAllKey">Tag all...</string>
     <string name="metaDataEditKey">Edit metadata...</string>
     <string name="midiToolsKey">Play/Export MIDI</string>
-    <string name="exportAllKey">Export All...</string>
     <string name="exportAllOBJKey">Export All OBJs...</string>
     <string name="viewMangaKey">View Manga...</string>
     <string name="viewBGKey">View Game BG...</string>
@@ -12,7 +10,6 @@
     <string name="editMangaKey">Edit Mangas</string>
     <string name="unlockKey">Unlock...</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="previous" translatable="false">Previous</string>
     <string name="desIconKey">This is a icon of DIYEdit_Mobile.</string>
     <string name="title_activity_settings">Settings</string>
 
@@ -24,8 +21,6 @@
     <string name="openRecentFileKey">Open recent file...</string>
     <string name="settingsKey">Settings...</string>
     <string name="exitKey">Exit</string>
-    <string name="noFMKey">Sorry. There is no File Manager in your system.</string>
-    <string name="permissonNeedKey">Please give the permisson to this program to read save file or mio file.</string>
     <string name="editGameKey">Edit Games</string>
     <string name="dsSaveKey">DS Save</string>
     <string name="wiiSaveKey">Wii Save</string>
@@ -38,6 +33,7 @@
     <string name="unlockRecordKey">Unlock Records...</string>
     <string name="unlockMangaKey">Unlock Mangas...</string>
     <string name="unlockMedalKey">Unlock Medals...</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
 
     <!-- Preference Titles -->
 

@@ -42,9 +42,9 @@ public class FileTools {
                 String docId = DocumentsContract.getDocumentId(imageUri);
                 String[] split = docId.split(":");
                 String type = split[0];
-                if ("primary".equalsIgnoreCase(type)) {
+//                if ("primary".equalsIgnoreCase(type)) {
                     return Environment.getExternalStorageDirectory() + "/" + split[1];
-                }
+//                }
             } else if (isDownloadsDocument(imageUri)) {
                 String id = DocumentsContract.getDocumentId(imageUri);
                 Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
