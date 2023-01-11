@@ -1,28 +1,27 @@
 package com.x8192Bit.DIYEdit_Mobile;
 
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
-import com.hzc.widget.picker.file.FilePicker;
-import com.hzc.widget.picker.file.FilePickerUiParams;
+import com.codekidlabs.storagechooser.StorageChooser;
 import com.xperia64.diyedit.FileByteOperations;
 import com.xperia64.diyedit.metadata.GameMetadata;
 import com.xperia64.diyedit.metadata.MangaMetadata;
@@ -30,7 +29,9 @@ import com.xperia64.diyedit.metadata.RecordMetadata;
 import com.xperia64.diyedit.saveutils.SaveHandler;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import x8192Bit.DIYEdit_Mobile.R;
 
@@ -67,6 +68,23 @@ public class SaveEditFragment extends Fragment {
         // Required empty public constructor
     }
 
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param name    name of the file.
+     * @param miotype mio type.
+     * @return A new instance of fragment GameEditFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static SaveEditFragment newInstance(String name, int miotype) {
+        SaveEditFragment fragment = new SaveEditFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_NAME, name);
+        args.putInt(ARG_MIOTYPE, miotype);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -82,51 +100,27 @@ public class SaveEditFragment extends Fragment {
         if (length == 4719808 || length == 591040 || length == 1033408/*||length == 6438592*/) {
             ((LinearLayout) getView().findViewById(R.id.ShelfItemsLayout)).removeView(diy5);
         } else {
-            diy5.setOnClickListener(v -> onDIY5Pressed(v));
+            diy5.setOnClickListener(v -> {
+                shelfNo = 5;
+                refreshShelf();
+            });
         }
-        diy1.setOnClickListener(v -> onDIY1Pressed(v));
-        diy2.setOnClickListener(v -> onDIY2Pressed(v));
-        diy3.setOnClickListener(v -> onDIY3Pressed(v));
-        diy4.setOnClickListener(v -> onDIY4Pressed(v));
-        refreshShelf();
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param name name of the file.
-     * @param miotype mio type.
-     * @return A new instance of fragment GameEditFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SaveEditFragment newInstance(String name, int miotype) {
-        SaveEditFragment fragment = new SaveEditFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_NAME, name);
-        args.putInt(ARG_MIOTYPE, miotype);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public void onDIY1Pressed(View v){
-        shelfNo = 1;
-        refreshShelf();
-    }
-    public void onDIY2Pressed(View v){
-        shelfNo = 2;
-        refreshShelf();
-    }
-    public void onDIY3Pressed(View v){
-        shelfNo = 3;
-        refreshShelf();
-    }
-    public void onDIY4Pressed(View v){
-        shelfNo = 4;
-        refreshShelf();
-    }
-    public void onDIY5Pressed(View v){
-        shelfNo = 5;
+        diy1.setOnClickListener(v -> {
+            shelfNo = 1;
+            refreshShelf();
+        });
+        diy2.setOnClickListener(v -> {
+            shelfNo = 2;
+            refreshShelf();
+        });
+        diy3.setOnClickListener(v -> {
+            shelfNo = 3;
+            refreshShelf();
+        });
+        diy4.setOnClickListener(v -> {
+            shelfNo = 4;
+            refreshShelf();
+        });
         refreshShelf();
     }
 
@@ -193,7 +187,7 @@ public class SaveEditFragment extends Fragment {
                     si.titles.add(mm.getName());
                     si.shelfItems.add(i - 18 * (shelfNo - 1), gi);
                 } else {
-                    si.titles.add("");
+                    si.titles.add(null);
                     si.shelfItems.add(i - 18 * (shelfNo - 1), null);
                 }
             }
@@ -209,82 +203,137 @@ public class SaveEditFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_saveedit, container, true);
     }
 
-    private void openAssignFolder(String path) {
-        File file = new File(path);
-        if (file == null || !file.exists()) {
-            return;
-        }
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setDataAndType(Uri.fromFile(file), "file/*");
-        try {
-            startActivity(intent);
-//            startActivity(Intent.createChooser(intent,"选择浏览工具"));
-        } catch (ActivityNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void showMioPopupMenu(View view, int count) {
         // View当前PopupMenu显示的相对View的位置
-        PopupMenu popupMenu = new PopupMenu(this.getContext(), view);
-
+        PopupMenu popupMenu = new PopupMenu(getContext(), view);
         // menu布局
         popupMenu.inflate(R.menu.miomenu);
         // menu的item点击事件
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.importFile) {
-                    //Intent i = new Intent(Intent.AC)
-                    //s.setMio();
-                    FilePicker.build(SaveEditFragment.this, 1)
-                            .setOpenFile(new File("sdcard/"))
-                            .setPickFileType(FilePickerUiParams.PickType.FILE)
-                            .setSinglePick(new FilePicker.OnSinglePickListener() {
-                                @Override
-                                public void pick(@NonNull File path) {
-                                    path.getAbsolutePath();
-                                }
-
-                                @Override
-                                public void cancel() {
-                                    Log.i("blahblahblah", "峨");
-                                }
-                            })
-                            //打开选择界面
-                            .open();
-                    s.saveChanges();
-                    refreshShelf();
-                }
-                if(item.getItemId() == R.id.extractFile) {
-                    FilePicker.build(SaveEditFragment.this, 1)
-                            .setOpenFile(new File("sdcard/"))
-                            .setPickFileType(FilePickerUiParams.PickType.FOLDER)
-                            .setSinglePick(new FilePicker.OnSinglePickListener() {
-                                @Override
-                                public void pick(@NonNull File path) {
-                                    path.getAbsolutePath();
-                                }
-
-                                @Override
-                                public void cancel() {
-                                    Log.i("blahblahblah", "峨");
-                                }
-                            })
-                            //打开选择界面
-                            .open();
-                    s.saveChanges();
-                    refreshShelf();
-                }
-                if(item.getItemId() == R.id.deleteFile) {
-                    s.deleteMio(miotype, count);
-                    s.saveChanges();
-                    refreshShelf();
-                }
-                return false;
+        popupMenu.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.importFile) {
+                StorageChooser chooser = new StorageChooser.Builder()
+                        .withActivity(getActivity())
+                        .withFragmentManager(getActivity().getFragmentManager())
+                        .withMemoryBar(true)
+                        .allowCustomPath(true)
+                        .setType(StorageChooser.FILE_PICKER)
+                        .build();
+                chooser.show();
+                chooser.setOnSelectListener(pathImport -> {
+                    int length = FileByteOperations.read(pathImport).length;
+                    int size;
+                    switch (miotype) {
+                        case 0:
+                            size = 65536;
+                            break;
+                        case 1:
+                            size = 8192;
+                            break;
+                        case 2:
+                            size = 14336;
+                            break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + miotype);
+                    } // switch mio file length should be
+                    if (length == size) {
+                        s.setMio(pathImport, count + 18 * (shelfNo - 1));
+                        s.saveChanges();
+                        refreshShelf();
+                    } else {
+                        Toast.makeText(getContext(), R.string.couldNotReadFileKey, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
+            if (item.getItemId() == R.id.extractFile) {
+                StorageChooser chooser = new StorageChooser.Builder()
+                        .withActivity(getActivity())
+                        .withFragmentManager(getActivity().getFragmentManager())
+                        .withMemoryBar(true)
+                        .allowCustomPath(true)
+                        .setType(StorageChooser.DIRECTORY_CHOOSER)
+                        .build();
+                chooser.show();
+                chooser.setOnSelectListener(pathExtract -> {
+                    EditText fileNameEdit = new EditText(getContext());
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("Set export file name")
+                            .setCancelable(true)
+                            .setView(fileNameEdit)
+                            /*.setNeutralButton("默认", new DialogInterface.OnClickListener() {
+                                  @Override
+                                  public void onClick(DialogInterface dialog, int which) {
+                                      String key = "";
+                                      switch (miotype) {
+                                          case 0:
+                                              key = "G";
+                                              break;
+                                          case 1:
+                                              key = "R";
+                                              break;
+                                          case 2:
+                                              key = "M";
+                                              break;
+                                      }
+
+                                      //Metadata m = new Metadata(ss);
+                                      //DateTime date = new Date(2000, 1, 1, 0, 0, 0, 0);
+                                      //date=date..plusDays(m.getTimestamp());
+                                      //String name = String.format("%s-%s(%s)-%04d (%s) (%04d-%02d-%02d) %s.mio", key, m.getCreator(), m.getBrand(), m.getSerial2(), (m.getRegion())?"J":"UE", date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), (m.getLocked()?"(#) ":"")+m.getName());
+                                      //name=name.replace('?', '¿').replace('/', '〳').replace('\\','〳').replace(':','：').replace('*', '★').replace('\"','\'').replace('<','＜').replace('>','＞').replace('|','l').replace('!','¡');
+                                      //File out = new File(ss.substring(0,ss.lastIndexOf(File.separator)+1)+name);
+
+                                      //String pathName = pathExtract+"TODO: replace with asdgsgadfk here";
+
+                                      try {
+                                          new File(pathName).createNewFile();
+                                      } catch (IOException e) {
+                                          e.printStackTrace();
+                                      }
+                                      FileByteOperations.write(s.getMio(miotype, count), pathName);
+                                      refreshShelf();
+
+
+                                  }
+                              })*/
+                            .setPositiveButton(R.string.okKey, (dialog, which) -> {
+                                String fileName = fileNameEdit.getText().toString();
+                                if (!fileName.toLowerCase(Locale.US).endsWith(".mio")) {
+                                    fileName += ".mio";
+                                }
+                                String pathName = pathExtract + "//" + fileName;
+                                try {
+                                    new File(pathName).createNewFile();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
+                                }
+                                FileByteOperations.write(s.getMio(miotype, count + 18 * (shelfNo - 1)), pathName);
+                                s.saveChanges();
+                                refreshShelf();
+                            })
+                            .show();
+                });
+
+            }
+            if (item.getItemId() == R.id.deleteFile) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle(R.string.warningKey)
+                        .setMessage("你正在删除一个mio文件！请确认。")
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.okKey, (dialog, which) -> {
+                            s.deleteMio(miotype, count + 18 * (shelfNo - 1));
+                            refreshShelf();
+                            s.saveChanges();
+                        })
+                        .setNegativeButton(R.string.backKey, null)
+                        .show();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            return false;
         });
         // PopupMenu关闭事件
         popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
@@ -297,12 +346,12 @@ public class SaveEditFragment extends Fragment {
         popupMenu.show();
     }
 
-    public class SaveItemAdapter extends BaseAdapter{
+    public class SaveItemAdapter extends BaseAdapter {
         public ArrayList<GraphicsTools.ShelfItem> shelfItems = new ArrayList<>(18);
         public ArrayList<String> titles = new ArrayList<>();
         private LayoutInflater layoutInflater;
 
-        public SaveItemAdapter(){
+        public SaveItemAdapter() {
             layoutInflater = LayoutInflater.from(getActivity());
             // Needs to be invoked after parent activity started
         }
@@ -337,7 +386,7 @@ public class SaveEditFragment extends Fragment {
          */
         @Override
         public long getItemId(int position) {
-            return position%6;
+            return position % 6;
         }
 
         /**
@@ -358,6 +407,7 @@ public class SaveEditFragment extends Fragment {
          * @param parent      The parent that this view will eventually be attached to
          * @return A View corresponding to the data at the specified position.
          */
+        @SuppressLint("InflateParams")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder holder = null;
@@ -372,18 +422,18 @@ public class SaveEditFragment extends Fragment {
             }
             GraphicsTools.ShelfItem si = shelfItems.get(position);
             if (si != null) {
-                holder.iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-                holder.iv.setImageDrawable(si.renderImage(getContext(), 128, 128));
+                holder.iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                holder.iv.setImageBitmap(si.renderImage(getContext(), 512, 512));
                 holder.tv.setText(titles.get(position));
                 holder.iv.setOnClickListener(v -> showMioPopupMenu(v, position));
             } else {
-                holder.tv.setText(titles.get(position));
+                holder.tv.setText("");
                 holder.iv.setOnClickListener(v -> showMioPopupMenu(v, position));
             }
             return convertView;
         }
 
-        class ViewHolder{
+        class ViewHolder {
             ImageView iv;
             TextView tv;
         }

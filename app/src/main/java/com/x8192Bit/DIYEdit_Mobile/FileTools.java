@@ -25,7 +25,7 @@ public class FileTools {
     /**
      * Get filepath ( API BELOW KITKAT/ABOVE QUINCE-TART ARE SUPPORTED )
      *
-     * @param context the context.
+     * @param context  the context.
      * @param imageUri the URI needed to translate to filepath.
      */
     public static String getFileAbsolutePath(Context context, Uri imageUri) {
@@ -43,7 +43,7 @@ public class FileTools {
                 String[] split = docId.split(":");
                 String type = split[0];
 //                if ("primary".equalsIgnoreCase(type)) {
-                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                return Environment.getExternalStorageDirectory() + "/" + split[1];
 //                }
             } else if (isDownloadsDocument(imageUri)) {
                 String id = DocumentsContract.getDocumentId(imageUri);
@@ -66,10 +66,9 @@ public class FileTools {
                 return getDataColumn(context, contentUri, selection, selectionArgs);
             }
         } // MediaStore (and general)
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-            return uriToFileApiQ(context,imageUri);
-        }
-        else if ("content".equalsIgnoreCase(imageUri.getScheme())) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            return uriToFileApiQ(context, imageUri);
+        } else if ("content".equalsIgnoreCase(imageUri.getScheme())) {
             // Return the remote address
             if (isGooglePhotosUri(imageUri)) {
                 return imageUri.getLastPathSegment();
@@ -166,6 +165,7 @@ public class FileTools {
 
     /**
      * FOR ABOVE QUINCE-TART(10)
+     *
      * @param context
      * @param uri
      * @return

@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name" translatable="false">DIYEdit</string>
     <string name="openFileKey">Open file...</string>
     <string name="metaDataEditKey">Edit metadata...</string>
     <string name="midiToolsKey">Play/Export MIDI</string>
@@ -24,7 +23,7 @@
     <string name="editGameKey">Edit Games</string>
     <string name="dsSaveKey">DS Save</string>
     <string name="wiiSaveKey">Wii Save</string>
-    <string name="couldNotReadFileKey">It seems that the file which you opened could not be read or parsed. If you used Android system built-in file manager, try a third-party one.</string>
+    <string name="couldNotReadFileKey">It seems that the file which you opened could not be read or operated.</string>
     <string name="warningKey">Warning</string>
     <string name="backKey">Back</string>
     <string name="noHistoryKey">No open file history.</string>
@@ -33,7 +32,8 @@
     <string name="unlockRecordKey">Unlock Records...</string>
     <string name="unlockMangaKey">Unlock Mangas...</string>
     <string name="unlockMedalKey">Unlock Medals...</string>
-    <string name="title_activity_scrolling">ScrollingActivity</string>
+    <string name="app_name">DIYEdit</string>
+    <string name="okKey">OK</string>
 
     <!-- Preference Titles -->
 

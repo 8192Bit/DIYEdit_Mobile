@@ -46,7 +46,7 @@ public class SaveFileMenu extends AppCompatActivity {
         String path = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         initEnable(path);
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null){
+        if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -62,12 +62,11 @@ public class SaveFileMenu extends AppCompatActivity {
     }
 
     /**
-     *
      * @param filePath Provide the filepath which got by the Sys FM.
      */
     @SuppressLint("SetTextI18n")// well at least, GDATA, MDATA and RDATA IS I18N
     public void initEnable(String filePath) {
-        if (filePath != null){
+        if (filePath != null) {
             file = FileByteOperations.read(filePath);
             ArrayList<Fragment> fl = new ArrayList<>();
             if (file.length == 4719808) {
@@ -79,8 +78,8 @@ public class SaveFileMenu extends AppCompatActivity {
                 TabLayout.Tab t0 = tabs.newTab();
                 titleList.add(getResources().getString(R.string.editGameKey));
                 tabs.addTab(t0, 0);
-                fl.add(SaveEditFragment.newInstance(filePath,0));
-            }else if (file.length == 591040) {
+                fl.add(SaveEditFragment.newInstance(filePath, 0));
+            } else if (file.length == 591040) {
                 //RDATA
                 savetype |= 2;
                 setMenuType(contentViewType.SAVE);
@@ -89,8 +88,8 @@ public class SaveFileMenu extends AppCompatActivity {
                 TabLayout.Tab t0 = tabs.newTab();
                 titleList.add(getResources().getString(R.string.editRecordKey));
                 tabs.addTab(t0, 0);
-                fl.add(SaveEditFragment.newInstance(filePath,1));
-            }else if (file.length == 1033408) {
+                fl.add(SaveEditFragment.newInstance(filePath, 1));
+            } else if (file.length == 1033408) {
                 //MDATA
                 savetype |= 4;
                 setMenuType(contentViewType.SAVE);
@@ -99,8 +98,8 @@ public class SaveFileMenu extends AppCompatActivity {
                 TabLayout.Tab t0 = tabs.newTab();
                 titleList.add(getResources().getString(R.string.editMangaKey));
                 tabs.addTab(t0, 0);
-                fl.add(SaveEditFragment.newInstance(filePath,2));
-            }else if (file.length == 6438592) {
+                fl.add(SaveEditFragment.newInstance(filePath, 2));
+            } else if (file.length == 6438592) {
                 //maybe wii all-in-one save file?
                 //don't know
                 savetype |= 7;
@@ -145,7 +144,7 @@ public class SaveFileMenu extends AppCompatActivity {
                 fl.add(UnlockFragment.newInstance(filePath));
             }
             // Only detect when the file is not a save file
-            if(savetype == 0) {
+            if (savetype == 0) {
                 if (file.length == 8192) {
                     miotype = 1;
                     setMenuType(contentViewType.MIO);
@@ -200,14 +199,14 @@ public class SaveFileMenu extends AppCompatActivity {
                     tab.setText(titleList.get(position));
                 }
             }).attach();
-            if(savetype != 0){
-                updateDetection(filePath,fileType.SAVE);
-            }else if (miotype != 0){
-                updateDetection(filePath,fileType.MIO);
+            if (savetype != 0) {
+                updateDetection(filePath, fileType.SAVE);
+            } else if (miotype != 0) {
+                updateDetection(filePath, fileType.MIO);
                 MTimeLabel = findViewById(R.id.timeValue);
 
-            }else{
-                updateDetection(filePath,fileType.UNREADABLE);
+            } else {
+                updateDetection(filePath, fileType.UNREADABLE);
                 fileUnavailableAlert();
             }
         } else {
@@ -215,64 +214,54 @@ public class SaveFileMenu extends AppCompatActivity {
         }
     }
 
-    void setMenuType(contentViewType tvv){
-        if (tvv == contentViewType.MIO && miotype != 0){
+    void setMenuType(contentViewType tvv) {
+        if (tvv == contentViewType.MIO && miotype != 0) {
             setContentView(R.layout.activity_mio_file_menu);
         }
-        if (tvv == contentViewType.SAVE && savetype != 0){
+        if (tvv == contentViewType.SAVE && savetype != 0) {
             setContentView(R.layout.activity_save_file_menu);
         }
-        if(tabs == null) {
+        if (tabs == null) {
             tabs = findViewById(R.id.tabs);
         }
     }
 
-    enum fileType{
-        MIO,
-        SAVE,
-        UNREADABLE
-    }
-
-    enum contentViewType{
-        MIO,
-        SAVE
-    }
-
-    private void updateFileHistory(@NonNull SharedPreferences sp, String realPath){
-        int historyCount =sp.getInt("historyCount",10);
+    private void updateFileHistory(@NonNull SharedPreferences sp, String realPath) {
+        int historyCount = sp.getInt("historyCount", 10);
         SharedPreferences.Editor ed = sp.edit();
-        String history = sp.getString("history","0");
+        String history = sp.getString("history", "0");
         ArrayList<String> historyArray = new ArrayList<String>(Arrays.asList(history.split(",")));
-        historyArray.add(0,realPath);
-        if(historyArray.size()>historyCount){
-            for(int i = historyCount; i<historyArray.size(); i++){
+        historyArray.add(0, realPath);
+        if (historyArray.size() > historyCount) {
+            for (int i = historyCount; i < historyArray.size(); i++) {
                 historyArray.remove(i);
+                //TODO ?????????????????????
             }
         }
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < historyArray.size(); i++) {
             sb.append(historyArray.get(i)).append(",");
         }
-        ed.putString("history",sb.toString());
+        ed.putString("history", sb.toString());
         ed.apply();
     }
 
     private void updateDetection(String realPath, fileType ft) {
-        SharedPreferences sp = SaveFileMenu.this.getSharedPreferences("SP",MODE_PRIVATE);
-        int typeToUpdate = sp.getInt("typeToUpdate",7);
-        if(ft == fileType.MIO){
+        SharedPreferences sp = SaveFileMenu.this.getSharedPreferences("SP", MODE_PRIVATE);
+        int typeToUpdate = sp.getInt("typeToUpdate", 7);
+        if (ft == fileType.MIO) {
             if ((typeToUpdate | 4) == typeToUpdate) {
                 //mio
-                updateFileHistory(sp,realPath);
+                updateFileHistory(sp, realPath);
             }
-        }else if(ft == fileType.SAVE){
+        } else if (ft == fileType.SAVE) {
             if ((typeToUpdate | 2) == typeToUpdate) {
                 //save
-                updateFileHistory(sp,realPath);
+                updateFileHistory(sp, realPath);
             }
-        }else if ((typeToUpdate | 1) == typeToUpdate && ft == fileType.UNREADABLE) {
+        } else if ((typeToUpdate | 1) == typeToUpdate && ft == fileType.UNREADABLE) {
             //unreadable
-            updateFileHistory(sp,realPath);
+            updateFileHistory(sp, realPath);
         }
         //     MSU
         //00000111
@@ -281,10 +270,23 @@ public class SaveFileMenu extends AppCompatActivity {
         //       Unreadable
     }
 
-    private void fileUnavailableAlert(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SaveFileMenu.this);
-        alertDialogBuilder.setTitle(R.string.warningKey).setMessage(R.string.couldNotReadFileKey).setCancelable(false);
-        alertDialogBuilder.setNeutralButton(R.string.backKey, (dialog, which) -> SaveFileMenu.this.finish());
-        alertDialogBuilder.show();
+    private void fileUnavailableAlert() {
+        new AlertDialog.Builder(SaveFileMenu.this)
+                .setTitle(R.string.warningKey)
+                .setMessage(R.string.couldNotReadFileKey)
+                .setCancelable(false)
+                .setNeutralButton(R.string.backKey, (dialog, which) -> SaveFileMenu.this.finish())
+                .show();
+    }
+
+    enum fileType {
+        MIO,
+        SAVE,
+        UNREADABLE
+    }
+
+    enum contentViewType {
+        MIO,
+        SAVE
     }
 }
