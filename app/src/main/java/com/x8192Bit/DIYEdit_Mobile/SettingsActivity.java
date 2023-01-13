@@ -40,33 +40,36 @@ public class SettingsActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public static class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener  {
+
+    public static class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             Preference maxHistoryCount = findPreference("maxHistoryCount");
             Preference cleanAllHistory = findPreference("cleanAllHistory");
             assert maxHistoryCount != null;
+            assert cleanAllHistory != null;
             maxHistoryCount.setOnPreferenceChangeListener(this);
             cleanAllHistory.setOnPreferenceClickListener(this);
         }
 
         @Override
-        public boolean onPreferenceClick(Preference preference){
+        public boolean onPreferenceClick(Preference preference) {
             String key = preference.getKey();
-            if (key.equals("cleanAllHistory") ) {
-                SharedPreferences sp = this.getContext().getSharedPreferences("SP",MODE_PRIVATE);
-                sp.edit().putString("history",null).commit();
+            if (key.equals("cleanAllHistory")) {
+                SharedPreferences sp = this.getContext().getSharedPreferences("SP", MODE_PRIVATE);
+                sp.edit().putString("history", null).commit();
             }
             return false;
         }
+
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
             String key = preference.getKey();
-            if (key.equals("maxHistoryCount") ) {
-                if(CharUtils.isNumeric((String) newValue)) {
+            if (key.equals("maxHistoryCount")) {
+                if (CharUtils.isNumeric((String) newValue)) {
                     return true;  // 保存
-                }else {
+                } else {
                     Toast t = new Toast(getContext());
                     t.setText("fuck you it must be a number");
                     t.show();

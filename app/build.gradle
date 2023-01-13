@@ -30,6 +30,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+    namespace 'x8192Bit.DIYEdit_Mobile'
 }
 
 configurations {

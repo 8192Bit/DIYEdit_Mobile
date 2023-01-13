@@ -42,12 +42,9 @@ import x8192Bit.DIYEdit_Mobile.R;
  */
 public class SaveEditFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_NAME = "name";
     private static final String ARG_MIOTYPE = "miotype";
 
-    // TODO: Rename and change types of parameters
     private SaveHandler s;
     private String name;
     private int miotype;

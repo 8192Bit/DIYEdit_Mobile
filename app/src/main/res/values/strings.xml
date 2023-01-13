@@ -34,6 +34,8 @@
     <string name="unlockMedalKey">Unlock Medals...</string>
     <string name="app_name">DIYEdit</string>
     <string name="okKey">OK</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Preference Titles -->
 

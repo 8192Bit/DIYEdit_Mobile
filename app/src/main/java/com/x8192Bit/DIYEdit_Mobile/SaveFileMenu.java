@@ -200,13 +200,13 @@ public class SaveFileMenu extends AppCompatActivity {
                 }
             }).attach();
             if (savetype != 0) {
-                updateDetection(filePath, fileType.SAVE);
+                updateFileHistory(filePath);
             } else if (miotype != 0) {
-                updateDetection(filePath, fileType.MIO);
+                updateFileHistory(filePath);
                 MTimeLabel = findViewById(R.id.timeValue);
 
             } else {
-                updateDetection(filePath, fileType.UNREADABLE);
+                updateFileHistory(filePath);
                 fileUnavailableAlert();
             }
         } else {
@@ -214,7 +214,7 @@ public class SaveFileMenu extends AppCompatActivity {
         }
     }
 
-    void setMenuType(contentViewType tvv) {
+    private void setMenuType(contentViewType tvv) {
         if (tvv == contentViewType.MIO && miotype != 0) {
             setContentView(R.layout.activity_mio_file_menu);
         }
@@ -226,17 +226,19 @@ public class SaveFileMenu extends AppCompatActivity {
         }
     }
 
-    private void updateFileHistory(@NonNull SharedPreferences sp, String realPath) {
+    private void updateFileHistory(String realPath) {
+        SharedPreferences sp = SaveFileMenu.this.getSharedPreferences("SP", MODE_PRIVATE);
         int historyCount = sp.getInt("historyCount", 10);
         SharedPreferences.Editor ed = sp.edit();
-        String history = sp.getString("history", "0");
+        String history = sp.getString("history", null);
         ArrayList<String> historyArray = new ArrayList<String>(Arrays.asList(history.split(",")));
-        historyArray.add(0, realPath);
+        if (realPath != historyArray.get(0)) {
+            historyArray.add(0, realPath);
+        }
         if (historyArray.size() > historyCount) {
-            for (int i = historyCount; i < historyArray.size(); i++) {
-                historyArray.remove(i);
-                //TODO ?????????????????????
-            }
+            do {
+                historyArray.remove(historyCount);
+            } while (historyArray.size() == historyCount);
         }
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < historyArray.size(); i++) {
@@ -246,30 +248,6 @@ public class SaveFileMenu extends AppCompatActivity {
         ed.apply();
     }
 
-    private void updateDetection(String realPath, fileType ft) {
-        SharedPreferences sp = SaveFileMenu.this.getSharedPreferences("SP", MODE_PRIVATE);
-        int typeToUpdate = sp.getInt("typeToUpdate", 7);
-        if (ft == fileType.MIO) {
-            if ((typeToUpdate | 4) == typeToUpdate) {
-                //mio
-                updateFileHistory(sp, realPath);
-            }
-        } else if (ft == fileType.SAVE) {
-            if ((typeToUpdate | 2) == typeToUpdate) {
-                //save
-                updateFileHistory(sp, realPath);
-            }
-        } else if ((typeToUpdate | 1) == typeToUpdate && ft == fileType.UNREADABLE) {
-            //unreadable
-            updateFileHistory(sp, realPath);
-        }
-        //     MSU
-        //00000111
-        //     Mio
-        //      Save
-        //       Unreadable
-    }
-
     private void fileUnavailableAlert() {
         new AlertDialog.Builder(SaveFileMenu.this)
                 .setTitle(R.string.warningKey)
@@ -277,12 +255,6 @@ public class SaveFileMenu extends AppCompatActivity {
                 .setCancelable(false)
                 .setNeutralButton(R.string.backKey, (dialog, which) -> SaveFileMenu.this.finish())
                 .show();
-    }
-
-    enum fileType {
-        MIO,
-        SAVE,
-        UNREADABLE
     }
 
     enum contentViewType {
