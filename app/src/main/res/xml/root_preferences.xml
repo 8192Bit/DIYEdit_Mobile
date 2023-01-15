@@ -17,6 +17,7 @@
 
         <EditTextPreference
             android:summary="能够记录的最多文件历史记录项目"
+            app:defaultValue="10"
             app:key="maxHistoryCount"
             app:title="最大历史记录数"
             app:useSimpleSummaryProvider="true" />

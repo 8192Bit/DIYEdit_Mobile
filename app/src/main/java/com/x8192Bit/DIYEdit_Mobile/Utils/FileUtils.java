@@ -1,4 +1,4 @@
-package com.x8192Bit.DIYEdit_Mobile;
+package com.x8192Bit.DIYEdit_Mobile.Utils;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.os.FileUtils;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
@@ -20,7 +19,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class FileTools {
+public class FileUtils {
 
     /**
      * Get filepath ( API BELOW KITKAT/ABOVE QUINCE-TART ARE SUPPORTED )
@@ -187,7 +186,7 @@ public class FileTools {
                     InputStream is = contentResolver.openInputStream(uri);
                     File cache = new File(context.getExternalCacheDir().getAbsolutePath(), Math.round((Math.random() + 1) * 1000) + displayName);
                     FileOutputStream fos = new FileOutputStream(cache);
-                    FileUtils.copy(is, fos);
+                    android.os.FileUtils.copy(is, fos);
                     file = cache;
                     fos.close();
                     is.close();

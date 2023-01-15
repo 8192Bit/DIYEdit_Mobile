@@ -1,4 +1,4 @@
-package com.x8192Bit.DIYEdit_Mobile;
+package com.x8192Bit.DIYEdit_Mobile.Utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,7 +12,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 
 import x8192Bit.DIYEdit_Mobile.R;
 
-public class GraphicsTools {
+public class GraphicsUtils {
 
     public final int YELLOW = 0;
     public final int LIGHTBLUE = 1;
@@ -120,6 +120,85 @@ public class GraphicsTools {
         }
     }
 
+    public int getCartridgeIconID(boolean isReversed, int iconShape) {
+
+        if (isReversed) {
+            switch (iconShape) {
+                case GI_PULSE:
+                    return R.drawable.spr_cart_logo1_r;
+                case GI_ROCKET:
+                    return R.drawable.spr_cart_logo2_r;
+                case GI_SHIELD:
+                    return R.drawable.spr_cart_logo3_r;
+                case GI_PUNCH:
+                    return R.drawable.spr_cart_logo4_r;
+                case GI_CAR:
+                    return R.drawable.spr_cart_logo5_r;
+                case GI_BAT:
+                    return R.drawable.spr_cart_logo6_r;
+                case GI_WHAT:
+                    return R.drawable.spr_cart_logo7_r;
+                case GI_OTHER:
+                    return R.drawable.spr_cart_logo8_r;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + iconShape);
+            }
+        } else {
+            switch (iconShape) {
+                case GI_PULSE:
+                    return R.drawable.spr_cart_logo1;
+                case GI_ROCKET:
+                    return R.drawable.spr_cart_logo2;
+                case GI_SHIELD:
+                    return R.drawable.spr_cart_logo3;
+                case GI_PUNCH:
+                    return R.drawable.spr_cart_logo4;
+                case GI_CAR:
+                    return R.drawable.spr_cart_logo5;
+                case GI_BAT:
+                    return R.drawable.spr_cart_logo6;
+                case GI_WHAT:
+                    return R.drawable.spr_cart_logo7;
+                case GI_OTHER:
+                    return R.drawable.spr_cart_logo8;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + iconShape);
+            }
+        }
+    }
+
+
+    public int getCartridgeShapeID(int cartridgeShape) {
+        switch (cartridgeShape) {
+            case GG_ROUND:
+                return R.drawable.spr_cart1;
+            case GG_NOTCH:
+                return R.drawable.spr_cart2;
+            case GG_FLAT:
+                return R.drawable.spr_cart3;
+            case GG_RIDGES:
+                return R.drawable.spr_cart4;
+            case GG_ZIGZAG:
+                return R.drawable.spr_cart5;
+            case GG_PRONGS:
+                return R.drawable.spr_cart6;
+            case GG_ANGLED:
+                return R.drawable.spr_cart7;
+            case GG_GBA:
+                return R.drawable.spr_cart8;
+            case GG_BIGNAME:
+                return R.drawable.spr_cart9;
+            default:
+                throw new IllegalStateException("Unexpected value: " + cartridgeShape);
+        }
+    }
+
+
+    public Bitmap getBitmapFromID(Context ctx, int ID) {
+        BitmapDrawable drawableToDraw = (BitmapDrawable) AppCompatResources.getDrawable(ctx, ID);
+        return drawableToDraw.getBitmap().copy(Bitmap.Config.ARGB_8888, true);
+    }
+
     public abstract class ShelfItem {
         public abstract Bitmap renderImage(Context ctx, int width, int height);
     }
@@ -168,127 +247,40 @@ public class GraphicsTools {
         @Deprecated
         @Override
         public Bitmap renderImage(Context ctx, int width, int height) {
-            // the one to draw 16x16 icons directly
             Bitmap plane = Bitmap.createBitmap(28, 23, Bitmap.Config.ARGB_8888);
-            // common paint
             Paint p = new Paint();
-            // common canvas
-            Canvas c = new Canvas(plane);
+            Canvas PlaneCanvas = new Canvas(plane);
             int left = 2;
             int top = 2;
-            int ResID;
-            // don't touch these SWITCHES.
-            // they will pollute your eyes
-            // get cartridge drawable
+            plane.eraseColor(0x00FFFFFF);
+            // b.eraseColor(0xFFFFFFFF);
+
+            // SET ICON OFFSET
             switch (cartridgeShape) {
-                case GG_ROUND:
-                    ResID = R.drawable.spr_cart1;
-                    break;
                 case GG_NOTCH:
-                    ResID = R.drawable.spr_cart2;
                     top = 4;
                     break;
-                case GG_FLAT:
-                    ResID = R.drawable.spr_cart3;
-                    break;
-                case GG_RIDGES:
-                    ResID = R.drawable.spr_cart4;
-                    break;
-                case GG_ZIGZAG:
-                    ResID = R.drawable.spr_cart5;
-                    break;
-                case GG_PRONGS:
-                    ResID = R.drawable.spr_cart6;
-                    break;
-                case GG_ANGLED:
-                    ResID = R.drawable.spr_cart7;
-                    break;
                 case GG_GBA:
-                    ResID = R.drawable.spr_cart8;
                     left = 3;
                     break;
-                case GG_BIGNAME:
-                    ResID = R.drawable.spr_cart9;
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + cartridgeShape);
             }
-            // fill with color, and draw them to the buffer
-            plane.eraseColor(0x00FFFFFF);
-            //b.eraseColor(0xFFFFFFFF);
 
-            BitmapDrawable drawableToDraw = (BitmapDrawable) AppCompatResources.getDrawable(ctx, ResID);
-            Bitmap temp = drawableToDraw.getBitmap().copy(Bitmap.Config.ARGB_8888, true);
-            Canvas ccccccccccc = new Canvas(temp);
-            ccccccccccc.drawColor(getDIYColor(cartridgeColor), PorterDuff.Mode.MULTIPLY);
-            c.drawBitmap(temp, 0, 0, p);
-            // get icon drawable
-            if (cartridgeColor == iconColor) {
-                switch (iconShape) {
-                    case GI_PULSE:
-                        ResID = R.drawable.spr_cart_logo1_r;
-                        break;
-                    case GI_ROCKET:
-                        ResID = R.drawable.spr_cart_logo2_r;
-                        break;
-                    case GI_SHIELD:
-                        ResID = R.drawable.spr_cart_logo3_r;
-                        break;
-                    case GI_PUNCH:
-                        ResID = R.drawable.spr_cart_logo4_r;
-                        break;
-                    case GI_CAR:
-                        ResID = R.drawable.spr_cart_logo5_r;
-                        break;
-                    case GI_BAT:
-                        ResID = R.drawable.spr_cart_logo6_r;
-                        break;
-                    case GI_WHAT:
-                        ResID = R.drawable.spr_cart_logo7_r;
-                        break;
-                    case GI_OTHER:
-                        ResID = R.drawable.spr_cart_logo8_r;
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + cartridgeShape);
-                }
-            } else {
-                switch (iconShape) {
-                    case GI_PULSE:
-                        ResID = R.drawable.spr_cart_logo1;
-                        break;
-                    case GI_ROCKET:
-                        ResID = R.drawable.spr_cart_logo2;
-                        break;
-                    case GI_SHIELD:
-                        ResID = R.drawable.spr_cart_logo3;
-                        break;
-                    case GI_PUNCH:
-                        ResID = R.drawable.spr_cart_logo4;
-                        break;
-                    case GI_CAR:
-                        ResID = R.drawable.spr_cart_logo5;
-                        break;
-                    case GI_BAT:
-                        ResID = R.drawable.spr_cart_logo6;
-                        break;
-                    case GI_WHAT:
-                        ResID = R.drawable.spr_cart_logo7;
-                        break;
-                    case GI_OTHER:
-                        ResID = R.drawable.spr_cart_logo8;
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + iconShape);
-                }
-            }
-            drawableToDraw = (BitmapDrawable) AppCompatResources.getDrawable(ctx, ResID);
-            temp = drawableToDraw.getBitmap().copy(Bitmap.Config.ARGB_8888, true);
-            new Canvas(temp).drawColor(getDIYColor(iconColor), PorterDuff.Mode.LIGHTEN);
-            c.drawBitmap(temp, left, top, p);
-            // fill with color, and draw them to the buffer
-            // then draw the buffer to a big picture
-            return plane;
+            //Draw Cart
+            Bitmap Cartridge = getBitmapFromID(ctx, getCartridgeShapeID(cartridgeShape));
+            Canvas CartridgeCanvas = new Canvas(Cartridge);
+            CartridgeCanvas.drawColor(getDIYColor(cartridgeColor), PorterDuff.Mode.MULTIPLY);
+            PlaneCanvas.drawBitmap(Cartridge, 0, 0, p);
+
+            //Draw Icon
+            Bitmap Icon = getBitmapFromID(ctx, getCartridgeShapeID(cartridgeShape));
+            Canvas IconCanvas = new Canvas(Icon);
+            IconCanvas.drawColor(getDIYColor(iconColor), PorterDuff.Mode.LIGHTEN);
+            PlaneCanvas.drawBitmap(Icon, left, top, p);
+
+            Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            new Canvas(b).drawBitmap(plane, new Rect(0, 0, 26, 26), new Rect(0, 0, width, height), p);
+            return b;
+
         }
 
     }
@@ -376,8 +368,8 @@ public class GraphicsTools {
                     throw new IllegalStateException("Unexpected value: " + recordShape);
             }
             // fill with color, and draw them to the buffer
-            plane.eraseColor(0xFFFFFFFF);
-            b.eraseColor(0xFFFFFFFF);
+            plane.eraseColor(0x00FFFFFF);
+            b.eraseColor(0x00FFFFFF);
 
             BitmapDrawable drawableToDraw = (BitmapDrawable) AppCompatResources.getDrawable(ctx, ResID);
             Bitmap temp = drawableToDraw.getBitmap().copy(Bitmap.Config.ARGB_8888, true);
@@ -513,8 +505,8 @@ public class GraphicsTools {
             // they will pollute your eyes
             // get cartridge drawable
             // fill with color, and draw them to the buffer
-            plane.eraseColor(0xFFFFFFFF);
-            b.eraseColor(0xFFFFFFFF);
+            plane.eraseColor(0x00FFFFFF);
+            b.eraseColor(0x00FFFFFF);
 
             Bitmap temp = ((BitmapDrawable) AppCompatResources.getDrawable(ctx, R.drawable.spr_manga)).getBitmap().copy(Bitmap.Config.ARGB_8888, true);
 

@@ -4,6 +4,10 @@ plugins {
     id 'com.android.library' version '7.3.1' apply false
 }
 
+System.setProperty('http.proxyHost', '127.0.0.1')
+System.setProperty('https.proxyHost', '127.0.0.1')
+System.setProperty('http.proxyPort', '31181')
+System.setProperty('https.proxyPort', '31181')
 
 task clean(type: Delete) {
     delete rootProject.buildDir

@@ -1,4 +1,4 @@
-package com.x8192Bit.DIYEdit_Mobile;
+package com.x8192Bit.DIYEdit_Mobile.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -22,6 +22,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
 import com.codekidlabs.storagechooser.StorageChooser;
+import com.x8192Bit.DIYEdit_Mobile.Utils.GraphicsUtils;
 import com.xperia64.diyedit.FileByteOperations;
 import com.xperia64.diyedit.metadata.GameMetadata;
 import com.xperia64.diyedit.metadata.MangaMetadata;
@@ -45,21 +46,11 @@ public class SaveEditFragment extends Fragment {
     private static final String ARG_NAME = "name";
     private static final String ARG_MIOTYPE = "miotype";
 
-    private SaveHandler s;
     private String name;
     private int miotype;
     private int shelfNo = 1;
-    private ArrayList<byte[]> mios;
     private SaveItemAdapter si;
     private GridView gv;
-    private ImageButton diy1;
-    private ImageButton diy2;
-    private ImageButton diy3;
-    private ImageButton diy4;
-    private ImageButton diy5;
-
-
-    // f. y. mem.
 
     public SaveEditFragment() {
         // Required empty public constructor
@@ -88,13 +79,13 @@ public class SaveEditFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         gv = (GridView) getView().findViewById(R.id.ShelfGridView);
 
-        diy1 = getView().findViewById(R.id.diy_1);
-        diy2 = getView().findViewById(R.id.diy_2);
-        diy3 = getView().findViewById(R.id.diy_3);
-        diy4 = getView().findViewById(R.id.diy_4);
-        diy5 = getView().findViewById(R.id.diy_5);
+        ImageButton diy1 = getView().findViewById(R.id.diy_1);
+        ImageButton diy2 = getView().findViewById(R.id.diy_2);
+        ImageButton diy3 = getView().findViewById(R.id.diy_3);
+        ImageButton diy4 = getView().findViewById(R.id.diy_4);
+        ImageButton diy5 = getView().findViewById(R.id.diy_5);
         int length = FileByteOperations.read(name).length;
-        if (length == 4719808 || length == 591040 || length == 1033408/*||length == 6438592*/) {
+        if (length == 4719808 || length == 591040 || length == 1033408 || length == 6438592) {
             ((LinearLayout) getView().findViewById(R.id.ShelfItemsLayout)).removeView(diy5);
         } else {
             diy5.setOnClickListener(v -> {
@@ -128,17 +119,17 @@ public class SaveEditFragment extends Fragment {
             name = getArguments().getString(ARG_NAME);
             miotype = getArguments().getInt(ARG_MIOTYPE);
         }
-        s = new SaveHandler(name);
         si = new SaveItemAdapter();
     }
 
     public void refreshShelf() {
-        GraphicsTools gt = new GraphicsTools();
+        SaveHandler s = new SaveHandler(name);
+        GraphicsUtils gt = new GraphicsUtils();
         si.shelfItems.clear();
         si.titles.clear();
         if (miotype == 0) {
             for (int i = 18 * (shelfNo - 1); i < 18 * shelfNo; i++) {
-                GraphicsTools.GameItem gi = gt.new GameItem();
+                GraphicsUtils.GameItem gi = gt.new GameItem();
                 byte[] file = s.getMio(miotype, i);
                 if (file != null) {
                     GameMetadata gm = new GameMetadata(file);
@@ -156,7 +147,7 @@ public class SaveEditFragment extends Fragment {
         }
         if (miotype == 1) {
             for (int i = 18 * (shelfNo - 1); i < 18 * shelfNo; i++) {
-                GraphicsTools.RecordItem gi = gt.new RecordItem();
+                GraphicsUtils.RecordItem gi = gt.new RecordItem();
                 byte[] file = s.getMio(miotype, i);
                 if (file != null) {
                     RecordMetadata rm = new RecordMetadata(file);
@@ -174,7 +165,7 @@ public class SaveEditFragment extends Fragment {
         }
         if (miotype == 2) {
             for (int i = 18 * (shelfNo - 1); i < 18 * shelfNo; i++) {
-                GraphicsTools.MangaItem gi = gt.new MangaItem();
+                GraphicsUtils.MangaItem gi = gt.new MangaItem();
                 byte[] file = s.getMio(miotype, i);
                 if (file != null) {
                     MangaMetadata mm = new MangaMetadata(file);
@@ -207,6 +198,7 @@ public class SaveEditFragment extends Fragment {
         popupMenu.inflate(R.menu.miomenu);
         // menu的item点击事件
         popupMenu.setOnMenuItemClickListener(item -> {
+            SaveHandler s = new SaveHandler(name);
             if (item.getItemId() == R.id.importFile) {
                 StorageChooser chooser = new StorageChooser.Builder()
                         .withActivity(getActivity())
@@ -302,7 +294,7 @@ public class SaveEditFragment extends Fragment {
                                     new File(pathName).createNewFile();
                                 } catch (IOException e) {
                                     e.printStackTrace();
-                                    Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "NOOOOOOOOOOO!!!!", Toast.LENGTH_SHORT).show();
                                 }
                                 FileByteOperations.write(s.getMio(miotype, count + 18 * (shelfNo - 1)), pathName);
                                 s.saveChanges();
@@ -344,7 +336,7 @@ public class SaveEditFragment extends Fragment {
     }
 
     public class SaveItemAdapter extends BaseAdapter {
-        public ArrayList<GraphicsTools.ShelfItem> shelfItems = new ArrayList<>(18);
+        public ArrayList<GraphicsUtils.ShelfItem> shelfItems = new ArrayList<>(18);
         public ArrayList<String> titles = new ArrayList<>();
         private LayoutInflater layoutInflater;
 
@@ -375,35 +367,11 @@ public class SaveEditFragment extends Fragment {
             return shelfItems.get(position);
         }
 
-        /**
-         * Get the row id associated with the specified position in the list.
-         *
-         * @param position The position of the item within the adapter's data set whose row id we want.
-         * @return The id of the item at the specified position.
-         */
         @Override
         public long getItemId(int position) {
             return position % 6;
         }
 
-        /**
-         * Get a View that displays the data at the specified position in the data set. You can either
-         * create a View manually or inflate it from an XML layout file. When the View is inflated, the
-         * parent View (GridView, ListView...) will apply default layout parameters unless you use
-         * {@link LayoutInflater#inflate(int, ViewGroup, boolean)}
-         * to specify a root view and to prevent attachment to the root.
-         *
-         * @param position    The position of the item within the adapter's data set of the item whose view
-         *                    we want.
-         * @param convertView The old view to reuse, if possible. Note: You should check that this view
-         *                    is non-null and of an appropriate type before using. If it is not possible to convert
-         *                    this view to display the correct data, this method can create a new view.
-         *                    Heterogeneous lists can specify their number of view types, so that this View is
-         *                    always of the right type (see {@link #getViewTypeCount()} and
-         *                    {@link #getItemViewType(int)}).
-         * @param parent      The parent that this view will eventually be attached to
-         * @return A View corresponding to the data at the specified position.
-         */
         @SuppressLint("InflateParams")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
@@ -417,10 +385,10 @@ public class SaveEditFragment extends Fragment {
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            GraphicsTools.ShelfItem si = shelfItems.get(position);
+            GraphicsUtils.ShelfItem si = shelfItems.get(position);
             if (si != null) {
                 holder.iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                holder.iv.setImageBitmap(si.renderImage(getContext(), 512, 512));
+                holder.iv.setImageBitmap(si.renderImage(getContext(), 256, 256));
                 holder.tv.setText(titles.get(position));
                 holder.iv.setOnClickListener(v -> showMioPopupMenu(v, position));
             } else {

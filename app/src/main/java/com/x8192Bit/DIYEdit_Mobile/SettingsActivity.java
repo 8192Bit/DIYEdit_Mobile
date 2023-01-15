@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.x8192Bit.DIYEdit_Mobile.Utils.CharUtils;
+
 import x8192Bit.DIYEdit_Mobile.R;
 
 
@@ -57,8 +59,12 @@ public class SettingsActivity extends AppCompatActivity {
         public boolean onPreferenceClick(Preference preference) {
             String key = preference.getKey();
             if (key.equals("cleanAllHistory")) {
-                SharedPreferences sp = this.getContext().getSharedPreferences("SP", MODE_PRIVATE);
+                SharedPreferences sp = this.getContext().getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
                 sp.edit().putString("history", null).commit();
+
+                Toast t = new Toast(getContext());
+                t.setText("Cleaned.");
+                t.show();
             }
             return false;
         }
@@ -71,7 +77,7 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;  // 保存
                 } else {
                     Toast t = new Toast(getContext());
-                    t.setText("fuck you it must be a number");
+                    t.setText("it must be a number");
                     t.show();
                     return false;
                 }

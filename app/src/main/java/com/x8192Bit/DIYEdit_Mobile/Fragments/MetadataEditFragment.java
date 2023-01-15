@@ -1,4 +1,4 @@
-package com.x8192Bit.DIYEdit_Mobile;
+package com.x8192Bit.DIYEdit_Mobile.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -36,11 +36,11 @@ public class MetadataEditFragment extends Fragment {
      * @return A new instance of fragment MetadataEditFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MetadataEditFragment newInstance(String name, String miotype) {
+    public static MetadataEditFragment newInstance(String name, int miotype) {
         MetadataEditFragment fragment = new MetadataEditFragment();
         Bundle args = new Bundle();
         args.putString(ARG_NAME, name);
-        args.putString(ARG_MIOTYPE, miotype);
+        args.putInt(ARG_MIOTYPE, miotype);
         fragment.setArguments(args);
         return fragment;
     }

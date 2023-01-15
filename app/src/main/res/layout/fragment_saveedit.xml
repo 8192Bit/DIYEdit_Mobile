@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.x8192Bit.DIYEdit_Mobile.SaveEditFragment">
+    tools:context="com.x8192Bit.DIYEdit_Mobile.Fragments.SaveEditFragment">
 
     <LinearLayout
         android:id="@+id/ShelfItemsLayout"

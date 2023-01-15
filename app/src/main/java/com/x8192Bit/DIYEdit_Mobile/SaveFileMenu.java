@@ -5,18 +5,23 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.x8192Bit.DIYEdit_Mobile.Fragments.MetadataEditFragment;
+import com.x8192Bit.DIYEdit_Mobile.Fragments.SaveEditFragment;
+import com.x8192Bit.DIYEdit_Mobile.Fragments.UnlockFragment;
 import com.xperia64.diyedit.FileByteOperations;
 
 import java.util.ArrayList;
@@ -34,6 +39,7 @@ public class SaveFileMenu extends AppCompatActivity {
     TextView MNameLabel = null;
     TextView MAuthorLabel = null;
     TextView MCompanyLabel = null;
+    ImageView SaveIcon = null;
     TextView MTimeLabel = null;
     ViewPager2 vp2 = null;
     ArrayList<String> titleList = new ArrayList<>();
@@ -100,13 +106,10 @@ public class SaveFileMenu extends AppCompatActivity {
                 tabs.addTab(t0, 0);
                 fl.add(SaveEditFragment.newInstance(filePath, 2));
             } else if (file.length == 6438592) {
-                //maybe wii all-in-one save file?
-                //don't know
+                //wii all-in-one save file?
                 savetype |= 7;
                 setMenuType(contentViewType.SAVE);
                 setContentView(R.layout.activity_save_file_menu);
-                TextView saveView = findViewById(R.id.saveView);
-                saveView.setText(R.string.wiiSaveKey);
                 tabs = findViewById(R.id.tabs);
                 TabLayout.Tab t0 = tabs.newTab();
                 TabLayout.Tab t1 = tabs.newTab();
@@ -125,6 +128,8 @@ public class SaveFileMenu extends AppCompatActivity {
                 setMenuType(contentViewType.SAVE);
                 TextView saveView = findViewById(R.id.saveView);
                 saveView.setText(R.string.dsSaveKey);
+                SaveIcon = findViewById(R.id.SaveImage);
+                SaveIcon.setImageDrawable(AppCompatResources.getDrawable(this, R.drawable.save_ds));
                 tabs = findViewById(R.id.tabs);
                 TabLayout.Tab t0 = tabs.newTab();
                 TabLayout.Tab t1 = tabs.newTab();
@@ -154,6 +159,7 @@ public class SaveFileMenu extends AppCompatActivity {
                     titleList.add(getResources().getString(R.string.midiToolsKey));
                     tabs.addTab(t0);
                     tabs.addTab(t1);
+                    fl.add(MetadataEditFragment.newInstance(filePath, 1));
                 } else if (file.length == 14336) {
                     miotype = 2;
                     setMenuType(contentViewType.MIO);
@@ -163,6 +169,7 @@ public class SaveFileMenu extends AppCompatActivity {
                     titleList.add(getResources().getString(R.string.viewMangaKey));
                     tabs.addTab(t0, 0);
                     tabs.addTab(t1, 1);
+                    fl.add(MetadataEditFragment.newInstance(filePath, 2));
                 } else if (file.length == 65536) {
                     miotype = 3;
                     setMenuType(contentViewType.MIO);
@@ -178,6 +185,7 @@ public class SaveFileMenu extends AppCompatActivity {
                     tabs.addTab(t1, 1);
                     tabs.addTab(t2, 2);
                     tabs.addTab(t3, 3);
+                    fl.add(MetadataEditFragment.newInstance(filePath, 0));
                 }
             }
             vp2 = findViewById(R.id.saveViewPager);
@@ -193,12 +201,7 @@ public class SaveFileMenu extends AppCompatActivity {
                     return fl.size();
                 }
             });
-            new TabLayoutMediator(tabs, vp2, new TabLayoutMediator.TabConfigurationStrategy() {
-                @Override
-                public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                    tab.setText(titleList.get(position));
-                }
-            }).attach();
+            new TabLayoutMediator(tabs, vp2, (tab, position) -> tab.setText(titleList.get(position))).attach();
             if (savetype != 0) {
                 updateFileHistory(filePath);
             } else if (miotype != 0) {
@@ -227,25 +230,40 @@ public class SaveFileMenu extends AppCompatActivity {
     }
 
     private void updateFileHistory(String realPath) {
-        SharedPreferences sp = SaveFileMenu.this.getSharedPreferences("SP", MODE_PRIVATE);
-        int historyCount = sp.getInt("historyCount", 10);
+        SharedPreferences sp = SaveFileMenu.this.getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
+        int historyCount = Integer.parseInt(sp.getString("maxHistoryCount", "10"));
         SharedPreferences.Editor ed = sp.edit();
         String history = sp.getString("history", null);
-        ArrayList<String> historyArray = new ArrayList<String>(Arrays.asList(history.split(",")));
-        if (realPath != historyArray.get(0)) {
-            historyArray.add(0, realPath);
-        }
-        if (historyArray.size() > historyCount) {
-            do {
-                historyArray.remove(historyCount);
-            } while (historyArray.size() == historyCount);
-        }
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < historyArray.size(); i++) {
-            sb.append(historyArray.get(i)).append(",");
+        if (history != null) {
+            ArrayList<String> historyArray = new ArrayList<String>(Arrays.asList(history.split(",")));
+            boolean isDuplicated = false;
+            for (String s : historyArray) {
+                if (s.equals(realPath)) {
+                    isDuplicated = true;
+                }
+            }
+            if (!isDuplicated) {
+                historyArray.add(0, realPath);
+            }
+            if (historyArray.size() > historyCount) {
+                do {
+                    historyArray.remove(historyCount);
+                } while (historyArray.size() == historyCount);
+            }
+            for (int i = 0; i < historyArray.size(); i++) {
+                sb.append(historyArray.get(i)).append(",");
+            }
+        } else {
+            sb.append(realPath);
         }
+
         ed.putString("history", sb.toString());
         ed.apply();
+    }
+
+    private void setMioMetadataEntries() {
+
     }
 
     private void fileUnavailableAlert() {

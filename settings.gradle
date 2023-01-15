@@ -10,7 +10,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://jitpack.io" }
+        maven { url("https://jitpack.io") }
+        maven { url('https://github.com/kshoji/JFugue-for-Android/raw/master/jfugue-android/snapshot') }
     }
 }
 rootProject.name = "DIYEdit_Mobile"

@@ -1,4 +1,4 @@
-package com.x8192Bit.DIYEdit_Mobile;
+package com.x8192Bit.DIYEdit_Mobile.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,20 +33,6 @@ public class UnlockFragment extends Fragment {
 
     // TODO: Rename and change types of parameters
     private String name;
-    private SaveHandler s;
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        unlockGames = view.findViewById(R.id.unlockGames);
-        unlockRecords = view.findViewById(R.id.unlockRecords);
-        unlockMangas = view.findViewById(R.id.unlockMangas);
-        unlockMedals = view.findViewById(R.id.unlockMedals);
-        unlockGames.setOnClickListener(v -> unlockGame(v));
-        unlockRecords.setOnClickListener(v -> unlockRecord(v));
-        unlockMangas.setOnClickListener(v -> unlockManga(v));
-        unlockMedals.setOnClickListener(v -> unlockMedal(v));
-    }
 
     public UnlockFragment() {
         // Required empty public constructor
@@ -69,12 +55,24 @@ public class UnlockFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        unlockGames = view.findViewById(R.id.unlockGames);
+        unlockRecords = view.findViewById(R.id.unlockRecords);
+        unlockMangas = view.findViewById(R.id.unlockMangas);
+        unlockMedals = view.findViewById(R.id.unlockMedals);
+        unlockGames.setOnClickListener(v -> unlockGame(v));
+        unlockRecords.setOnClickListener(v -> unlockRecord(v));
+        unlockMangas.setOnClickListener(v -> unlockManga(v));
+        unlockMedals.setOnClickListener(v -> unlockMedal(v));
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             name = getArguments().getString(ARG_NAME);
         }
-        s = new SaveHandler(name);
     }
 
     @Override
@@ -84,16 +82,23 @@ public class UnlockFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_unlock, container, false);
     }
 
-    public void unlockGame(View v){
-        FileByteOperations.write(s.unlockMedals(),name);
+    public void unlockGame(View v) {
+        SaveHandler s = new SaveHandler(name);
+        FileByteOperations.write(s.unlockMedals(), name);
     }
-    public void unlockRecord(View v){
-        FileByteOperations.write(s.unlockMedals(),name);
+
+    public void unlockRecord(View v) {
+        SaveHandler s = new SaveHandler(name);
+        FileByteOperations.write(s.unlockMedals(), name);
     }
-    public void unlockManga(View v){
-        FileByteOperations.write(s.unlockMedals(),name);
+
+    public void unlockManga(View v) {
+        SaveHandler s = new SaveHandler(name);
+        FileByteOperations.write(s.unlockMedals(), name);
     }
-    public void unlockMedal(View v){
-        FileByteOperations.write(s.unlockMedals(),name);
+
+    public void unlockMedal(View v) {
+        SaveHandler s = new SaveHandler(name);
+        FileByteOperations.write(s.unlockMedals(), name);
     }
 }
