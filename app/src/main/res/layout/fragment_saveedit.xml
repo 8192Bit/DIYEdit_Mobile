@@ -18,7 +18,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:minHeight="48dp"
-            android:onClick="onDIY1Pressed"
             android:src="@drawable/diy_1" />
 
         <ImageButton
@@ -27,7 +26,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:minHeight="48dp"
-            android:onClick="onDIY2Pressed"
             android:src="@drawable/diy_2" />
 
         <ImageButton
@@ -36,7 +34,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:minHeight="48dp"
-            android:onClick="onDIY3Pressed"
             android:src="@drawable/diy_3" />
 
         <ImageButton
@@ -45,7 +42,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:minHeight="48dp"
-            android:onClick="onDIY4Pressed"
             android:src="@drawable/diy_4" />
 
         <ImageButton
@@ -54,7 +50,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:minHeight="48dp"
-            android:onClick="onDIY5Pressed"
             android:src="@drawable/diy_5" />
 
     </LinearLayout>

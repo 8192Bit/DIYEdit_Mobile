@@ -274,7 +274,7 @@ public class GraphicsUtils {
             //Draw Icon
             Bitmap Icon = getBitmapFromID(ctx, getCartridgeShapeID(cartridgeShape));
             Canvas IconCanvas = new Canvas(Icon);
-            IconCanvas.drawColor(getDIYColor(iconColor), PorterDuff.Mode.LIGHTEN);
+            IconCanvas.drawColor(getDIYColor(iconColor), PorterDuff.Mode.MULTIPLY);
             PlaneCanvas.drawBitmap(Icon, left, top, p);
 
             Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);

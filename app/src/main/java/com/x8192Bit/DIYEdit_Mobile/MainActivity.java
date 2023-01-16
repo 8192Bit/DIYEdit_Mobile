@@ -28,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.x8192Bit.DIYEdit_Mobile.MESSAGE";
 
-    private String filePath;
-
     // Create Method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,18 +37,22 @@ public class MainActivity extends AppCompatActivity {
 
     // Called when the first button is pressed
     public void chooseFile(View v) {
+
+        readFiles();
         if (Build.VERSION.SDK_INT < 30) {
             if (!checkBefore30()) {
                 Toast.makeText(MainActivity.this, "NO PERMISSION", Toast.LENGTH_LONG).show();
                 requestBefore30();
             } else {
                 // User granted file permission, Access your file
-
+                Toast.makeText(MainActivity.this, "YATTAZE!!!", Toast.LENGTH_LONG).show();
                 readFiles();
             }
         } else {
             check30AndAfter();
         }
+
+        readFiles();
     }
 
     private boolean checkBefore30() {
@@ -116,13 +118,12 @@ public class MainActivity extends AppCompatActivity {
 
         chooser.show();
         chooser.setOnSelectListener(this::openFile);
-
     }
 
 
     // Called when the second button is pressed
     public void openRecentFile(View view) {
-        SharedPreferences sp = this.getSharedPreferences("SP", MODE_PRIVATE);
+        SharedPreferences sp = this.getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
         String history = sp.getString("history", null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
         if (history == null) {
