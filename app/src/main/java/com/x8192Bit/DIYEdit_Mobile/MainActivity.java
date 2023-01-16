@@ -21,12 +21,22 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.codekidlabs.storagechooser.StorageChooser;
+import com.x8192Bit.DIYEdit_Mobile.Utils.FileUtils;
 
 import x8192Bit.DIYEdit_Mobile.R;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.x8192Bit.DIYEdit_Mobile.MESSAGE";
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.getData() != null) {
+            Uri uri = intent.getData();
+            openFile(FileUtils.getFileAbsolutePath(this, uri));
+        }
+    }
 
     // Create Method
     @Override

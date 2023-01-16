@@ -32,6 +32,7 @@
             android:name="com.x8192Bit.DIYEdit_Mobile.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -44,6 +45,14 @@
             android:name="com.x8192Bit.DIYEdit_Mobile.MainActivity"
             android:exported="true">
             <intent-filter>
+                <data android:scheme="file" />
+                <data android:mimeType="*/*" />
+                <data android:host="*" />
+                <data android:pathPattern=".*sav" />
+                <data android:pathPattern=".*mio" />
+                <data android:pathPattern=".*dsv" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
