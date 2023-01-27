@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,46 +19,25 @@ import com.xperia64.diyedit.ExportGameMidi;
 import com.xperia64.diyedit.ExportMidi;
 import com.xperia64.diyedit.FileByteOperations;
 
-import org.jfugue.Player;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.Locale;
 
 import x8192Bit.DIYEdit_Mobile.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MIDIFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MIDIFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static String ARG_NAME = "name";
-    private static String ARG_IS_GAME = "is_game";
-
-    // TODO: Rename and change types of parameters
+    private static final String ARG_NAME = "name";
+    private static final String ARG_IS_GAME = "is_game";
+    public static Boolean is_game;
+    static ExportMidi em;
+    static ExportGameMidi egm;
     private String name;
-    private Boolean is_game;
-    private Player p;
-    private ExportGameMidi egm;
-    private ExportMidi em;
+    private boolean playing = false;
+    private boolean started = false;
 
     public MIDIFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param name    Parameter 1.
-     * @param is_game Parameter 2.
-     * @return A new instance of fragment MIDIFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static MIDIFragment newInstance(String name, Boolean is_game) {
         MIDIFragment fragment = new MIDIFragment();
         Bundle args = new Bundle();
@@ -70,13 +48,35 @@ public class MIDIFragment extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (is_game) {
+            if (!egm.paused() && !egm.playing() && started) {
+                started = false;
+                playing = false;
+            }
+            if (started) {
+                egm.Stop();
+            }
+        } else {
+            if (!em.paused() && !em.playing() && started) {
+                started = false;
+                playing = false;
+            }
+            if (started) {
+                em.Stop();
+            }
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             name = getArguments().getString(ARG_NAME);
             is_game = getArguments().getBoolean(ARG_IS_GAME);
         }
-
         if (is_game) {
             egm = new ExportGameMidi(FileByteOperations.read(name));
         } else {
@@ -84,6 +84,7 @@ public class MIDIFragment extends Fragment {
         }
     }
 
+    @Deprecated
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         ImageButton stopButton = getView().findViewById(R.id.stopButton);
         ImageButton playPauseButton = getView().findViewById(R.id.playpauseButton);
@@ -91,30 +92,72 @@ public class MIDIFragment extends Fragment {
         SeekBar timeBar = getView().findViewById(R.id.MIDIProgressBar);
         stopButton.setOnClickListener(v -> {
             if (is_game) {
-                egm.Stop();
+                if (!egm.paused() && !egm.playing() && started) {
+                    started = false;
+                    playing = false;
+                }
+
+                if (started) {
+                    egm.Stop();
+                }
             } else {
-                em.Stop();
+                if (!em.paused() && !em.playing() && started) {
+                    started = false;
+                    playing = false;
+                }
+                if (started) {
+                    em.Stop();
+                }
+
             }
+
+            playPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24);
         });
         playPauseButton.setOnClickListener(v -> {
             if (is_game) {
-                egm.PlayPause();
-                if (egm.playing()) {
-                    playPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24);
-                } else {
+                if (!egm.paused() && !egm.playing() && started) {
+                    started = false;
+                    playing = false;
+                }
+                if (!playing && !started) {
+                    playing = true;
+                    started = true;
                     playPauseButton.setImageResource(R.drawable.ic_baseline_pause_24);
+                    new PlayThread().start();
+
+                } else if (!playing && started) {
+                    playing = true;
+                    playPauseButton.setImageResource(R.drawable.ic_baseline_pause_24);
+                    egm.PlayPause();
+                } else if (playing) {
+                    playing = false;
+                    playPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24);
+                    egm.PlayPause();
                 }
             } else {
-                em.PlayPause();
-                if (em.playing()) {
-                    playPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24);
-                } else {
+                if (!em.paused() && !em.playing() && started) {
+                    started = false;
+                    playing = false;
+                }
+                if (!playing && !started) {
+                    playing = true;
+                    started = true;
                     playPauseButton.setImageResource(R.drawable.ic_baseline_pause_24);
+                    new PlayThread().start();
+
+                } else if (!playing && started) {
+                    playing = true;
+                    playPauseButton.setImageResource(R.drawable.ic_baseline_pause_24);
+                    em.PlayPause();
+                } else if (playing) {
+                    playing = false;
+                    playPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24);
+                    em.PlayPause();
                 }
             }
+
         });
         exportButton.setOnClickListener(v -> {
-
             StorageChooser chooser = new StorageChooser.Builder()
                     .withActivity(getActivity())
                     .withFragmentManager(getActivity().getFragmentManager())
@@ -131,22 +174,30 @@ public class MIDIFragment extends Fragment {
                         .setView(fileNameEdit)
                         .setPositiveButton(R.string.okKey, (dialog, which) -> {
                             String fileName = fileNameEdit.getText().toString();
-                            if (!fileName.toLowerCase(Locale.US).endsWith(".mio")) {
-                                fileName += ".mio";
+                            if (!fileName.toLowerCase(Locale.US).endsWith(".mid")) {
+                                fileName += ".mid";
                             }
                             String pathName = pathExtract + "//" + fileName;
-                            try {
-                                new File(pathName).createNewFile();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                Toast.makeText(getContext(), "NOOOOOOOOOOO!!!!", Toast.LENGTH_SHORT).show();
-                            }
-                            if (is_game) {
-                                egm.export(pathName, true);
-                            } else {
-                                em.export(pathName, true);
-                            }
 
+                            if (is_game) {
+                                if (!egm.paused() && !egm.playing() && started) {
+                                    started = false;
+                                    playing = false;
+                                }
+                                if (started) {
+                                    egm.Stop();
+                                }
+                                egm.export(pathName, false);
+                            } else {
+                                if (!em.paused() && !em.playing() && started) {
+                                    started = false;
+                                    playing = false;
+                                }
+                                if (started) {
+                                    em.Stop();
+                                }
+                                em.export(pathName, false);
+                            }
                         })
                         .show();
             });
@@ -157,7 +208,16 @@ public class MIDIFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_midi, container, false);
+        return inflater.inflate(R.layout.fragment_midi, container, true);
+    }
+}
+
+
+class PlayThread extends Thread {
+    public void run() {
+        if (MIDIFragment.is_game)
+            MIDIFragment.egm.export("", true);
+        else
+            MIDIFragment.em.export("", true);
     }
 }

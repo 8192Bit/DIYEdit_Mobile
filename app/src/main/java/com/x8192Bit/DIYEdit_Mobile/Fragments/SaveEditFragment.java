@@ -26,8 +26,11 @@ import com.x8192Bit.DIYEdit_Mobile.Utils.GraphicsUtils;
 import com.xperia64.diyedit.FileByteOperations;
 import com.xperia64.diyedit.metadata.GameMetadata;
 import com.xperia64.diyedit.metadata.MangaMetadata;
+import com.xperia64.diyedit.metadata.Metadata;
 import com.xperia64.diyedit.metadata.RecordMetadata;
 import com.xperia64.diyedit.saveutils.SaveHandler;
+
+import org.joda.time.DateTime;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,7 +56,6 @@ public class SaveEditFragment extends Fragment {
     private GridView gv;
 
     public SaveEditFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -186,11 +188,10 @@ public class SaveEditFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         return inflater.inflate(R.layout.fragment_saveedit, container, true);
     }
 
+    @Deprecated
     private void showMioPopupMenu(View view, int count) {
         // View当前PopupMenu显示的相对View的位置
         PopupMenu popupMenu = new PopupMenu(getContext(), view);
@@ -244,46 +245,11 @@ public class SaveEditFragment extends Fragment {
                 chooser.show();
                 chooser.setOnSelectListener(pathExtract -> {
                     EditText fileNameEdit = new EditText(getContext());
-                    new AlertDialog.Builder(getContext())
+                    AlertDialog ad = new AlertDialog.Builder(getContext())
                             .setTitle("Set export file name")
                             .setCancelable(true)
                             .setView(fileNameEdit)
-                            /*.setNeutralButton("默认", new DialogInterface.OnClickListener() {
-                                  @Override
-                                  public void onClick(DialogInterface dialog, int which) {
-                                      String key = "";
-                                      switch (miotype) {
-                                          case 0:
-                                              key = "G";
-                                              break;
-                                          case 1:
-                                              key = "R";
-                                              break;
-                                          case 2:
-                                              key = "M";
-                                              break;
-                                      }
-
-                                      //Metadata m = new Metadata(ss);
-                                      //DateTime date = new Date(2000, 1, 1, 0, 0, 0, 0);
-                                      //date=date..plusDays(m.getTimestamp());
-                                      //String name = String.format("%s-%s(%s)-%04d (%s) (%04d-%02d-%02d) %s.mio", key, m.getCreator(), m.getBrand(), m.getSerial2(), (m.getRegion())?"J":"UE", date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), (m.getLocked()?"(#) ":"")+m.getName());
-                                      //name=name.replace('?', '¿').replace('/', '〳').replace('\\','〳').replace(':','：').replace('*', '★').replace('\"','\'').replace('<','＜').replace('>','＞').replace('|','l').replace('!','¡');
-                                      //File out = new File(ss.substring(0,ss.lastIndexOf(File.separator)+1)+name);
-
-                                      //String pathName = pathExtract+"TODO: replace with asdgsgadfk here";
-
-                                      try {
-                                          new File(pathName).createNewFile();
-                                      } catch (IOException e) {
-                                          e.printStackTrace();
-                                      }
-                                      FileByteOperations.write(s.getMio(miotype, count), pathName);
-                                      refreshShelf();
-
-
-                                  }
-                              })*/
+                            .setNeutralButton("默认", null)
                             .setPositiveButton(R.string.okKey, (dialog, which) -> {
                                 String fileName = fileNameEdit.getText().toString();
                                 if (!fileName.toLowerCase(Locale.US).endsWith(".mio")) {
@@ -300,7 +266,33 @@ public class SaveEditFragment extends Fragment {
                                 s.saveChanges();
                                 refreshShelf();
                             })
-                            .show();
+                            .create();
+                    ad.setOnShowListener(dialog -> ad
+                            .getButton(AlertDialog.BUTTON_NEUTRAL)
+                            .setOnClickListener(v -> {
+
+                                String key = "";
+                                switch (miotype) {
+                                    case 0:
+                                        key = "G";
+                                        break;
+                                    case 1:
+                                        key = "R";
+                                        break;
+                                    case 2:
+                                        key = "M";
+                                        break;
+                                }
+                                Metadata m = new Metadata(s.getMio(miotype, count + 18 * (shelfNo - 1)));
+
+                                DateTime date = new DateTime(2000, 1, 1, 0, 0, 0, 0);
+                                date = date.plusDays(m.getTimestamp());
+                                String name = String.format("%s-%s(%s)-%04d (%s) (%04d-%02d-%02d) %s.mio",
+                                        key, m.getCreator(), m.getBrand(), m.getSerial2(), (m.getRegion()) ? "J" : "UE", date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), (m.getLocked() ? "(#) " : "") + m.getName());
+                                name = name.replace('?', '¿').replace('/', '〳').replace('\\', '〳').replace(':', '：').replace('*', '★').replace('\"', '\'').replace('<', '＜').replace('>', '＞').replace('|', 'l').replace('!', '¡');
+                                fileNameEdit.setText(name);
+                            }));
+                    ad.show();
                 });
 
             }
@@ -311,34 +303,25 @@ public class SaveEditFragment extends Fragment {
                         .setCancelable(false)
                         .setPositiveButton(R.string.okKey, (dialog, which) -> {
                             s.deleteMio(miotype, count + 18 * (shelfNo - 1));
-                            refreshShelf();
                             s.saveChanges();
+                            refreshShelf();
                         })
                         .setNegativeButton(R.string.backKey, null)
                         .show();
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
             return false;
         });
         // PopupMenu关闭事件
-        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
-            @Override
-            public void onDismiss(PopupMenu menu) {
-                Log.i("blahblahblah", "峨");
-            }
-        });
+        popupMenu.setOnDismissListener(menu -> Log.i("blahblahblah", "峨"));
 
         popupMenu.show();
     }
 
+
     public class SaveItemAdapter extends BaseAdapter {
         public ArrayList<GraphicsUtils.ShelfItem> shelfItems = new ArrayList<>(18);
         public ArrayList<String> titles = new ArrayList<>();
-        private LayoutInflater layoutInflater;
+        private final LayoutInflater layoutInflater;
 
         public SaveItemAdapter() {
             layoutInflater = LayoutInflater.from(getActivity());

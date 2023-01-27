@@ -48,9 +48,9 @@
                 <data android:scheme="file" />
                 <data android:mimeType="*/*" />
                 <data android:host="*" />
-                <data android:pathPattern=".*sav" />
-                <data android:pathPattern=".*mio" />
-                <data android:pathPattern=".*dsv" />
+                <data android:pathPattern=".*.mio" />
+                <data android:pathPattern=".*.sav" />
+                <data android:pathPattern=".*.dsv" />
 
                 <category android:name="android.intent.category.BROWSABLE" />
                 <action android:name="android.intent.action.MAIN" />
@@ -58,5 +58,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

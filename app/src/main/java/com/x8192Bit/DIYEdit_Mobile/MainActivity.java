@@ -85,12 +85,11 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("MissingSuperCall")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission for storage access successful!
                 // Read your files now
-                Toast.makeText(MainActivity.this, "YATTAZE!!!!!!!!", Toast.LENGTH_LONG).show();
 
                 readFiles();
             } else {
@@ -102,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @RequiresApi(api = Build.VERSION_CODES.R)
+    @Deprecated
     private void check30AndAfter() {
         if (!Environment.isExternalStorageManager()) {
             try {
@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Deprecated
     private void readFiles() {
         StorageChooser chooser = new StorageChooser.Builder()
                 .withActivity(MainActivity.this)
@@ -127,9 +128,8 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         chooser.show();
-        chooser.setOnSelectListener(this::openFile);
+        chooser.setOnSelectListener((realPath) -> openFile(realPath));
     }
-
 
     // Called when the second button is pressed
     public void openRecentFile(View view) {
@@ -141,9 +141,13 @@ public class MainActivity extends AppCompatActivity {
         } else {
             String[] paths = history.split(",");
             String[] items = new String[paths.length];
-            for (int i = 0; i < items.length; i++) {
-                String[] slashSplited = paths[i].split("/");
-                items[i] = slashSplited[slashSplited.length - 1];
+            if (sp.getBoolean("showFullPath", false)) {
+                items = paths.clone();
+            } else {
+                for (int i = 0; i < items.length; i++) {
+                    String[] slashSplited = paths[i].split("/");
+                    items[i] = slashSplited[slashSplited.length - 1];
+                }
             }
             alertDialogBuilder.setTitle(R.string.openRecentFileKey).setItems(items, (dialog, which) -> openFile(paths[which])).show();
         }

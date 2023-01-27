@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="com.x8192Bit.DIYEdit_Mobile.Fragments.MetadataEditFragment">
 
     <ScrollView
@@ -29,18 +29,23 @@
                         android:layout_span="3">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/SeriesNumberInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="序列号" />
+                            android:layout_margin="2dp"
+                            android:baselineAligned="false"
+                            android:hint="序列号"
+                            android:singleLine="true" />
+
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <ToggleButton
-                        android:id="@+id/toggleButton"
+                        android:id="@+id/LockToggleButton"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:minHeight="50dp"
-                        android:textOff="未锁定游戏"
-                        android:textOn="锁定游戏" />
+                        android:textOff="解锁"
+                        android:textOn="锁定" />
 
                 </TableRow>
 
@@ -56,13 +61,17 @@
                         app:counterMaxLength="12">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/NameInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="游戏名称"
-                            android:maxLength="12" />
+                            android:layout_margin="2dp"
+                            android:hint="名称"
+                            android:maxLength="12"
+                            android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <ImageView
+                        android:id="@+id/MetadataIconPreview"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/spr_cart1" />
@@ -80,10 +89,13 @@
                         app:counterMaxLength="36">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/CommentInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
                             android:hint="游戏介绍"
-                            android:maxLength="36" />
+                            android:maxLength="36"
+                            android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </TableRow>
@@ -100,10 +112,13 @@
                         app:counterMaxLength="9">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/AuthorInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
                             android:hint="制作人"
-                            android:maxLength="9" />
+                            android:maxLength="9"
+                            android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -114,9 +129,13 @@
                         app:counterMaxLength="9">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/CompanyInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="制作商" />
+                            android:layout_margin="2dp"
+                            android:hint="制作商"
+                            android:maxLength="9"
+                            android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </TableRow>
@@ -133,10 +152,13 @@
                         app:counterMaxLength="12">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/GameInstructInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
                             android:hint="游戏指令"
-                            android:maxLength="12" />
+                            android:maxLength="12"
+                            android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -144,8 +166,10 @@
                         android:layout_height="wrap_content">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/DateInput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_margin="2dp"
                             android:hint="日期"
                             android:inputType="date" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -154,35 +178,46 @@
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:visibility="visible">
+                    android:layout_height="match_parent">
 
                     <TextView
                         android:id="@+id/textView4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center|left"
                         android:text="游戏时间" />
 
-                    <RadioButton
-                        android:id="@+id/radioButton3"
-                        android:layout_width="wrap_content"
+                    <RadioGroup
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:minHeight="50dp"
-                        android:text="短" />
+                        android:layout_span="3"
+                        android:baselineAligned="false"
+                        android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/radioButton2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="50dp"
-                        android:text="长" />
+                        <RadioButton
+                            android:id="@+id/ShortTimeButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:minHeight="50dp"
+                            android:text="短" />
 
-                    <RadioButton
-                        android:id="@+id/radioButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:minHeight="50dp"
-                        android:text="BOSS" />
+                        <RadioButton
+                            android:id="@+id/LongTimeButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:minHeight="50dp"
+                            android:text="长" />
+
+                        <RadioButton
+                            android:id="@+id/BOSSTimeButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:minHeight="50dp"
+                            android:text="BOSS" />
+                    </RadioGroup>
 
                 </TableRow>
 
@@ -195,6 +230,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/ColorIconText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
@@ -215,6 +251,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/StyleIconText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
@@ -236,10 +273,11 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/ColorSelfText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="卡带颜色" />
+                    android:text="本体颜色" />
 
                 <Spinner
                     android:id="@+id/ColorSelfSpinner"
@@ -257,10 +295,11 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/StyleSelfText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="卡带样式" />
+                    android:text="本体样式" />
 
                 <Spinner
                     android:id="@+id/StyleSelfSpinner"
@@ -270,6 +309,30 @@
                     android:entries="@array/game_shapes"
                     android:minHeight="50dp" />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/buttonDiscard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_weight="1"
+                    android:text="取消更改" />
+
+                <Button
+                    android:id="@+id/buttonSave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_weight="1"
+                    android:text="保存" />
             </LinearLayout>
 
         </LinearLayout>
