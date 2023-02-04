@@ -30,6 +30,7 @@ import com.xperia64.diyedit.metadata.RecordMetadata;
 import org.joda.time.DateTime;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import x8192Bit.DIYEdit_Mobile.R;
 
@@ -84,7 +85,6 @@ public class MetadataEditFragment extends Fragment {
             gi.setIconColor(iconColor.getSelectedItemPosition());
             gi.setIconShape(iconStyle.getSelectedItemPosition());
             preview.setImageBitmap(gi.renderImage(getContext(), 26, 26));
-            preview.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         }
         //endregion
         //region For RECORD Refresh
@@ -96,7 +96,6 @@ public class MetadataEditFragment extends Fragment {
             ri.setIconColor(iconColor.getSelectedItemPosition());
             ri.setIconShape(iconStyle.getSelectedItemPosition());
             preview.setImageBitmap(ri.renderImage(getContext(), 26, 26));
-            preview.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         }
         //endregion
         //region For MANGA Refresh
@@ -107,7 +106,6 @@ public class MetadataEditFragment extends Fragment {
             mi.setIconColor(iconColor.getSelectedItemPosition());
             mi.setIconShape(iconStyle.getSelectedItemPosition());
             preview.setImageBitmap(mi.renderImage(getContext(), 26, 26));
-            preview.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         }
         //endregion
     }
@@ -264,7 +262,7 @@ public class MetadataEditFragment extends Fragment {
         //region Overall Settings
         try {
             String[] splited = seriesInput.getText().toString().split("-");
-            if (splited.length != 3 || splited[0].length() > 4 || splited[1].length() > 4 || splited[2].length() > 4 || CharUtils.isNumeric(splited[1]) || CharUtils.isNumeric(splited[2])) {
+            if (splited.length != 3 || splited[0].length() > 4 || splited[1].length() > 4 || splited[2].length() > 4 || !CharUtils.isNumeric(splited[1]) || !CharUtils.isNumeric(splited[2])) {
                 new AlertDialog.Builder(getContext())
                         .setMessage("Wrong Format")
                         .setCancelable(true)
@@ -272,7 +270,7 @@ public class MetadataEditFragment extends Fragment {
                         .show();
             } else {
                 m.setSerial(splited[0], Integer.parseInt(splited[1]), Integer.parseInt(splited[2]));
-                m.setName(nameInput.getText().toString());
+                m.setName(Objects.requireNonNull(nameInput.getText()).toString());
                 m.setDescription(commentInput.getText().toString());
                 m.setCreator(authorInput.getText().toString());
                 m.setBrand(companyInput.getText().toString());
@@ -280,7 +278,7 @@ public class MetadataEditFragment extends Fragment {
         } catch (NullPointerException e) {
             e.printStackTrace();
             new AlertDialog.Builder(getContext())
-                    .setMessage("Empty Serial")
+                    .setMessage("Empty Entry(Entries)")
                     .setCancelable(true)
                     .setNegativeButton("Cancel", null)
                     .show();

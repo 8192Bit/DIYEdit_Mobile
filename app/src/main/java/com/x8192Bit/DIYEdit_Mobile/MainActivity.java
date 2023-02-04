@@ -1,7 +1,6 @@
 package com.x8192Bit.DIYEdit_Mobile;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -43,6 +42,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (getIntent().getData() != null) {
+            Uri uri = getIntent().getData();
+            openFile(FileUtils.getFileAbsolutePath(this, uri));
+        }
     }
 
     // Called when the first button is pressed
@@ -51,11 +55,9 @@ public class MainActivity extends AppCompatActivity {
         readFiles();
         if (Build.VERSION.SDK_INT < 30) {
             if (!checkBefore30()) {
-                Toast.makeText(MainActivity.this, "NO PERMISSION", Toast.LENGTH_LONG).show();
                 requestBefore30();
             } else {
                 // User granted file permission, Access your file
-                Toast.makeText(MainActivity.this, "YATTAZE!!!", Toast.LENGTH_LONG).show();
                 readFiles();
             }
         } else {
@@ -82,10 +84,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @SuppressLint("MissingSuperCall")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission for storage access successful!
@@ -119,16 +120,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Deprecated
     private void readFiles() {
-        StorageChooser chooser = new StorageChooser.Builder()
+        final StorageChooser[] chooser = {new StorageChooser.Builder()
                 .withActivity(MainActivity.this)
                 .withFragmentManager(getFragmentManager())
                 .withMemoryBar(true)
                 .allowCustomPath(true)
                 .setType(StorageChooser.FILE_PICKER)
-                .build();
-
-        chooser.show();
-        chooser.setOnSelectListener((realPath) -> openFile(realPath));
+                .build()};
+        chooser[0].show();
+        chooser[0].setOnSelectListener(path -> {
+            openFile(path);
+            chooser[0] = null;
+        });
     }
 
     // Called when the second button is pressed

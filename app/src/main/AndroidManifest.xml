@@ -43,18 +43,22 @@
             android:exported="false" />
         <activity
             android:name="com.x8192Bit.DIYEdit_Mobile.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTop">
             <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="file" />
                 <data android:mimeType="*/*" />
                 <data android:host="*" />
                 <data android:pathPattern=".*.mio" />
                 <data android:pathPattern=".*.sav" />
                 <data android:pathPattern=".*.dsv" />
-
-                <category android:name="android.intent.category.BROWSABLE" />
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

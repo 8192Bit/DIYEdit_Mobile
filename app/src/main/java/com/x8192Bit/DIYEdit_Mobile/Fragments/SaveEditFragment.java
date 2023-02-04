@@ -319,9 +319,9 @@ public class SaveEditFragment extends Fragment {
 
 
     public class SaveItemAdapter extends BaseAdapter {
+        private final LayoutInflater layoutInflater;
         public ArrayList<GraphicsUtils.ShelfItem> shelfItems = new ArrayList<>(18);
         public ArrayList<String> titles = new ArrayList<>();
-        private final LayoutInflater layoutInflater;
 
         public SaveItemAdapter() {
             layoutInflater = LayoutInflater.from(getActivity());

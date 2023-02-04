@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.ToggleButton;
 
@@ -38,6 +39,7 @@ public class BGViewFragment extends Fragment {
 
     private String name;
     private Boolean is_game;
+    private Boolean is_magnified = false;
 
     public BGViewFragment() {
 
@@ -74,6 +76,18 @@ public class BGViewFragment extends Fragment {
         SeekBar ms = view.findViewById(R.id.MangaSeekBar);
         FloatingActionButton ss = view.findViewById(R.id.SaveBGButton);
         ToggleButton bp = view.findViewById(R.id.BGPreviewToggle);
+        bg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (is_magnified = !is_magnified) {
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    bp.setLayoutParams(lp);
+                } else {
+                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    bp.setLayoutParams(lp);
+                }
+            }
+        });
         if (is_game) {
             ((ViewGroup) ms.getParent()).removeView(ms);
             bp.setOnClickListener((v) -> {
@@ -116,7 +130,7 @@ public class BGViewFragment extends Fragment {
                         .setView(fileNameEdit)
                         .setPositiveButton(R.string.okKey, (dialog, which) -> {
                             String fileName = fileNameEdit.getText().toString();
-                            if (!fileName.toLowerCase(Locale.US).endsWith(".mid")) {
+                            if (!fileName.toLowerCase(Locale.US).endsWith(".png")) {
                                 fileName += ".mid";
                             }
                             String pathName = path + "//" + fileName;

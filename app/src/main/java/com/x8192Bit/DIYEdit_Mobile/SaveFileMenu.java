@@ -73,7 +73,7 @@ public class SaveFileMenu extends AppCompatActivity {
             file = FileByteOperations.read(filePath);
             int length = file.length;
             ArrayList<Fragment> fl = new ArrayList<>();
-            if (length == 33554432 || length == 33554554 || length == 33566720) {
+            if (length == 33554432 || length == 33554554 || length == 33566720 || length == 16777216) {
                 performDSSaveDATA(fl, filePath);
             } else {
                 if (file.length == 4719808) {

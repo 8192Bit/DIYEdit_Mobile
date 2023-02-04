@@ -7,9 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-
-import androidx.appcompat.content.res.AppCompatResources;
 
 import java.io.InputStream;
 
@@ -266,6 +263,52 @@ public class GraphicsUtils {
         }
     }
 
+    int getMangaIconID(boolean isReversed, int iconShape) {
+        if (isReversed) {
+            switch (iconShape) {
+                case CI_LETTER:
+                    return R.drawable.spr_manga_logo1_r;
+                case CI_HOUSE:
+                    return R.drawable.spr_manga_logo2_r;
+                case CI_SHIELD:
+                    return R.drawable.spr_manga_logo3_r;
+                case CI_SKULL:
+                    return R.drawable.spr_manga_logo4_r;
+                case CI_CAT:
+                    return R.drawable.spr_manga_logo5_r;
+                case CI_BAT:
+                    return R.drawable.spr_manga_logo6_r;
+                case CI_SPACESHIP:
+                    return R.drawable.spr_manga_logo7_r;
+                case CI_SMILE:
+                    return R.drawable.spr_manga_logo8_r;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + iconShape);
+            }
+        } else {
+            switch (iconShape) {
+                case CI_LETTER:
+                    return R.drawable.spr_manga_logo1;
+                case CI_HOUSE:
+                    return R.drawable.spr_manga_logo2;
+                case CI_SHIELD:
+                    return R.drawable.spr_manga_logo3;
+                case CI_SKULL:
+                    return R.drawable.spr_manga_logo4;
+                case CI_CAT:
+                    return R.drawable.spr_manga_logo5;
+                case CI_BAT:
+                    return R.drawable.spr_manga_logo6;
+                case CI_SPACESHIP:
+                    return R.drawable.spr_manga_logo7;
+                case CI_SMILE:
+                    return R.drawable.spr_manga_logo8;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + iconShape);
+            }
+        }
+    }
+
     public abstract class ShelfItem {
         public abstract Bitmap renderImage(Context ctx, int width, int height);
     }
@@ -276,8 +319,6 @@ public class GraphicsUtils {
         int iconColor;
         int iconShape;
 
-        public GameItem() {
-        }
 
         //region getters and setters
         public int getCartridgeColor() {
@@ -400,8 +441,6 @@ public class GraphicsUtils {
             Bitmap plane = Bitmap.createBitmap(26, 26, Bitmap.Config.ARGB_8888);
             Paint p = new Paint();
             Canvas PlaneCanvas = new Canvas(plane);
-            int left = 2;
-            int top = 2;
             plane.eraseColor(0x00FFFFFF);
 
             //Draw Record
@@ -414,7 +453,7 @@ public class GraphicsUtils {
             Bitmap Icon = getBitmapFromID(ctx, getRecordIconID(recordColor == iconColor, iconShape));
             Canvas IconCanvas = new Canvas(Icon);
             IconCanvas.drawColor(getDIYColor(iconColor), PorterDuff.Mode.MULTIPLY);
-            PlaneCanvas.drawBitmap(Icon, left, top, p);
+            PlaneCanvas.drawBitmap(Icon, 5, 5, p);
 
             Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             new Canvas(b).drawBitmap(plane, new Rect(0, 0, 26, 26), new Rect(0, 0, width, height), p);
@@ -422,31 +461,19 @@ public class GraphicsUtils {
         }
     }
 
-
     public class MangaItem extends ShelfItem {
 
         int mangaColor;
-        int mangaShape;
         int iconColor;
         int iconShape;
 
-        public MangaItem() {
-        }
-
+        //region getters and setters
         public int getMangaColor() {
             return mangaColor;
         }
 
         public void setMangaColor(int mangaColor) {
             this.mangaColor = mangaColor;
-        }
-
-        public int getMangaShape() {
-            return mangaShape;
-        }
-
-        public void setMangaShape(int mangaShape) {
-            this.mangaShape = mangaShape;
         }
 
         public int getIconColor() {
@@ -464,96 +491,28 @@ public class GraphicsUtils {
         public void setIconShape(int iconShape) {
             this.iconShape = iconShape;
         }
+        //endregion
 
         @Override
         public Bitmap renderImage(Context ctx, int width, int height) {
-            // the final one
-            Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            // the one to draw 16x16 icons directly
             Bitmap plane = Bitmap.createBitmap(26, 26, Bitmap.Config.ARGB_8888);
-            // common paint
             Paint p = new Paint();
-            // common canvas
-            Canvas c = new Canvas(plane);
-            int ResID;
-            // don't touch these SWITCHES.
-            // they will pollute your eyes
-            // get cartridge drawable
-            // fill with color, and draw them to the buffer
+            Canvas PlaneCanvas = new Canvas(plane);
             plane.eraseColor(0x00FFFFFF);
-            b.eraseColor(0x00FFFFFF);
 
-            Bitmap temp = ((BitmapDrawable) AppCompatResources.getDrawable(ctx, R.drawable.spr_manga)).getBitmap().copy(Bitmap.Config.ARGB_8888, true);
+            //Draw Manga
+            Bitmap Manga = getBitmapFromID(ctx, R.drawable.spr_manga);
+            Canvas MangaCanvas = new Canvas(Manga);
+            MangaCanvas.drawColor(getDIYColor(mangaColor), PorterDuff.Mode.MULTIPLY);
+            PlaneCanvas.drawBitmap(Manga, 0, 0, p);
 
-            Canvas ccccccccccc = new Canvas(temp);
-            ccccccccccc.drawColor(getDIYColor(mangaColor), PorterDuff.Mode.MULTIPLY);
-            c.drawBitmap(temp, 0, 0, p);
-            // get icon drawable
-            if (iconColor == mangaColor) {
-                switch (iconShape) {
-                    case CI_LETTER:
-                        ResID = R.drawable.spr_manga_logo1_r;
-                        break;
-                    case CI_HOUSE:
-                        ResID = R.drawable.spr_manga_logo2_r;
-                        break;
-                    case CI_SHIELD:
-                        ResID = R.drawable.spr_manga_logo3_r;
-                        break;
-                    case CI_SKULL:
-                        ResID = R.drawable.spr_manga_logo4_r;
-                        break;
-                    case CI_CAT:
-                        ResID = R.drawable.spr_manga_logo5_r;
-                        break;
-                    case CI_BAT:
-                        ResID = R.drawable.spr_manga_logo6_r;
-                        break;
-                    case CI_SPACESHIP:
-                        ResID = R.drawable.spr_manga_logo7_r;
-                        break;
-                    case CI_SMILE:
-                        ResID = R.drawable.spr_manga_logo8_r;
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + mangaShape);
-                }
-            } else {
-                switch (mangaShape) {
-                    case CI_LETTER:
-                        ResID = R.drawable.spr_manga_logo1;
-                        break;
-                    case CI_HOUSE:
-                        ResID = R.drawable.spr_manga_logo2;
-                        break;
-                    case CI_SHIELD:
-                        ResID = R.drawable.spr_manga_logo3;
-                        break;
-                    case CI_SKULL:
-                        ResID = R.drawable.spr_manga_logo4;
-                        break;
-                    case CI_CAT:
-                        ResID = R.drawable.spr_manga_logo5;
-                        break;
-                    case CI_BAT:
-                        ResID = R.drawable.spr_manga_logo6;
-                        break;
-                    case CI_SPACESHIP:
-                        ResID = R.drawable.spr_manga_logo7;
-                        break;
-                    case CI_SMILE:
-                        ResID = R.drawable.spr_manga_logo8;
-                        break;
-                    default:
-                        throw new IllegalStateException("Unexpected value: " + mangaShape);
-                }
-            }
-            BitmapDrawable drawableToDraw = (BitmapDrawable) AppCompatResources.getDrawable(ctx, ResID);
-            temp = drawableToDraw.getBitmap().copy(Bitmap.Config.ARGB_8888, true);
-            new Canvas(temp).drawColor(getDIYColor(iconColor), PorterDuff.Mode.MULTIPLY);
-            c.drawBitmap(temp, 5, 5, p);
-            // fill with color, and draw them to the buffer
-            // then draw the buffer to a big picture
+            //Draw Icon
+            Bitmap Icon = getBitmapFromID(ctx, getMangaIconID(mangaColor == iconColor, iconShape));
+            Canvas IconCanvas = new Canvas(Icon);
+            IconCanvas.drawColor(getDIYColor(iconColor), PorterDuff.Mode.MULTIPLY);
+            PlaneCanvas.drawBitmap(Icon, 5, 5, p);
+
+            Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             new Canvas(b).drawBitmap(plane, new Rect(0, 0, 26, 26), new Rect(0, 0, width, height), p);
             return b;
         }
