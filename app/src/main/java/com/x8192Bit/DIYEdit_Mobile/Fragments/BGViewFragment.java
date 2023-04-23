@@ -1,18 +1,21 @@
 package com.x8192Bit.DIYEdit_Mobile.Fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
@@ -21,7 +24,6 @@ import androidx.fragment.app.Fragment;
 
 import com.codekidlabs.storagechooser.StorageChooser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.xperia64.diyedit.FileByteOperations;
 import com.xperia64.diyedit.editors.GameEdit;
 import com.xperia64.diyedit.editors.MangaEdit;
 
@@ -39,7 +41,6 @@ public class BGViewFragment extends Fragment {
 
     private String name;
     private Boolean is_game;
-    private Boolean is_magnified = false;
 
     public BGViewFragment() {
 
@@ -69,45 +70,26 @@ public class BGViewFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_bgview, container, false);
     }
 
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ImageView bg = view.findViewById(R.id.BGView);
         SeekBar ms = view.findViewById(R.id.MangaSeekBar);
+        SeekBar resize = view.findViewById(R.id.resizeSeekBar);
         FloatingActionButton ss = view.findViewById(R.id.SaveBGButton);
         ToggleButton bp = view.findViewById(R.id.BGPreviewToggle);
-        bg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (is_magnified = !is_magnified) {
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                    bp.setLayoutParams(lp);
-                } else {
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                    bp.setLayoutParams(lp);
-                }
-            }
-        });
+        resize.setMax(100);
         if (is_game) {
             ((ViewGroup) ms.getParent()).removeView(ms);
-            bp.setOnClickListener((v) -> {
-                if (bp.isChecked()) {
-                    Bitmap b = Bitmap.createBitmap(96, 64, Bitmap.Config.RGB_565);
-                    bg.setImageBitmap(DrawGamePreview(b, name));
-                } else {
-                    Bitmap b = Bitmap.createBitmap(192, 128, Bitmap.Config.RGB_565);
-                    bg.setImageBitmap(DrawGameBG(b, name));
-                }
-            });
-            Bitmap b = Bitmap.createBitmap(192, 128, Bitmap.Config.RGB_565);
-            bg.setImageBitmap(DrawGameBG(b, name));
+            bp.setOnClickListener(v -> refreshBG(getView()));
+            bg.setImageBitmap(DrawGameBG(192, 128, name));
         } else {
             ((ViewGroup) bp.getParent()).removeView(bp);
             ms.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    Bitmap b = Bitmap.createBitmap(192, 128, Bitmap.Config.RGB_565);
-                    bg.setImageBitmap(DrawManga(b, progress, FileByteOperations.read(name)));
+                    bg.setImageBitmap(DrawManga(192, 128, progress, name));
                 }
 
                 @Override
@@ -118,80 +100,108 @@ public class BGViewFragment extends Fragment {
                 public void onStopTrackingTouch(SeekBar seekBar) {
                 }
             });
-            Bitmap b = Bitmap.createBitmap(192, 128, Bitmap.Config.RGB_565);
-            bg.setImageBitmap(DrawManga(b, 0, FileByteOperations.read(name)));
+            bg.setImageBitmap(DrawManga(192, 128, 0, name));
         }
-        ss.setOnClickListener(v -> {
-            SaveFileDialog(path -> {
-                EditText fileNameEdit = new EditText(getContext());
-                new AlertDialog.Builder(getContext())
-                        .setTitle("Set export file name")
-                        .setCancelable(true)
-                        .setView(fileNameEdit)
-                        .setPositiveButton(R.string.okKey, (dialog, which) -> {
-                            String fileName = fileNameEdit.getText().toString();
-                            if (!fileName.toLowerCase(Locale.US).endsWith(".png")) {
-                                fileName += ".mid";
-                            }
-                            String pathName = path + "//" + fileName;
+        ss.setOnClickListener(v -> SaveFileDialog(path -> {
+            EditText fileNameEdit = new EditText(getContext());
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Set export file name")
+                    .setCancelable(true)
+                    .setView(fileNameEdit)
+                    .setPositiveButton(R.string.okKey, (dialog, which) -> {
+                        String fileName = fileNameEdit.getText().toString();
+                        if (!fileName.toLowerCase(Locale.US).endsWith(".png")) {
+                            fileName += ".png";
+                        }
+                        String pathName = path + "//" + fileName;
 
-                            Bitmap b = null;
-                            if (is_game) {
-                                if (bp.isChecked()) {
-                                    b = Bitmap.createBitmap(192, 128, Bitmap.Config.RGB_565);
-                                    b = DrawGameBG(b, name);
-                                } else {
-                                    b = Bitmap.createBitmap(96, 64, Bitmap.Config.RGB_565);
-                                    b = DrawGamePreview(b, name);
-                                }
+                        Bitmap b;
+                        if (is_game) {
+                            if (bp.isChecked()) {
+                                b = DrawGameBG(192, 128, name);
                             } else {
-                                b = Bitmap.createBitmap(192, 128, Bitmap.Config.RGB_565);
-                                b = DrawManga(b, ms.getProgress(), FileByteOperations.read(name));
+                                b = DrawGamePreview(96, 64, name);
                             }
+                        } else {
+                            b = DrawManga(192, 128, ms.getProgress(), name);
+                        }
 
-                            FileOutputStream out = null;
-                            try {
-                                out = new FileOutputStream(pathName);
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            }
+                        try {
+                            FileOutputStream out = new FileOutputStream(pathName);
                             if (b.compress(Bitmap.CompressFormat.PNG, 100, out)) {
                                 try {
                                     out.flush();
                                     out.close();
+                                    Toast.makeText(getContext(), "Successfully exported.", Toast.LENGTH_SHORT).show();
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
                             }
-                        }).show();
-            });
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
+                    }).show();
+        }));
+        resize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                refreshBG(getView());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
         });
     }
 
-    Bitmap DrawGamePreview(Bitmap bm, String name) {
-        Canvas c = new Canvas(bm);
-        GameEdit e2 = new GameEdit(name);
-        int x = 0;
-        int y = 0;
-        boolean done = false;
-        while (!done) {
-            Paint p = new Paint();
-            int cc = e2.getPreviewPixel(x, y);
-            p.setColor(Color.rgb(r(cc), g(cc), b(cc)));
-            c.drawPoint(x, y, p);
-            x++;
-            if (x > 95) {
-                y += 1;
-                x = 0;
+    @SuppressLint("SetTextI18n")
+    void refreshBG(View view) {
+        //TODO resize
+        ImageView bg = view.findViewById(R.id.BGView);
+        SeekBar resize = view.findViewById(R.id.resizeSeekBar);
+        TextView ratio = view.findViewById(R.id.resizeRatioTextView);
+        double rate = (resize.getProgress() / 10.0) + 1;
+        ratio.setText(String.valueOf(rate) + 'x');
+        if (is_game) {
+            ToggleButton bp = view.findViewById(R.id.BGPreviewToggle);
+            if (bp.isChecked()) {
+                bg.setImageBitmap(DrawGamePreview((int) (96 * rate), (int) (64 * rate), name));
+            } else {
+                bg.setImageBitmap(DrawGameBG((int) (192 * rate), (int) (128 * rate), name));
             }
-            if (y > 63) {
-                done = true;
-                break;
-            }
+        } else {
+            SeekBar ms = view.findViewById(R.id.MangaSeekBar);
+            bg.setImageBitmap(DrawManga((int) (192 * rate), (int) (128 * rate), ms.getProgress(), name));
         }
-        return bm;
     }
 
+    Bitmap DrawGamePreview(int width, int height, String name) {
+        Bitmap b = Bitmap.createBitmap(96, 64, Bitmap.Config.RGB_565);
+        Canvas c = new Canvas(b);
+        GameEdit e2 = new GameEdit(name);
+        Paint p = new Paint();
+        for (int y = 0; y < 64; y++) {
+            for (int x = 0; x < 96; x++) {
+                int cc = e2.getPreviewPixel(x, y);
+                p.setColor(Color.rgb(r(cc), g(cc), b(cc)));
+                c.drawPoint(x, y, p);
+                x++;
+            }
+        }
+        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        new Canvas(result)
+                .drawBitmap(b, new Rect(0, 0, 96, 64), new Rect(0, 0, width, height), p);
+        return result;
+    }
+
+    @Deprecated
     public void SaveFileDialog(StorageChooser.OnSelectListener oc) {
         StorageChooser chooser = new StorageChooser.Builder()
                 .withActivity(getActivity())
@@ -204,58 +214,47 @@ public class BGViewFragment extends Fragment {
         chooser.setOnSelectListener(oc);
     }
 
-    public Bitmap DrawGameBG(Bitmap bm, String file) {
-        Canvas c = new Canvas(bm);
+    public Bitmap DrawGameBG(int width, int height, String file) {
+        Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        Canvas c = new Canvas(b);
         GameEdit ge = new GameEdit(file);
-        int x = 0;
-        int y = 0;
-        boolean done = false;
         Paint p = new Paint();
-        while (!done) {
-            int cc = ge.getBackgroundPixel(x, y);
-            if (cc != 0) {
-                p.setColor(Color.argb(255, r(cc), g(cc), b(cc)));
-            } else {
-                p.setColor(Color.argb(255, 0, 0, 0));
-            }
-            c.drawPoint(x, y, p);
-            x++;
-            if (x > 191) {
-                y += 1;
-                x = 0;
-            }
-            if (y > 127) {
-                done = true;
+        for (int y = 0; y < 128; y++) {
+            for (int x = 0; x < 192; x++) {
+                int cc = ge.getBackgroundPixel(x, y);
+                p.setColor(
+                        cc == 0 ? Color.argb(255, 0, 0, 0)
+                                : Color.argb(255, r(cc), g(cc), b(cc)));
+                c.drawPoint(x, y, p);
             }
         }
-        return bm;
+        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        new Canvas(result)
+                .drawBitmap(b, new Rect(0, 0, 192, 128), new Rect(0, 0, width, height), p);
+
+        return result;
     }
 
-    public Bitmap DrawManga(Bitmap bm, int page, byte[] b) {
-        Canvas c = new Canvas(bm);
-        int x = 0;
-        int y = 0;
-        boolean done = false;
-        MangaEdit me = new MangaEdit(b);
-        while (!done) {
-            Paint p = new Paint();
-            if (me.getPixel((byte) page, x, y)) {
-                p.setColor(Color.rgb(0, 0, 0));
-            } else {
-                p.setColor(Color.rgb(255, 255, 255));
-            }
-            c.drawPoint(x, y, p);
-            x++;
-            if (x > 191) {
-                y += 1;
-                x = 0;
-            }
-            if (y > 127) {
-                done = true;
-                break;
+    public Bitmap DrawManga(int width, int height, int page, String file) {
+        Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        Canvas c = new Canvas(b);
+        MangaEdit me = new MangaEdit(file);
+        Paint p = new Paint();
+        for (int y = 0; y < 128; y++) {
+            for (int x = 0; x < 192; x++) {
+                if (me.getPixel((byte) page, x, y)) {
+                    p.setColor(Color.rgb(0, 0, 0));
+                } else {
+                    p.setColor(Color.rgb(255, 255, 255));
+                }
+                c.drawPoint(x, y, p);
             }
         }
-        return bm;
+        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+        new Canvas(result)
+                .drawBitmap(b, new Rect(0, 0, 192, 128), new Rect(0, 0, width, height), p);
+
+        return result;
     }
 
     public int r(int b) {

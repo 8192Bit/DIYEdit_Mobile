@@ -1,15 +1,14 @@
 <resources>
-    <string name="openFileKey">Open file...</string>
-    <string name="metaDataEditKey">Edit metadata...</string>
+    <string name="openFileKey">Open file…</string>
+    <string name="metaDataEditKey">Edit metadata…</string>
     <string name="midiToolsKey">Play/Export MIDI</string>
-    <string name="exportAllOBJKey">Export All OBJs...</string>
-    <string name="viewMangaKey">View Manga...</string>
-    <string name="viewBGKey">View Game BG...</string>
+    <string name="exportAllOBJKey">Export All OBJs…</string>
+    <string name="viewMangaKey">View Manga…</string>
+    <string name="viewBGKey">View Game BG…</string>
     <string name="editRecordKey">Edit Records</string>
     <string name="editMangaKey">Edit Mangas</string>
-    <string name="unlockKey">Unlock...</string>
+    <string name="unlockKey">Unlock…</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="desIconKey">This is a icon of DIYEdit_Mobile.</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
@@ -17,8 +16,8 @@
     <!-- Messages Preferences -->
 
     <!-- Sync Preferences -->
-    <string name="openRecentFileKey">Open recent file...</string>
-    <string name="settingsKey">Settings...</string>
+    <string name="openRecentFileKey">Open recent file…</string>
+    <string name="settingsKey">Settings…</string>
     <string name="exitKey">Exit</string>
     <string name="editGameKey">Edit Games</string>
     <string name="dsSaveKey">DS Save</string>
@@ -27,15 +26,32 @@
     <string name="warningKey">Warning</string>
     <string name="backKey">Back</string>
     <string name="noHistoryKey">No open file history.</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="unlockGameKey">Unlock Games...</string>
-    <string name="unlockRecordKey">Unlock Records...</string>
-    <string name="unlockMangaKey">Unlock Mangas...</string>
-    <string name="unlockMedalKey">Unlock Medals...</string>
+    <string name="unlockGameKey">Unlock Games…</string>
+    <string name="unlockRecordKey">Unlock Records…</string>
+    <string name="unlockMangaKey">Unlock Mangas…</string>
+    <string name="unlockMedalKey">Unlock Medals…</string>
     <string name="app_name">DIYEdit</string>
     <string name="okKey">OK</string>
+    <string name="seriesNumberKey">Serial Number</string>
+    <string name="unlockEditKey">Unlock</string>
+    <string name="lockEditKey">Lock</string>
+    <string name="nameKey">Name</string>
+    <string name="commentKey">Comment</string>
+    <string name="authorKey">Author</string>
+    <string name="companyKey">Company</string>
+    <string name="instructionKey">Game Instruction</string>
+    <string name="dateKey">Date</string>
+    <string name="gameDurationKey">Duration</string>
+    <string name="shortKey">Short</string>
+    <string name="longKey">Long</string>
+    <string name="selfStyleKey">Self Style</string>
+    <string name="iconColorKey">Icon Color</string>
+    <string name="iconStyleKey">Icon Style</string>
+    <string name="selfColorKey">Self Color</string>
+    <string name="discardKey">Discard Changes</string>
+    <string name="saveKey">Save</string>
+    <string name="deleteMIOWaringKey">You are deleting a mio file. Are you sure?</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Preference Titles -->
 

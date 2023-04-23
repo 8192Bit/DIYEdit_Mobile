@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -189,6 +190,10 @@ public class MetadataEditFragment extends Fragment {
                     bossButton.toggle();
                     break;
             }
+            selfColor.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.diy_colors)));
+            selfStyle.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.game_shapes)));
+            iconColor.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.diy_colors)));
+            iconStyle.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.game_shapes)));
             selfColor.setSelection(gm.getCartColor());
             selfStyle.setSelection(gm.getCartType());
             iconColor.setSelection(gm.getLogoColor());
@@ -202,6 +207,11 @@ public class MetadataEditFragment extends Fragment {
         //endregion
         //region For RECORD Settings
         if (miotype == 1) {
+
+            selfColor.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.diy_colors)));
+            selfStyle.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.record_shapes)));
+            iconColor.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.diy_colors)));
+            iconStyle.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.record_icons)));
             RecordMetadata rm = new RecordMetadata(name);
             selfColor.setSelection(rm.getRecordColor());
             selfStyle.setSelection(rm.getRecordType());
@@ -213,6 +223,9 @@ public class MetadataEditFragment extends Fragment {
         if (miotype == 2) {
             MangaMetadata mm = new MangaMetadata(name);
             selfStyle.setEnabled(false);
+            selfColor.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.diy_colors)));
+            iconColor.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.diy_colors)));
+            iconStyle.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.manga_icons)));
             selfColor.setSelection(mm.getMangaColor());
             iconColor.setSelection(mm.getLogoColor());
             iconStyle.setSelection(mm.getLogo());
@@ -264,9 +277,9 @@ public class MetadataEditFragment extends Fragment {
             String[] splited = seriesInput.getText().toString().split("-");
             if (splited.length != 3 || splited[0].length() > 4 || splited[1].length() > 4 || splited[2].length() > 4 || !CharUtils.isNumeric(splited[1]) || !CharUtils.isNumeric(splited[2])) {
                 new AlertDialog.Builder(getContext())
-                        .setMessage("Wrong Format")
+                        .setMessage("Wrong Format of Serial Number.")
                         .setCancelable(true)
-                        .setNegativeButton("Cancel", null)
+                        .setNegativeButton(R.string.okKey, null)
                         .show();
             } else {
                 m.setSerial(splited[0], Integer.parseInt(splited[1]), Integer.parseInt(splited[2]));
@@ -278,9 +291,9 @@ public class MetadataEditFragment extends Fragment {
         } catch (NullPointerException e) {
             e.printStackTrace();
             new AlertDialog.Builder(getContext())
-                    .setMessage("Empty Entry(Entries)")
+                    .setMessage("Empty Entry(Entries) of Metadata.")
                     .setCancelable(true)
-                    .setNegativeButton("Cancel", null)
+                    .setNegativeButton(R.string.okKey, null)
                     .show();
         }
         fil = m.file;

@@ -7,61 +7,61 @@
     </string-array>
 
     <string-array name="theme_entries">
-        <item>System</item>
-        <item>Day</item>
-        <item>Night</item>
+        <item>系統</item>
+        <item>日間</item>
+        <item>夜間</item>
     </string-array>
 
     <string-array name="diy_colors">
-        <item>Yellow</item>
-        <item>Light Blue</item>
-        <item>Green</item>
-        <item>Orange</item>
-        <item>Dark Blue</item>
-        <item>Red</item>
-        <item>White</item>
-        <item>Black</item>
+        <item>黃色</item>
+        <item>亮藍</item>
+        <item>綠色</item>
+        <item>橙色</item>
+        <item>深藍</item>
+        <item>紅色</item>
+        <item>白色</item>
+        <item>黑色</item>
     </string-array>
 
     <string-array name="record_shapes">
-        <item>圆形</item>
+        <item>圓形</item>
         <item>方形</item>
         <item>星形</item>
-        <item>六边形</item>
-        <item>四叶草</item>
+        <item>六邊形</item>
+        <item>四葉草</item>
         <item>菱形</item>
-        <item>加号</item>
+        <item>加號</item>
         <item>八瓣花朵形</item>
     </string-array>
 
     <string-array name="record_icons">
         <item>星形</item>
         <item>花朵</item>
-        <item>旋风/忍者刀片</item>
+        <item>旋風/忍者刀片</item>
         <item>大叉</item>
-        <item>树叶</item>
+        <item>樹葉</item>
         <item>水滴</item>
-        <item>闪电</item>
-        <item>笑脸</item>
+        <item>閃電</item>
+        <item>笑臉</item>
     </string-array>
 
     <string-array name="game_icons">
-        <item>FC游戏</item>
+        <item>FC遊戲</item>
         <item>火箭</item>
         <item>盾牌</item>
-        <item>拳头</item>
-        <item>汽车</item>
+        <item>拳頭</item>
+        <item>汽車</item>
         <item>棒球</item>
         <item>？？</item>
         <item>其他</item>
     </string-array>
 
     <string-array name="game_shapes">
-        <item>圆形</item>
+        <item>圓形</item>
         <item>有缺口</item>
         <item>扁平</item>
         <item>有突起</item>
-        <item>锯齿边</item>
+        <item>鋸齒邊</item>
         <item>牛角</item>
         <item>斜角</item>
         <item>GBA</item>
@@ -72,11 +72,12 @@
         <item>信封</item>
         <item>房子</item>
         <item>盾牌</item>
-        <item>骷髅头</item>
-        <item>小猫</item>
+        <item>骷髏頭</item>
+        <item>小貓</item>
         <item>棒球</item>
         <item>UFO</item>
-        <item>笑脸</item>
+        <item>笑臉</item>
     </string-array>
 
 </resources>
+

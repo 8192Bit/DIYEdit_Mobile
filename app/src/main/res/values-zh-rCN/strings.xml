@@ -7,7 +7,6 @@
     <string name="viewBGKey">查看游戏BG......</string>
     <string name="unlockKey">解锁存档......</string>
     <string name="openFileKey">打开文件......</string>
-    <string name="desIconKey">这是 DIYEdit_Mobile 的标志。</string>
     <string name="openRecentFileKey">打开最近文件......</string>
     <string name="settingsKey">设置......</string>
     <string name="exitKey">退出</string>
@@ -27,4 +26,23 @@
     <string name="unlockMedalKey">解锁奖牌......</string>
     <string name="app_name">DIYEdit</string>
     <string name="okKey">确定</string>
+    <string name="seriesNumberKey">序列号</string>
+    <string name="unlockEditKey">解锁</string>
+    <string name="lockEditKey">锁定</string>
+    <string name="nameKey">名称</string>
+    <string name="commentKey">游戏介绍</string>
+    <string name="authorKey">制作人</string>
+    <string name="companyKey">制作商</string>
+    <string name="instructionKey">游戏指令</string>
+    <string name="dateKey">日期</string>
+    <string name="gameDurationKey">游戏时间</string>
+    <string name="shortKey">短</string>
+    <string name="longKey">长</string>
+    <string name="selfStyleKey">本体样式</string>
+    <string name="iconColorKey">图标颜色</string>
+    <string name="iconStyleKey">图标样式</string>
+    <string name="selfColorKey">本体颜色</string>
+    <string name="discardKey">取消更改</string>
+    <string name="saveKey">保存</string>
+    <string name="deleteMIOWaringKey">你正在删除一个mio文件！请确认。</string>
 </resources>

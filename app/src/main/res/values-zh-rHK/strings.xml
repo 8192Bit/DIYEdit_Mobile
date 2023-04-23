@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DIYEdit</string>
+    <string name="openFileKey">打開文件......</string>
+    <string name="metaDataEditKey">編輯元數據......</string>
+    <string name="midiToolsKey">播放/導出 MIDI......</string>
+    <string name="exportAllOBJKey">導出所有OBJ......</string>
+    <string name="viewMangaKey">查看漫畫......</string>
+    <string name="viewBGKey">查看遊戲BG......</string>
+    <string name="editRecordKey">編輯唱片......</string>
+    <string name="editMangaKey">編輯漫畫......</string>
+    <string name="unlockKey">解鎖存檔......</string>
+    <string name="title_activity_settings">設置</string>
+    <string name="openRecentFileKey">打開最近檔</string>
+    <string name="settingsKey">設置......</string>
+    <string name="exitKey">退出</string>
+    <string name="editGameKey">編輯遊戲</string>
+    <string name="dsSaveKey">任天堂 DS 存檔</string>
+    <string name="wiiSaveKey">Wii 存檔</string>
+    <string name="couldNotReadFileKey">您打開的檔似乎無法被讀取或被操作。</string>
+    <string name="warningKey">警告</string>
+    <string name="backKey">返回</string>
+    <string name="noHistoryKey">無文件打開歷史。</string>
+    <string name="unlockGameKey">解鎖遊戲......</string>
+    <string name="unlockMangaKey">解鎖漫畫......</string>
+    <string name="unlockRecordKey">解鎖唱片......</string>
+    <string name="unlockMedalKey">解鎖獎牌......</string>
+    <string name="okKey">確定</string>
+    <string name="seriesNumberKey">序列號</string>
+    <string name="unlockEditKey">解鎖</string>
+    <string name="lockEditKey">鎖定</string>
+    <string name="nameKey">名稱</string>
+    <string name="commentKey">遊戲介紹</string>
+    <string name="authorKey">製作人</string>
+    <string name="companyKey">製作商</string>
+    <string name="instructionKey">遊戲指令</string>
+    <string name="dateKey">日期</string>
+    <string name="gameDurationKey">遊戲時間</string>
+    <string name="shortKey">短</string>
+    <string name="longKey">長</string>
+    <string name="selfStyleKey">本體樣式</string>
+    <string name="iconColorKey">圖示顏色</string>
+    <string name="iconStyleKey">圖示樣式</string>
+    <string name="selfColorKey">本體顏色</string>
+    <string name="discardKey">取消更改</string>
+    <string name="saveKey">保存</string>
+    <string name="deleteMIOWaringKey">你正在刪除一個mio檔！請確認。</string>
+</resources>
+

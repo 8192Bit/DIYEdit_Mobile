@@ -3,7 +3,6 @@ package com.x8192Bit.DIYEdit_Mobile.Fragments;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,11 +38,6 @@ import java.util.Locale;
 
 import x8192Bit.DIYEdit_Mobile.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SaveEditFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SaveEditFragment extends Fragment {
 
     private static final String ARG_NAME = "name";
@@ -54,19 +48,11 @@ public class SaveEditFragment extends Fragment {
     private int shelfNo = 1;
     private SaveItemAdapter si;
     private GridView gv;
+    private boolean isPoppedUp = false;
 
     public SaveEditFragment() {
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param name    name of the file.
-     * @param miotype mio type.
-     * @return A new instance of fragment GameEditFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static SaveEditFragment newInstance(String name, int miotype) {
         SaveEditFragment fragment = new SaveEditFragment();
         Bundle args = new Bundle();
@@ -193,128 +179,128 @@ public class SaveEditFragment extends Fragment {
 
     @Deprecated
     private void showMioPopupMenu(View view, int count) {
-        // View当前PopupMenu显示的相对View的位置
-        PopupMenu popupMenu = new PopupMenu(getContext(), view);
-        // menu布局
-        popupMenu.inflate(R.menu.miomenu);
-        // menu的item点击事件
-        popupMenu.setOnMenuItemClickListener(item -> {
-            SaveHandler s = new SaveHandler(name);
-            if (item.getItemId() == R.id.importFile) {
-                StorageChooser chooser = new StorageChooser.Builder()
-                        .withActivity(getActivity())
-                        .withFragmentManager(getActivity().getFragmentManager())
-                        .withMemoryBar(true)
-                        .allowCustomPath(true)
-                        .setType(StorageChooser.FILE_PICKER)
-                        .build();
-                chooser.show();
-                chooser.setOnSelectListener(pathImport -> {
-                    int length = FileByteOperations.read(pathImport).length;
-                    int size;
-                    switch (miotype) {
-                        case 0:
-                            size = 65536;
-                            break;
-                        case 1:
-                            size = 8192;
-                            break;
-                        case 2:
-                            size = 14336;
-                            break;
-                        default:
-                            throw new IllegalStateException("Unexpected value: " + miotype);
-                    } // switch mio file length should be
-                    if (length == size) {
-                        s.setMio(pathImport, count + 18 * (shelfNo - 1));
-                        s.saveChanges();
-                        refreshShelf();
-                    } else {
-                        Toast.makeText(getContext(), R.string.couldNotReadFileKey, Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-            if (item.getItemId() == R.id.extractFile) {
-                StorageChooser chooser = new StorageChooser.Builder()
-                        .withActivity(getActivity())
-                        .withFragmentManager(getActivity().getFragmentManager())
-                        .withMemoryBar(true)
-                        .allowCustomPath(true)
-                        .setType(StorageChooser.DIRECTORY_CHOOSER)
-                        .build();
-                chooser.show();
-                chooser.setOnSelectListener(pathExtract -> {
-                    EditText fileNameEdit = new EditText(getContext());
-                    AlertDialog ad = new AlertDialog.Builder(getContext())
-                            .setTitle("Set export file name")
-                            .setCancelable(true)
-                            .setView(fileNameEdit)
-                            .setNeutralButton("默认", null)
+        if (!isPoppedUp) {
+
+            PopupMenu popupMenu = new PopupMenu(getContext(), view);
+            popupMenu.inflate(R.menu.miomenu);
+            popupMenu.setOnMenuItemClickListener(item -> {
+                SaveHandler s = new SaveHandler(name);
+                if (item.getItemId() == R.id.importFile) {
+                    StorageChooser chooser = new StorageChooser.Builder()
+                            .withActivity(getActivity())
+                            .withFragmentManager(getActivity().getFragmentManager())
+                            .withMemoryBar(true)
+                            .allowCustomPath(true)
+                            .setType(StorageChooser.FILE_PICKER)
+                            .build();
+                    chooser.show();
+                    chooser.setOnSelectListener(pathImport -> {
+                        int length = FileByteOperations.read(pathImport).length;
+                        int size;
+                        switch (miotype) {
+                            case 0:
+                                size = 65536;
+                                break;
+                            case 1:
+                                size = 8192;
+                                break;
+                            case 2:
+                                size = 14336;
+                                break;
+                            default:
+                                throw new IllegalStateException("Unexpected value: " + miotype);
+                        } // switch mio file length should be
+                        if (length == size) {
+                            s.setMio(pathImport, count + 18 * (shelfNo - 1));
+                            s.saveChanges();
+                            refreshShelf();
+                        } else {
+                            Toast.makeText(getContext(), R.string.couldNotReadFileKey, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                if (item.getItemId() == R.id.extractFile) {
+                    StorageChooser chooser = new StorageChooser.Builder()
+                            .withActivity(getActivity())
+                            .withFragmentManager(getActivity().getFragmentManager())
+                            .withMemoryBar(true)
+                            .allowCustomPath(true)
+                            .setType(StorageChooser.DIRECTORY_CHOOSER)
+                            .build();
+                    chooser.show();
+                    chooser.setOnSelectListener(pathExtract -> {
+                        EditText fileNameEdit = new EditText(getContext());
+                        AlertDialog ad = new AlertDialog.Builder(getContext())
+                                .setTitle("Set export file name")
+                                .setCancelable(true)
+                                .setView(fileNameEdit)
+                                .setNeutralButton("默认", null)
+                                .setPositiveButton(R.string.okKey, (dialog, which) -> {
+                                    String fileName = fileNameEdit.getText().toString();
+                                    if (!fileName.toLowerCase(Locale.US).endsWith(".mio")) {
+                                        fileName += ".mio";
+                                    }
+                                    String pathName = pathExtract + "//" + fileName;
+                                    try {
+                                        new File(pathName).createNewFile();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                        Toast.makeText(getContext(), "Something went error.", Toast.LENGTH_SHORT).show();
+                                    }
+                                    FileByteOperations.write(s.getMio(miotype, count + 18 * (shelfNo - 1)), pathName);
+                                    s.saveChanges();
+                                    refreshShelf();
+                                })
+                                .create();
+                        ad.setOnShowListener(dialog -> ad
+                                .getButton(AlertDialog.BUTTON_NEUTRAL)
+                                .setOnClickListener(v -> {
+
+                                    String key = "";
+                                    switch (miotype) {
+                                        case 0:
+                                            key = "G";
+                                            break;
+                                        case 1:
+                                            key = "R";
+                                            break;
+                                        case 2:
+                                            key = "M";
+                                            break;
+                                    }
+                                    Metadata m = new Metadata(s.getMio(miotype, count + 18 * (shelfNo - 1)));
+
+                                    DateTime date = new DateTime(2000, 1, 1, 0, 0, 0, 0);
+                                    date = date.plusDays(m.getTimestamp());
+                                    @SuppressLint("DefaultLocale") String name = String.format("%s-%s(%s)-%04d (%s) (%04d-%02d-%02d) %s.mio",
+                                            key, m.getCreator(), m.getBrand(), m.getSerial2(), (m.getRegion()) ? "J" : "UE", date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), (m.getLocked() ? "(#) " : "") + m.getName());
+                                    name = name.replace('?', '¿').replace('/', '〳').replace('\\', '〳').replace(':', '：').replace('*', '★').replace('\"', '\'').replace('<', '＜').replace('>', '＞').replace('|', 'l').replace('!', '¡');
+                                    fileNameEdit.setText(name);
+                                }));
+                        ad.show();
+                    });
+
+                }
+                if (item.getItemId() == R.id.deleteFile) {
+                    new AlertDialog.Builder(getContext())
+                            .setTitle(R.string.warningKey)
+                            .setMessage(R.string.deleteMIOWaringKey)
+                            .setCancelable(false)
                             .setPositiveButton(R.string.okKey, (dialog, which) -> {
-                                String fileName = fileNameEdit.getText().toString();
-                                if (!fileName.toLowerCase(Locale.US).endsWith(".mio")) {
-                                    fileName += ".mio";
-                                }
-                                String pathName = pathExtract + "//" + fileName;
-                                try {
-                                    new File(pathName).createNewFile();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(getContext(), "NOOOOOOOOOOO!!!!", Toast.LENGTH_SHORT).show();
-                                }
-                                FileByteOperations.write(s.getMio(miotype, count + 18 * (shelfNo - 1)), pathName);
+                                s.deleteMio(miotype, count + 18 * (shelfNo - 1));
                                 s.saveChanges();
                                 refreshShelf();
                             })
-                            .create();
-                    ad.setOnShowListener(dialog -> ad
-                            .getButton(AlertDialog.BUTTON_NEUTRAL)
-                            .setOnClickListener(v -> {
+                            .setNegativeButton(R.string.backKey, null)
+                            .show();
+                }
+                return false;
+            });
+            // PopupMenu关闭事件
+            popupMenu.setOnDismissListener(menu -> isPoppedUp = false);
 
-                                String key = "";
-                                switch (miotype) {
-                                    case 0:
-                                        key = "G";
-                                        break;
-                                    case 1:
-                                        key = "R";
-                                        break;
-                                    case 2:
-                                        key = "M";
-                                        break;
-                                }
-                                Metadata m = new Metadata(s.getMio(miotype, count + 18 * (shelfNo - 1)));
-
-                                DateTime date = new DateTime(2000, 1, 1, 0, 0, 0, 0);
-                                date = date.plusDays(m.getTimestamp());
-                                String name = String.format("%s-%s(%s)-%04d (%s) (%04d-%02d-%02d) %s.mio",
-                                        key, m.getCreator(), m.getBrand(), m.getSerial2(), (m.getRegion()) ? "J" : "UE", date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), (m.getLocked() ? "(#) " : "") + m.getName());
-                                name = name.replace('?', '¿').replace('/', '〳').replace('\\', '〳').replace(':', '：').replace('*', '★').replace('\"', '\'').replace('<', '＜').replace('>', '＞').replace('|', 'l').replace('!', '¡');
-                                fileNameEdit.setText(name);
-                            }));
-                    ad.show();
-                });
-
-            }
-            if (item.getItemId() == R.id.deleteFile) {
-                new AlertDialog.Builder(getContext())
-                        .setTitle(R.string.warningKey)
-                        .setMessage("你正在删除一个mio文件！请确认。")
-                        .setCancelable(false)
-                        .setPositiveButton(R.string.okKey, (dialog, which) -> {
-                            s.deleteMio(miotype, count + 18 * (shelfNo - 1));
-                            s.saveChanges();
-                            refreshShelf();
-                        })
-                        .setNegativeButton(R.string.backKey, null)
-                        .show();
-            }
-            return false;
-        });
-        // PopupMenu关闭事件
-        popupMenu.setOnDismissListener(menu -> Log.i("blahblahblah", "峨"));
-
-        popupMenu.show();
+            popupMenu.show();
+        }
     }
 
 
@@ -328,23 +314,11 @@ public class SaveEditFragment extends Fragment {
             // Needs to be invoked after parent activity started
         }
 
-        /**
-         * How many items are in the data set represented by this Adapter.
-         *
-         * @return Count of items.
-         */
         @Override
         public int getCount() {
             return shelfItems.size();
         }
 
-        /**
-         * Get the data item associated with the specified position in the data set.
-         *
-         * @param position Position of the item whose data we want within the adapter's
-         *                 data set.
-         * @return The data at the specified position.
-         */
         @Override
         public Object getItem(int position) {
             return shelfItems.get(position);

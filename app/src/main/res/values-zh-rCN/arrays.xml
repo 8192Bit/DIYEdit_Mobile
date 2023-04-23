@@ -7,20 +7,20 @@
     </string-array>
 
     <string-array name="theme_entries">
-        <item>System</item>
-        <item>Day</item>
-        <item>Night</item>
+        <item>系统</item>
+        <item>日间</item>
+        <item>夜间</item>
     </string-array>
 
     <string-array name="diy_colors">
-        <item>Yellow</item>
-        <item>Light Blue</item>
-        <item>Green</item>
-        <item>Orange</item>
-        <item>Dark Blue</item>
-        <item>Red</item>
-        <item>White</item>
-        <item>Black</item>
+        <item>黄色</item>
+        <item>亮蓝</item>
+        <item>绿色</item>
+        <item>橙色</item>
+        <item>深蓝</item>
+        <item>红色</item>
+        <item>白色</item>
+        <item>黑色</item>
     </string-array>
 
     <string-array name="record_shapes">

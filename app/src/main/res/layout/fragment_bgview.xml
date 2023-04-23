@@ -1,17 +1,19 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context="com.x8192Bit.DIYEdit_Mobile.Fragments.BGViewFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="bottom|fill"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <SeekBar
@@ -30,26 +32,54 @@
                 android:layout_weight="1"
                 android:textOff="BG"
                 android:textOn="Preview" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <SeekBar
+                android:id="@+id/resizeSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="30dp" />
+
+            <TextView
+                android:id="@+id/resizeRatioTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:gravity="center"
+                android:text="1x" />
         </LinearLayout>
 
         <ImageView
             android:id="@+id/BGView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/spr_manga" />
+            android:src="@drawable/spr_manga"
+            app:srcCompat="@drawable/diy_1" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/SaveBGButton"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="20dp"
-            android:clickable="true"
-            android:minWidth="48dp"
-            android:minHeight="48dp"
-            android:src="@drawable/ic_baseline_save_24" />
+            android:layout_height="match_parent">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/SaveBGButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
+                android:clickable="true"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:src="@drawable/ic_baseline_save_24" />
+        </FrameLayout>
 
     </LinearLayout>
 

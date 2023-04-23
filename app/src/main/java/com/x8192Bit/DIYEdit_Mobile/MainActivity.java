@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
     // Called when the first button is pressed
     public void chooseFile(View v) {
-
-        readFiles();
         if (Build.VERSION.SDK_INT < 30) {
             if (!checkBefore30()) {
                 requestBefore30();
@@ -63,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             check30AndAfter();
         }
-
-        readFiles();
     }
 
     private boolean checkBefore30() {
@@ -89,9 +85,6 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission for storage access successful!
-                // Read your files now
-
                 readFiles();
             } else {
                 // Allow permission for storage access!
