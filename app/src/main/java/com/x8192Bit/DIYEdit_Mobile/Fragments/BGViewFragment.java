@@ -82,14 +82,14 @@ public class BGViewFragment extends Fragment {
         resize.setMax(100);
         if (is_game) {
             ((ViewGroup) ms.getParent()).removeView(ms);
-            bp.setOnClickListener(v -> refreshBG(getView()));
+            bp.setOnClickListener(v -> refreshBG(requireView()));
             bg.setImageBitmap(DrawGameBG(192, 128, name));
         } else {
             ((ViewGroup) bp.getParent()).removeView(bp);
             ms.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    bg.setImageBitmap(DrawManga(192, 128, progress, name));
+                    refreshBG(requireView());
                 }
 
                 @Override
@@ -117,7 +117,7 @@ public class BGViewFragment extends Fragment {
 
                         Bitmap b;
                         if (is_game) {
-                            if (bp.isChecked()) {
+                            if (!bp.isChecked()) {
                                 b = DrawGameBG(192, 128, name);
                             } else {
                                 b = DrawGamePreview(96, 64, name);
@@ -132,7 +132,7 @@ public class BGViewFragment extends Fragment {
                                 try {
                                     out.flush();
                                     out.close();
-                                    Toast.makeText(getContext(), "Successfully exported.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), R.string.exportSuccessKey, Toast.LENGTH_SHORT).show();
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -146,7 +146,7 @@ public class BGViewFragment extends Fragment {
         resize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                refreshBG(getView());
+                refreshBG(requireView());
             }
 
             @Override
@@ -201,11 +201,10 @@ public class BGViewFragment extends Fragment {
         return result;
     }
 
-    @Deprecated
     public void SaveFileDialog(StorageChooser.OnSelectListener oc) {
         StorageChooser chooser = new StorageChooser.Builder()
                 .withActivity(getActivity())
-                .withFragmentManager(getActivity().getFragmentManager())
+                .withFragmentManager(requireActivity().getFragmentManager())
                 .withMemoryBar(true)
                 .allowCustomPath(true)
                 .setType(StorageChooser.DIRECTORY_CHOOSER)
@@ -259,16 +258,14 @@ public class BGViewFragment extends Fragment {
 
     public int r(int b) {
         switch (b) {
-            case 1:
-                return 0;
             case 2:
-                return 255;
+            case 14:
+            case 11:
             case 3:
+            case 5:
                 return 255;
             case 4:
                 return 198;
-            case 5:
-                return 255;
             case 6:
                 return 206;
             case 7:
@@ -279,14 +276,11 @@ public class BGViewFragment extends Fragment {
                 return 8;
             case 10:
                 return 115;
-            case 11:
-                return 255;
             case 12:
                 return 128;
             case 13:
                 return 192;
-            case 14:
-                return 255;
+            case 1:
             default:
                 return 0;
         }
@@ -294,34 +288,30 @@ public class BGViewFragment extends Fragment {
 
     public int g(int b) {
         switch (b) {
-            case 1:
-                return 0;
             case 2:
                 return 223;
             case 3:
                 return 174;
             case 4:
                 return 73;
-            case 5:
-                return 0;
             case 6:
+            case 8:
                 return 105;
             case 7:
                 return 199;
-            case 8:
-                return 105;
             case 9:
                 return 150;
             case 10:
                 return 215;
             case 11:
+            case 14:
                 return 255;
             case 12:
                 return 128;
             case 13:
                 return 192;
-            case 14:
-                return 255;
+            case 1:
+            case 5:
             default:
                 return 0;
         }
@@ -329,16 +319,10 @@ public class BGViewFragment extends Fragment {
 
     public int b(int b) {
         switch (b) {
-            case 1:
-                return 0;
             case 2:
                 return 156;
             case 3:
                 return 49;
-            case 4:
-                return 0;
-            case 5:
-                return 0;
             case 6:
                 return 239;
             case 7:
@@ -357,6 +341,9 @@ public class BGViewFragment extends Fragment {
                 return 192;
             case 14:
                 return 255;
+            case 1:
+            case 4:
+            case 5:
             default:
                 return 0;
         }

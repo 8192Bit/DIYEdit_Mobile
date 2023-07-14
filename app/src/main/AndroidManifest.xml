@@ -3,7 +3,6 @@
     xmlns:dist="http://schemas.android.com/apk/distribution"
     xmlns:tools="http://schemas.android.com/tools">
     <!-- What im going to do is to support as more devices as possible -->
-
     <dist:module dist:instant="true" />
 
     <uses-permission
@@ -27,30 +26,37 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-
         <activity
-            android:name="com.x8192Bit.DIYEdit_Mobile.SettingsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_settings">
-
+            android:name=".AboutActivity"
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name="com.x8192Bit.DIYEdit_Mobile.SaveFileMenu"
+            android:name=".SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_settings">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".SaveFileMenu"
             android:configChanges="orientation|screenSize"
             android:exported="false" />
         <activity
-            android:name="com.x8192Bit.DIYEdit_Mobile.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
+
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:scheme="file" />
@@ -62,4 +68,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

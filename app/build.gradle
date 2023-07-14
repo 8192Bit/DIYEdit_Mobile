@@ -33,6 +33,7 @@ android {
         viewBinding true
     }
     namespace 'x8192Bit.DIYEdit_Mobile'
+    buildToolsVersion '33.0.1'
 }
 
 
@@ -51,12 +52,24 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
     implementation 'com.github.mendhak:storage-chooser:1715784d34'
     implementation 'jp.kshoji:jfugue-android:4.0.3:@aar'
+    implementation 'net.danlew:android.joda:2.12.5'
     implementation files('libs/javax-sound-midi-0.0.4.aar')
-    implementation 'net.danlew:android.joda:2.12.1.1'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    constraints {
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.8.0") {
+            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
+        }
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.0") {
+            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
+        }
+    }
+
+    //copied from https://stackoverflow.com/questions/75263047/duplicate-class-in-kotlin-android hope works
+
 }
 
 tasks.withType(JavaCompile) {

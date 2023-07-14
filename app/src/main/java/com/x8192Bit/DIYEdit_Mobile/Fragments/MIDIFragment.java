@@ -1,6 +1,7 @@
 package com.x8192Bit.DIYEdit_Mobile.Fragments;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,8 +21,18 @@ import com.xperia64.diyedit.ExportGameMidi;
 import com.xperia64.diyedit.ExportMidi;
 import com.xperia64.diyedit.FileByteOperations;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Locale;
 
+import cn.sherlock.com.sun.media.sound.SoftSynthesizer;
+import jp.kshoji.javax.sound.midi.InvalidMidiDataException;
+import jp.kshoji.javax.sound.midi.MidiDevice;
+import jp.kshoji.javax.sound.midi.MidiSystem;
+import jp.kshoji.javax.sound.midi.MidiUnavailableException;
+import jp.kshoji.javax.sound.midi.Sequence;
+import jp.kshoji.javax.sound.midi.Sequencer;
+import jp.kshoji.javax.sound.midi.Synthesizer;
 import x8192Bit.DIYEdit_Mobile.R;
 
 public class MIDIFragment extends Fragment {
@@ -90,6 +102,7 @@ public class MIDIFragment extends Fragment {
         ImageButton playPauseButton = getView().findViewById(R.id.playpauseButton);
         FloatingActionButton exportButton = getView().findViewById(R.id.exportMIDIButton);
         SeekBar timeBar = getView().findViewById(R.id.MIDIProgressBar);
+        TextView timeView = getView().findViewById(R.id.MIDITimeTextView);
         stopButton.setOnClickListener(v -> {
             if (is_game) {
                 if (!egm.paused() && !egm.playing() && started) {
@@ -114,6 +127,8 @@ public class MIDIFragment extends Fragment {
             playPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24);
         });
         playPauseButton.setOnClickListener(v -> {
+            new PlayThread().start(getContext(), timeBar, timeView);
+/*
             if (is_game) {
                 if (!egm.paused() && !egm.playing() && started) {
                     started = false;
@@ -123,7 +138,7 @@ public class MIDIFragment extends Fragment {
                     playing = true;
                     started = true;
                     playPauseButton.setImageResource(R.drawable.ic_baseline_pause_24);
-                    new PlayThread().start();
+                    new PlayThread().start(getContext(), timeBar, timeView);
 
                 } else if (!playing && started) {
                     playing = true;
@@ -143,7 +158,7 @@ public class MIDIFragment extends Fragment {
                     playing = true;
                     started = true;
                     playPauseButton.setImageResource(R.drawable.ic_baseline_pause_24);
-                    new PlayThread().start();
+                    new PlayThread().start(getContext(), timeBar, timeView);
 
                 } else if (!playing && started) {
                     playing = true;
@@ -156,11 +171,15 @@ public class MIDIFragment extends Fragment {
                 }
             }
 
+
+
+ */
         });
+
         exportButton.setOnClickListener(v -> {
             StorageChooser chooser = new StorageChooser.Builder()
                     .withActivity(getActivity())
-                    .withFragmentManager(getActivity().getFragmentManager())
+                    .withFragmentManager(requireActivity().getFragmentManager())
                     .withMemoryBar(true)
                     .allowCustomPath(true)
                     .setType(StorageChooser.DIRECTORY_CHOOSER)
@@ -187,6 +206,7 @@ public class MIDIFragment extends Fragment {
                                 if (started) {
                                     egm.Stop();
                                 }
+
                                 egm.export(pathName, false);
                             } else {
                                 if (!em.paused() && !em.playing() && started) {
@@ -196,7 +216,7 @@ public class MIDIFragment extends Fragment {
                                 if (started) {
                                     em.Stop();
                                 }
-                                em.export(pathName, false);
+                                em.export(pathName);
                             }
                         })
                         .show();
@@ -214,10 +234,32 @@ public class MIDIFragment extends Fragment {
 
 
 class PlayThread extends Thread {
-    public void run() {
-        if (MIDIFragment.is_game)
-            MIDIFragment.egm.export("", true);
-        else
-            MIDIFragment.em.export("", true);
+    public void start(Context c, SeekBar s, TextView t) {
+        if (MIDIFragment.is_game) {
+            try {
+                File f = File.createTempFile("temp", "mid", c.getCacheDir());
+                MIDIFragment.egm.export(f.getAbsolutePath(), false);
+                Sequence sq = MidiSystem.getSequence(f);
+                Sequencer sr = MidiSystem.getSequencer();
+                sr.setSequence(sq);
+                MidiSystem.addMidiDevice(new SoftSynthesizer());
+                MidiDevice md = MidiSystem.getMidiDevice(MidiSystem.getMidiDeviceInfo()[0]);
+                md.open();
+                sr.getTransmitter().setReceiver(md.getReceiver());
+                Synthesizer ms = (Synthesizer) md;
+                ms.loadAllInstruments(MidiSystem.getSoundbank(c.getResources().openRawResource(R.raw.wwdiy_soundfont)));
+                int second = (int) (sr.getMicrosecondLength() / 1000);
+                s.setMax(second);
+                t.setText(second / 60 + ':' + second % 60);
+                sr.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InvalidMidiDataException e) {
+                e.printStackTrace();
+            } catch (MidiUnavailableException e) {
+                e.printStackTrace();
+            }
+        } else
+            MIDIFragment.em.export("");
     }
 }

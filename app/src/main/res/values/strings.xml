@@ -2,7 +2,6 @@
     <string name="openFileKey">Open file…</string>
     <string name="metaDataEditKey">Edit metadata…</string>
     <string name="midiToolsKey">Play/Export MIDI</string>
-    <string name="exportAllOBJKey">Export All OBJs…</string>
     <string name="viewMangaKey">View Manga…</string>
     <string name="viewBGKey">View Game BG…</string>
     <string name="editRecordKey">Edit Records</string>
@@ -51,7 +50,9 @@
     <string name="discardKey">Discard Changes</string>
     <string name="saveKey">Save</string>
     <string name="deleteMIOWaringKey">You are deleting a mio file. Are you sure?</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="serialNumberWrongKey">Wrong Format of Serial Number.</string>
+    <string name="exportSuccessKey">Successfully exported requested item(s).</string>
+    <string name="metadataEmptyKey">Empty Entry(ies) in Metadata.</string>
 
     <!-- Preference Titles -->
 

@@ -1,3 +1,6 @@
+// CHANGED FILE FROM XPERIA64'S ORIGINAL DIY EDIT SOURCE CODE
+// IN ORDER TO ADAPT ANDROID OS.
+
 package com.xperia64.diyedit;
 
 // Need to make a more general class

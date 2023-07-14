@@ -4,7 +4,6 @@
     <string name="openFileKey">打開文件......</string>
     <string name="metaDataEditKey">編輯元數據......</string>
     <string name="midiToolsKey">播放/導出 MIDI......</string>
-    <string name="exportAllOBJKey">導出所有OBJ......</string>
     <string name="viewMangaKey">查看漫畫......</string>
     <string name="viewBGKey">查看遊戲BG......</string>
     <string name="editRecordKey">編輯唱片......</string>
@@ -45,5 +44,8 @@
     <string name="discardKey">取消更改</string>
     <string name="saveKey">保存</string>
     <string name="deleteMIOWaringKey">你正在刪除一個mio檔！請確認。</string>
+    <string name="serialNumberWrongKey">序號格式錯誤。</string>
+    <string name="exportSuccessKey">導出成功。</string>
+    <string name="metadataEmptyKey">元數據必填項中有空項。</string>
 </resources>
 

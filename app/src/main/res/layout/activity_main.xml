@@ -15,7 +15,8 @@
         android:id="@+id/imageViewIcon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/ic_launcher_foreground" />
+        app:srcCompat="@mipmap/ic_launcher_foreground"
+        tools:ignore="ContentDescription" />
 
     <ScrollView
         android:layout_width="match_parent"

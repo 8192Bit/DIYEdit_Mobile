@@ -1,3 +1,6 @@
+// CHANGED FILE FROM XPERIA64'S ORIGINAL DIY EDIT SOURCE CODE
+// IN ORDER TO SUPPORT ANOTHER KIND OF DS SAVE.
+
 package com.xperia64.diyedit.saveutils;
 
 import com.xperia64.diyedit.FileByteOperations;

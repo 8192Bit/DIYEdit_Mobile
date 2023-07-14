@@ -61,10 +61,12 @@ public class SettingsActivity extends AppCompatActivity {
             if (key.equals("cleanAllHistory")) {
                 SharedPreferences sp = this.getContext().getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
                 sp.edit().putString("history", null).commit();
-
                 Toast t = new Toast(getContext());
                 t.setText("Cleaned.");
                 t.show();
+            }
+            if (key.equals("openAboutDialog")) {
+
             }
             return false;
         }

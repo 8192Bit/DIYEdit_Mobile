@@ -42,6 +42,17 @@ public class MetadataEditFragment extends Fragment {
 
     private String name;
     private int miotype;
+    AdapterView.OnItemSelectedListener SpinnerEvent = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            refreshIcon();
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
 
     public MetadataEditFragment() {
     }
@@ -130,50 +141,9 @@ public class MetadataEditFragment extends Fragment {
         Spinner selfStyle = view.findViewById(R.id.StyleSelfSpinner);
         Spinner iconColor = view.findViewById(R.id.ColorIconSpinner);
         Spinner iconStyle = view.findViewById(R.id.StyleIconSpinner);
-        selfColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                refreshIcon();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        selfStyle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                refreshIcon();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        iconColor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                refreshIcon();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        iconStyle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                refreshIcon();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        selfColor.setOnItemSelectedListener(SpinnerEvent);
+        iconColor.setOnItemSelectedListener(SpinnerEvent);
+        iconStyle.setOnItemSelectedListener(SpinnerEvent);
         //endregion
         //region For GAME Settings
         if (miotype == 0) {
@@ -193,7 +163,7 @@ public class MetadataEditFragment extends Fragment {
             selfColor.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.diy_colors)));
             selfStyle.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.game_shapes)));
             iconColor.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.diy_colors)));
-            iconStyle.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.game_shapes)));
+            iconStyle.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.game_icons)));
             selfColor.setSelection(gm.getCartColor());
             selfStyle.setSelection(gm.getCartType());
             iconColor.setSelection(gm.getLogoColor());
@@ -274,24 +244,25 @@ public class MetadataEditFragment extends Fragment {
         //endregion
         //region Overall Settings
         try {
-            String[] splited = seriesInput.getText().toString().split("-");
+            String[] splited = Objects.requireNonNull(seriesInput.getText()).toString().split("-");
             if (splited.length != 3 || splited[0].length() > 4 || splited[1].length() > 4 || splited[2].length() > 4 || !CharUtils.isNumeric(splited[1]) || !CharUtils.isNumeric(splited[2])) {
                 new AlertDialog.Builder(getContext())
-                        .setMessage("Wrong Format of Serial Number.")
+                        .setMessage(R.string.serialNumberWrongKey)
                         .setCancelable(true)
                         .setNegativeButton(R.string.okKey, null)
                         .show();
             } else {
                 m.setSerial(splited[0], Integer.parseInt(splited[1]), Integer.parseInt(splited[2]));
+                // TODO: BUGS COME FROM HERE
                 m.setName(Objects.requireNonNull(nameInput.getText()).toString());
-                m.setDescription(commentInput.getText().toString());
-                m.setCreator(authorInput.getText().toString());
-                m.setBrand(companyInput.getText().toString());
+                m.setDescription(Objects.requireNonNull(commentInput.getText()).toString());
+                m.setCreator(Objects.requireNonNull(authorInput.getText()).toString());
+                m.setBrand(Objects.requireNonNull(companyInput.getText()).toString());
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
             new AlertDialog.Builder(getContext())
-                    .setMessage("Empty Entry(Entries) of Metadata.")
+                    .setMessage(R.string.metadataEmptyKey)
                     .setCancelable(true)
                     .setNegativeButton(R.string.okKey, null)
                     .show();
@@ -301,7 +272,7 @@ public class MetadataEditFragment extends Fragment {
         //region For GAME Settings
         if (miotype == 0) {
             GameMetadata gm = new GameMetadata(fil);
-            gm.setCommand(instructInput.getText().toString());
+            gm.setCommand(Objects.requireNonNull(instructInput.getText()).toString());
             if (shortButton.isChecked()) {
                 gm.setLength((byte) 0);
             } else if (longButton.isChecked()) {
@@ -343,10 +314,10 @@ public class MetadataEditFragment extends Fragment {
         loadFromFile(view);
         Button save = view.findViewById(R.id.buttonSave);
         Button discard = view.findViewById(R.id.buttonDiscard);
-        discard.setOnClickListener((vd) -> loadFromFile(getView()));
+        discard.setOnClickListener((vd) -> loadFromFile(requireView()));
         save.setOnClickListener((vs) -> {
-            writeToFile(getView());
-            loadFromFile(getView());
+            writeToFile(requireView());
+            loadFromFile(requireView());
         });
     }
 }
