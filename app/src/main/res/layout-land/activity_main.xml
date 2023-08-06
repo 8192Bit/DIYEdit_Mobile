@@ -24,37 +24,49 @@
 
         <Button
             android:id="@+id/button"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="chooseFile"
             android:text="@string/openFileKey"
+            android:textColor="@color/teal_200"
+            app:cornerRadius="20px"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button4"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="openRecentFile"
             android:text="@string/openRecentFileKey"
+            android:textColor="@color/teal_200"
+            app:cornerRadius="20px"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button5"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="settingsMenu"
             android:text="@string/settingsKey"
+            android:textColor="@color/teal_200"
+            app:cornerRadius="20px"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button6"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="exit"
             android:text="@string/exitKey"
+            android:textColor="@color/teal_200"
+            app:cornerRadius="20px"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

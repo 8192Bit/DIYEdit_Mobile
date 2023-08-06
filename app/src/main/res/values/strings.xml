@@ -53,6 +53,10 @@
     <string name="serialNumberWrongKey">Wrong Format of Serial Number.</string>
     <string name="exportSuccessKey">Successfully exported requested item(s).</string>
     <string name="metadataEmptyKey">Empty Entry(ies) in Metadata.</string>
+    <string name="appearanceKey">Appearance</string>
+    <string name="behaviorKey">Behavior</string>
+    <string name="themeModeKey">Theme Mode</string>
+    <string name="aboutKey">About</string>
 
     <!-- Preference Titles -->
 

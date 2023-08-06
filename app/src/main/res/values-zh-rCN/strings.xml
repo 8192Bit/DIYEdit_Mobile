@@ -47,4 +47,8 @@
     <string name="serialNumberWrongKey">序列号格式错误。</string>
     <string name="exportSuccessKey">导出成功。</string>
     <string name="metadataEmptyKey">元数据必填项中有空项。</string>
+    <string name="appearanceKey">界面</string>
+    <string name="behaviorKey">行为</string>
+    <string name="themeModeKey">主题模式</string>
+    <string name="aboutKey">关于</string>
 </resources>

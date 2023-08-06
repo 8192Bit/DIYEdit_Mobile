@@ -1,47 +1,35 @@
 package com.x8192Bit.DIYEdit_Mobile.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import x8192Bit.DIYEdit_Mobile.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FileSelectFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FileSelectFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    public static final int CHOOSE_FILE = 0;
+    public static final int CHOOSE_DIR = 1;
+    private static final String ARG_CHOOSE_TARGET = "chooseTarget";
     private static final String ARG_PARAM2 = "param2";
-
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private int chooseTarget;
     private String mParam2;
 
     public FileSelectFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FileSelectFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FileSelectFragment newInstance(String param1, String param2) {
+    public static FileSelectFragment newInstance(int cTarget, String param2) {
         FileSelectFragment fragment = new FileSelectFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
+        args.putInt(ARG_CHOOSE_TARGET, cTarget);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
@@ -51,9 +39,19 @@ public class FileSelectFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            chooseTarget = getArguments().getInt(ARG_CHOOSE_TARGET);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
+
+    public void refreshList(Context c, View v) {
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        refreshList(getContext(), requireView());
     }
 
     @Override
