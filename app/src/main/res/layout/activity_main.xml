@@ -7,10 +7,6 @@
     android:orientation="vertical"
     tools:context="com.x8192Bit.DIYEdit_Mobile.MainActivity">
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="12dp" />
-
     <ImageView
         android:id="@+id/imageViewIcon"
         android:layout_width="match_parent"
@@ -35,9 +31,11 @@
                 android:layout_margin="2dp"
                 android:onClick="chooseFile"
                 android:text="@string/openFileKey"
-                app:cornerRadius="20px"
+                app:cornerRadius="20dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UsingOnClickInXml"
+                tools:layout_margin="4dp" />
 
             <Button
                 android:id="@+id/button4"
@@ -47,9 +45,11 @@
                 android:layout_margin="2dp"
                 android:onClick="openRecentFile"
                 android:text="@string/openRecentFileKey"
-                app:cornerRadius="20px"
+                app:cornerRadius="20dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UsingOnClickInXml"
+                tools:layout_margin="4dp" />
 
             <Button
                 android:id="@+id/button5"
@@ -59,9 +59,11 @@
                 android:layout_margin="2dp"
                 android:onClick="settingsMenu"
                 android:text="@string/settingsKey"
-                app:cornerRadius="20px"
+                app:cornerRadius="20dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UsingOnClickInXml"
+                tools:layout_margin="4dp" />
 
             <Button
                 android:id="@+id/button6"
@@ -71,16 +73,17 @@
                 android:layout_margin="2dp"
                 android:onClick="exit"
                 android:text="@string/exitKey"
-                app:cornerRadius="20px"
+                app:cornerRadius="20dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="UsingOnClickInXml"
+                tools:layout_margin="4dp" />
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/MainVersionTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="DIYEdit_Mobile Version 1.0.0" />
+                android:gravity="center" />
 
         </LinearLayout>
     </ScrollView>

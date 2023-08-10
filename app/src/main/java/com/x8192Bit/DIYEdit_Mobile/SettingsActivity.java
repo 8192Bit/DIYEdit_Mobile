@@ -1,5 +1,6 @@
 package com.x8192Bit.DIYEdit_Mobile;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -59,14 +60,15 @@ public class SettingsActivity extends AppCompatActivity {
         public boolean onPreferenceClick(Preference preference) {
             String key = preference.getKey();
             if (key.equals("cleanAllHistory")) {
-                SharedPreferences sp = this.getContext().getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
+                SharedPreferences sp = this.requireContext().getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
                 sp.edit().putString("history", null).commit();
                 Toast t = new Toast(getContext());
                 t.setText("Cleaned.");
                 t.show();
             }
             if (key.equals("openAboutDialog")) {
-
+                Intent i = new Intent(requireContext(), SettingsActivity.class);
+                startActivity(i);
             }
             return false;
         }
@@ -76,7 +78,7 @@ public class SettingsActivity extends AppCompatActivity {
             String key = preference.getKey();
             if (key.equals("maxHistoryCount")) {
                 if (CharUtils.isNumeric((String) newValue)) {
-                    return true;  // 保存
+                    return true;
                 } else {
                     Toast t = new Toast(getContext());
                     t.setText("it must be a number");
@@ -84,7 +86,7 @@ public class SettingsActivity extends AppCompatActivity {
                     return false;
                 }
             }
-            return false;  //不保存
+            return false;
         }
     }
 }

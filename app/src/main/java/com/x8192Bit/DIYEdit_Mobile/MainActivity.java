@@ -1,6 +1,7 @@
 package com.x8192Bit.DIYEdit_Mobile;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,9 +24,15 @@ import androidx.core.content.ContextCompat;
 import com.codekidlabs.storagechooser.StorageChooser;
 import com.x8192Bit.DIYEdit_Mobile.Utils.FileUtils;
 
+import x8192Bit.DIYEdit_Mobile.BuildConfig;
 import x8192Bit.DIYEdit_Mobile.R;
 
+
 public class MainActivity extends AppCompatActivity {
+
+    static {
+        System.loadLibrary("midi-interface");
+    }
 
     public static final String EXTRA_MESSAGE = "com.x8192Bit.DIYEdit_Mobile.MESSAGE";
 
@@ -38,10 +46,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Create Method
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ((TextView) findViewById(R.id.MainVersionTextView)).setText(getText(R.string.app_name) + BuildConfig.VERSION_NAME + '.' + BuildConfig.VERSION_CODE + ' ' + BuildConfig.BUILD_TYPE);
 
         if (getIntent().getData() != null) {
             Uri uri = getIntent().getData();

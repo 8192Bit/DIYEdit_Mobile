@@ -105,7 +105,7 @@ public class BGViewFragment extends Fragment {
         ss.setOnClickListener(v -> SaveFileDialog(path -> {
             EditText fileNameEdit = new EditText(getContext());
             new AlertDialog.Builder(getContext())
-                    .setTitle("Set export file name")
+                    .setTitle(R.string.exportFileNameSetKey)
                     .setCancelable(true)
                     .setView(fileNameEdit)
                     .setPositiveButton(R.string.okKey, (dialog, which) -> {
@@ -135,6 +135,7 @@ public class BGViewFragment extends Fragment {
                                     Toast.makeText(getContext(), R.string.exportSuccessKey, Toast.LENGTH_SHORT).show();
                                 } catch (IOException e) {
                                     e.printStackTrace();
+                                    Toast.makeText(getContext(), R.string.exportSuccessKey, Toast.LENGTH_SHORT).show();
                                 }
                             }
                         } catch (FileNotFoundException e) {
@@ -163,7 +164,6 @@ public class BGViewFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     void refreshBG(View view) {
-        //TODO resize
         ImageView bg = view.findViewById(R.id.BGView);
         SeekBar resize = view.findViewById(R.id.resizeSeekBar);
         TextView ratio = view.findViewById(R.id.resizeRatioTextView);

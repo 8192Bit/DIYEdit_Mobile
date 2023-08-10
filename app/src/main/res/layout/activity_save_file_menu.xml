@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -17,6 +16,7 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="113dp"
+            android:layout_margin="4dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -24,20 +24,19 @@
                 android:id="@+id/SaveImage"
                 android:layout_width="133dp"
                 android:layout_height="69dp"
-                android:layout_weight="5"
+                android:layout_margin="6dp"
+                android:layout_weight="1"
                 android:contentDescription=""
-                app:srcCompat="@drawable/save_wii"
-                tools:layout_weight="1" />
+                app:srcCompat="@drawable/save_wii" />
 
             <TextView
                 android:id="@+id/saveView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="4"
+                android:layout_weight="3"
                 android:gravity="center"
                 android:text="@string/wiiSaveKey"
-                android:textSize="24sp"
-                tools:layout_weight="1" />
+                android:textSize="24sp" />
 
         </LinearLayout>
 

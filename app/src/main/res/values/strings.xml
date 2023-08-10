@@ -57,6 +57,10 @@
     <string name="behaviorKey">Behavior</string>
     <string name="themeModeKey">Theme Mode</string>
     <string name="aboutKey">About</string>
+    <string name="previewKey">Preview</string>
+    <string name="BGKey">BG</string>
+    <string name="exportFileNameSetKey">Set export file name</string>
+    <string name="languageSelectKey">Language Select</string>
 
     <!-- Preference Titles -->
 

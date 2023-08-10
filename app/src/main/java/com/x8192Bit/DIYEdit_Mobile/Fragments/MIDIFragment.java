@@ -3,6 +3,7 @@ package com.x8192Bit.DIYEdit_Mobile.Fragments;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,6 @@ import com.xperia64.diyedit.ExportGameMidi;
 import com.xperia64.diyedit.ExportMidi;
 import com.xperia64.diyedit.FileByteOperations;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 
@@ -237,15 +237,26 @@ class PlayThread extends Thread {
     public void start(Context c, SeekBar s, TextView t) {
         if (MIDIFragment.is_game) {
             try {
-                File f = File.createTempFile("temp", "mid", c.getCacheDir());
+                // TODO
+                // Testing MIDI playing functionality now
+                // It seemed generating midi file from jfugue string doesn't work
+                // Following code should be uncommented when SoftSynthesizer works well
+
+                /* File f = File.createTempFile("temp", "mid", c.getCacheDir());
                 MIDIFragment.egm.export(f.getAbsolutePath(), false);
-                Sequence sq = MidiSystem.getSequence(f);
+                */
+
+                Sequence sq = MidiSystem.getSequence(c.getResources().openRawResource(R.raw.test));
                 Sequencer sr = MidiSystem.getSequencer();
                 sr.setSequence(sq);
                 MidiSystem.addMidiDevice(new SoftSynthesizer());
-                MidiDevice md = MidiSystem.getMidiDevice(MidiSystem.getMidiDeviceInfo()[0]);
+                MidiDevice md = MidiSystem.getMidiDevice(MidiSystem.getMidiDeviceInfo()[MidiSystem.getMidiDeviceInfo().length - 1]);
+                Log.i("MIDI DEBUG PROGRAM", "DETECTED AVAILABLE MIDI DEVICES:");
+                Log.i("MIDI DEBUG PROGRAM", "NAME\tDESC\t\t\t\t\t\tVEND\tVER");
+                for (MidiDevice.Info mdi : MidiSystem.getMidiDeviceInfo()) {
+                    Log.i("MIDI DEBUG PROGRAM", mdi.getName() + "\t" + mdi.getDescription() + "\t" + mdi.getVendor() + "\t" + mdi.getVersion());
+                }
                 md.open();
-                sr.getTransmitter().setReceiver(md.getReceiver());
                 Synthesizer ms = (Synthesizer) md;
                 ms.loadAllInstruments(MidiSystem.getSoundbank(c.getResources().openRawResource(R.raw.wwdiy_soundfont)));
                 int second = (int) (sr.getMicrosecondLength() / 1000);
