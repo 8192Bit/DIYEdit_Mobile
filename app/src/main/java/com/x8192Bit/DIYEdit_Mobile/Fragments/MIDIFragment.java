@@ -3,7 +3,6 @@ package com.x8192Bit.DIYEdit_Mobile.Fragments;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,20 +21,15 @@ import com.xperia64.diyedit.ExportGameMidi;
 import com.xperia64.diyedit.ExportMidi;
 import com.xperia64.diyedit.FileByteOperations;
 
-import java.io.IOException;
 import java.util.Locale;
 
-import cn.sherlock.com.sun.media.sound.SoftSynthesizer;
-import jp.kshoji.javax.sound.midi.InvalidMidiDataException;
-import jp.kshoji.javax.sound.midi.MidiDevice;
-import jp.kshoji.javax.sound.midi.MidiSystem;
-import jp.kshoji.javax.sound.midi.MidiUnavailableException;
-import jp.kshoji.javax.sound.midi.Sequence;
-import jp.kshoji.javax.sound.midi.Sequencer;
-import jp.kshoji.javax.sound.midi.Synthesizer;
 import x8192Bit.DIYEdit_Mobile.R;
 
 public class MIDIFragment extends Fragment {
+
+    static {
+        System.loadLibrary("midi-interface");
+    }
 
     private static final String ARG_NAME = "name";
     private static final String ARG_IS_GAME = "is_game";
@@ -98,11 +92,11 @@ public class MIDIFragment extends Fragment {
 
     @Deprecated
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        ImageButton stopButton = getView().findViewById(R.id.stopButton);
-        ImageButton playPauseButton = getView().findViewById(R.id.playpauseButton);
-        FloatingActionButton exportButton = getView().findViewById(R.id.exportMIDIButton);
-        SeekBar timeBar = getView().findViewById(R.id.MIDIProgressBar);
-        TextView timeView = getView().findViewById(R.id.MIDITimeTextView);
+        ImageButton stopButton = requireView().findViewById(R.id.stopButton);
+        ImageButton playPauseButton = requireView().findViewById(R.id.playpauseButton);
+        FloatingActionButton exportButton = requireView().findViewById(R.id.exportMIDIButton);
+        SeekBar timeBar = requireView().findViewById(R.id.MIDIProgressBar);
+        TextView timeView = requireView().findViewById(R.id.MIDITimeTextView);
         stopButton.setOnClickListener(v -> {
             if (is_game) {
                 if (!egm.paused() && !egm.playing() && started) {
@@ -127,8 +121,9 @@ public class MIDIFragment extends Fragment {
             playPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24);
         });
         playPauseButton.setOnClickListener(v -> {
-            new PlayThread().start(getContext(), timeBar, timeView);
-/*
+
+            //new PlayThread().start(getContext(), timeBar, timeView);
+            /*
             if (is_game) {
                 if (!egm.paused() && !egm.playing() && started) {
                     started = false;
@@ -188,7 +183,7 @@ public class MIDIFragment extends Fragment {
             chooser.setOnSelectListener(pathExtract -> {
                 EditText fileNameEdit = new EditText(getContext());
                 new AlertDialog.Builder(getContext())
-                        .setTitle("Set export file name")
+                        .setTitle(R.string.exportFileNameSetKey)
                         .setCancelable(true)
                         .setView(fileNameEdit)
                         .setPositiveButton(R.string.okKey, (dialog, which) -> {
@@ -236,15 +231,14 @@ public class MIDIFragment extends Fragment {
 class PlayThread extends Thread {
     public void start(Context c, SeekBar s, TextView t) {
         if (MIDIFragment.is_game) {
-            try {
-                // TODO
-                // Testing MIDI playing functionality now
-                // It seemed generating midi file from jfugue string doesn't work
-                // Following code should be uncommented when SoftSynthesizer works well
+            // TODO
+            // Testing MIDI playing functionality now
+            // It seemed generating midi file from jfugue string doesn't work
+            // Following code should be uncommented when SoftSynthesizer works well
 
                 /* File f = File.createTempFile("temp", "mid", c.getCacheDir());
                 MIDIFragment.egm.export(f.getAbsolutePath(), false);
-                */
+
 
                 Sequence sq = MidiSystem.getSequence(c.getResources().openRawResource(R.raw.test));
                 Sequencer sr = MidiSystem.getSequencer();
@@ -263,13 +257,8 @@ class PlayThread extends Thread {
                 s.setMax(second);
                 t.setText(second / 60 + ':' + second % 60);
                 sr.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (InvalidMidiDataException e) {
-                e.printStackTrace();
-            } catch (MidiUnavailableException e) {
-                e.printStackTrace();
-            }
+
+                 */
         } else
             MIDIFragment.em.export("");
     }

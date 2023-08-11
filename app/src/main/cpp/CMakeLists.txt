@@ -4,6 +4,7 @@
 # Sets the minimum version of CMake required to build the native library.
 cmake_minimum_required(VERSION 3.22.1)
 
+project(midi-interface)
 # Create a variable fluidsynth_DIR to specify where the fluidsynth library is located.
 set(fluidsynth_DIR ${CMAKE_CURRENT_SOURCE_DIR}/fluidsynth)
 

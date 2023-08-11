@@ -51,8 +51,8 @@
     <string name="behaviorKey">行为</string>
     <string name="themeModeKey">主题模式</string>
     <string name="aboutKey">关于</string>
-    <string name="previewKey">Preview</string>
-    <string name="BGKey">BG</string>
-    <string name="exportFileNameSetKey">Set export file name</string>
+    <string name="previewKey">预览</string>
+    <string name="BGKey">背景</string>
     <string name="languageSelectKey">Language Select</string>
+    <string name="exportFileNameSetKey">设置导出文件名</string>
 </resources>

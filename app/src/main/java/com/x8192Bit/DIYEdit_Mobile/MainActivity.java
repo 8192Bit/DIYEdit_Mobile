@@ -30,10 +30,6 @@ import x8192Bit.DIYEdit_Mobile.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    static {
-        System.loadLibrary("midi-interface");
-    }
-
     public static final String EXTRA_MESSAGE = "com.x8192Bit.DIYEdit_Mobile.MESSAGE";
 
     @Override
