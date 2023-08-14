@@ -53,6 +53,14 @@
     <string name="aboutKey">关于</string>
     <string name="previewKey">预览</string>
     <string name="BGKey">背景</string>
-    <string name="languageSelectKey">Language Select</string>
     <string name="exportFileNameSetKey">设置导出文件名</string>
+    <string name="languageSelectKey">选择语言</string>
+    <string name="importKey">导入......</string>
+    <string name="exportKey">导出......</string>
+    <string name="deleteKey">删除......</string>
+    <string name="nullSlotKey">Null slot. Click to operate.</string>
+    <string name="aboutTextKey">DIYEdit_Mobile 是 xperia64 的 DIYEdit 在 Android 上的移植版本。<br /><br />感谢：<br /> · FluidSynth 提供使用自定义 sf2 音色库播放音乐的功能。<br /> · xperia64 的 DIYEdit 提供了简单易用的类。<br /> · codekidX 的 storage-chooser 用于选择文件与目录，以及 mendhak 提供的 Android R (11) 支持。<br /> · kshoji 的 JFugue-for-Android 播放与处理 MIDI 文件。<br /> · kshoji 的 javax.sound.midi-for-Android 提供对 JFugue-for-Android 的支持。<br /> · 部分参考了 Creating a Fluidsynth Hello World App for Android -- Hector Ricardo <br /><br />DIYEdit_Mobile 是一个自由软件，受到 GPLv3 许可证的保护。使用本软件时，请遵守当地法律法规。<br /><br />软件版本 1.0.0<br />内置的 FluidSynth 版本 2.3.3</string>
+    <string name="openSourceLicenseKey">Open Source Code License</string>
+    <string name="cleanedKey">Cleaned.</string>
+    <string name="numberRequiredKey">Please enter a positive integer.</string>
 </resources>

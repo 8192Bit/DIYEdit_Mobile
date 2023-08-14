@@ -27,7 +27,6 @@ import com.x8192Bit.DIYEdit_Mobile.Utils.FileUtils;
 import x8192Bit.DIYEdit_Mobile.BuildConfig;
 import x8192Bit.DIYEdit_Mobile.R;
 
-
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_MESSAGE = "com.x8192Bit.DIYEdit_Mobile.MESSAGE";
@@ -48,7 +47,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ((TextView) findViewById(R.id.MainVersionTextView)).setText(getText(R.string.app_name) + BuildConfig.VERSION_NAME + '.' + BuildConfig.VERSION_CODE + ' ' + BuildConfig.BUILD_TYPE);
+        ((TextView) findViewById(R.id.MainVersionTextView)).setText(getText(R.string.app_name) + " " + BuildConfig.VERSION_NAME + ' ' + BuildConfig.BUILD_TYPE.toUpperCase());
+
+        findViewById(R.id.OpenFileButton).setOnClickListener(this::chooseFile);
+        findViewById(R.id.RecentFileButton).setOnClickListener(this::openRecentFile);
+        findViewById(R.id.SettingsButton).setOnClickListener(this::settingsMenu);
+        findViewById(R.id.ExitButton).setOnClickListener(this::exit);
 
         if (getIntent().getData() != null) {
             Uri uri = getIntent().getData();
@@ -56,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Called when the first button is pressed
     public void chooseFile(View v) {
         if (Build.VERSION.SDK_INT < 30) {
             if (!checkBefore30()) {
@@ -134,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // Called when the second button is pressed
     public void openRecentFile(View view) {
         SharedPreferences sp = this.getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
         String history = sp.getString("history", null);
@@ -156,13 +158,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // Called when the third button is pressed
     public void settingsMenu(View view) {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 
-    // Called when the fourth button is pressed
     public void exit(View view) {
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(0);

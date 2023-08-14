@@ -1,23 +1,13 @@
-# For more information about using CMake with Android Studio, read the
-# documentation: https://d.android.com/studio/projects/add-native-code.html
+cmake_minimum_required(VERSION 3.8.1)
 
-# Sets the minimum version of CMake required to build the native library.
-cmake_minimum_required(VERSION 3.22.1)
+# project(midi-interface)
 
-project(midi-interface)
-# Create a variable fluidsynth_DIR to specify where the fluidsynth library is located.
-set(fluidsynth_DIR ${CMAKE_CURRENT_SOURCE_DIR}/fluidsynth)
+set(fluidsynth_DIR ${CMAKE_CURRENT_LIST_DIR}/fluidsynth)
 
-# Our code (midi-interface.cpp) will be calling fluidsynth functions, so we add the fluidsynth binaries as dependencies of our code.
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-openmp -fopenmp -Lopenmp")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-openmp -fopenmp -Lopenmp")
 
-add_library(libc++_shared SHARED IMPORTED)
-set_target_properties(libc++_shared PROPERTIES IMPORTED_LOCATION ${fluidsynth_DIR}/lib/${ANDROID_ABI}/libc++_shared.so)
-
-add_library(libcharset SHARED IMPORTED)
-set_target_properties(libcharset PROPERTIES IMPORTED_LOCATION ${fluidsynth_DIR}/lib/${ANDROID_ABI}/libcharset.so)
-
-add_library(libffi SHARED IMPORTED)
-set_target_properties(libffi PROPERTIES IMPORTED_LOCATION ${fluidsynth_DIR}/lib/${ANDROID_ABI}/libffi.so)
+#region libFluidSynth import
 
 add_library(libFLAC SHARED IMPORTED)
 set_target_properties(libFLAC PROPERTIES IMPORTED_LOCATION ${fluidsynth_DIR}/lib/${ANDROID_ABI}/libFLAC.so)
@@ -43,12 +33,6 @@ set_target_properties(libgobject-2.0 PROPERTIES IMPORTED_LOCATION ${fluidsynth_D
 add_library(libgthread-2.0 SHARED IMPORTED)
 set_target_properties(libgthread-2.0 PROPERTIES IMPORTED_LOCATION ${fluidsynth_DIR}/lib/${ANDROID_ABI}/libgthread-2.0.so)
 
-add_library(libiconv SHARED IMPORTED)
-set_target_properties(libiconv PROPERTIES IMPORTED_LOCATION ${fluidsynth_DIR}/lib/${ANDROID_ABI}/libiconv.so)
-
-add_library(libintl SHARED IMPORTED)
-set_target_properties(libintl PROPERTIES IMPORTED_LOCATION ${fluidsynth_DIR}/lib/${ANDROID_ABI}/libintl.so)
-
 add_library(liboboe SHARED IMPORTED)
 set_target_properties(liboboe PROPERTIES IMPORTED_LOCATION ${fluidsynth_DIR}/lib/${ANDROID_ABI}/liboboe.so)
 
@@ -67,11 +51,10 @@ set_target_properties(libvorbisenc PROPERTIES IMPORTED_LOCATION ${fluidsynth_DIR
 add_library(libvorbisfile SHARED IMPORTED)
 set_target_properties(libvorbisfile PROPERTIES IMPORTED_LOCATION ${fluidsynth_DIR}/lib/${ANDROID_ABI}/libvorbisfile.so)
 
-add_library(libz SHARED IMPORTED)
-set_target_properties(libz PROPERTIES IMPORTED_LOCATION ${fluidsynth_DIR}/lib/${ANDROID_ABI}/libz.so)
+#endregion
 
-add_library(preloadable_libiconv SHARED IMPORTED)
-set_target_properties(preloadable_libiconv PROPERTIES IMPORTED_LOCATION ${fluidsynth_DIR}/lib/${ANDROID_ABI}/preloadable_libiconv.so)
+add_library(libomp SHARED IMPORTED)
+set_target_properties(libvorbisfile PROPERTIES IMPORTED_LOCATION ${fluidsynth_DIR}/lib/${ANDROID_ABI}/libomp.so)
 
 # Library that will be called directly from JAVA
 add_library(midi-interface SHARED midi-interface.cpp)
@@ -79,28 +62,21 @@ add_library(midi-interface SHARED midi-interface.cpp)
 # Specifies the directory where the C or C++ source code will look the #include <yourlibrary.h> header files
 target_include_directories(midi-interface PRIVATE ${fluidsynth_DIR}/include)
 
-# Link everything alltogether. Notice that midi-interface should be the first element in the list.
+# Link everything all together. Notice that midi-interface should be the first element in the list.
 target_link_libraries(
         midi-interface
-        ${libc++}
-        ${libcharset}
-        ${libffi}
-        ${libFLAC}
-        ${libfluidsynth}
-        ${libfluidsynth-assetloader}
-        ${libgio-2.0}
-        ${libglib-2.0}
-        ${libgmodule-2.0}
-        ${libgobject-2.0}
-        ${libgthread-2.0}
-        ${libiconv}
-        ${libintl}
-        ${liboboe}
-        ${libogg}
-        ${libsndfile}
-        ${libvorbis}
-        ${libvorbisenc}
-        ${libvorbisfile}
-        ${libz}
-        ${preloadable_libiconv}
+        libFLAC
+        libfluidsynth
+        libfluidsynth-assetloader
+        libgio-2.0
+        libglib-2.0
+        libgmodule-2.0
+        libgobject-2.0
+        libgthread-2.0
+        liboboe
+        libogg
+        libsndfile
+        libvorbis
+        libvorbisenc
+        libvorbisfile
 )

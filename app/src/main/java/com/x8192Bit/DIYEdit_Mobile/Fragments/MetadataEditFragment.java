@@ -1,6 +1,5 @@
 package com.x8192Bit.DIYEdit_Mobile.Fragments;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.ToggleButton;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -82,11 +81,11 @@ public class MetadataEditFragment extends Fragment {
 
     void refreshIcon() {
         //region Init
-        Spinner selfColor = getView().findViewById(R.id.ColorSelfSpinner);
-        Spinner selfStyle = getView().findViewById(R.id.StyleSelfSpinner);
-        Spinner iconColor = getView().findViewById(R.id.ColorIconSpinner);
-        Spinner iconStyle = getView().findViewById(R.id.StyleIconSpinner);
-        ImageView preview = getView().findViewById(R.id.MetadataIconPreview);
+        Spinner selfColor = requireView().findViewById(R.id.ColorSelfSpinner);
+        Spinner selfStyle = requireView().findViewById(R.id.StyleSelfSpinner);
+        Spinner iconColor = requireView().findViewById(R.id.ColorIconSpinner);
+        Spinner iconStyle = requireView().findViewById(R.id.StyleIconSpinner);
+        ImageView preview = requireView().findViewById(R.id.MetadataIconPreview);
         //endregion
         //region For GAME Refresh
         if (miotype == 0) {
@@ -122,7 +121,6 @@ public class MetadataEditFragment extends Fragment {
         //endregion
     }
 
-    @SuppressLint("SetTextI18n")
     void loadFromFile(View view) {
         //region Init
         Metadata m = new Metadata(name);
@@ -132,7 +130,7 @@ public class MetadataEditFragment extends Fragment {
         TextInputEditText authorInput = view.findViewById(R.id.AuthorInput);
         TextInputEditText companyInput = view.findViewById(R.id.CompanyInput);
         TextInputEditText instructInput = view.findViewById(R.id.GameInstructInput);
-        ToggleButton lockButton = view.findViewById(R.id.LockToggleButton);
+        Switch lockSwitch = view.findViewById(R.id.LockSwitch);
         TextInputEditText dateInput = view.findViewById(R.id.DateInput);
         RadioButton shortButton = view.findViewById(R.id.ShortTimeButton);
         RadioButton longButton = view.findViewById(R.id.LongTimeButton);
@@ -141,6 +139,7 @@ public class MetadataEditFragment extends Fragment {
         Spinner selfStyle = view.findViewById(R.id.StyleSelfSpinner);
         Spinner iconColor = view.findViewById(R.id.ColorIconSpinner);
         Spinner iconStyle = view.findViewById(R.id.StyleIconSpinner);
+        selfStyle.setOnItemSelectedListener(SpinnerEvent);
         selfColor.setOnItemSelectedListener(SpinnerEvent);
         iconColor.setOnItemSelectedListener(SpinnerEvent);
         iconStyle.setOnItemSelectedListener(SpinnerEvent);
@@ -217,7 +216,7 @@ public class MetadataEditFragment extends Fragment {
         date = date.plusDays(m.getTimestamp());
         String name = String.format(Locale.getDefault(), "%04d-%02d-%02d", date.getYear(), date.getMonthOfYear(), date.getDayOfMonth());
         dateInput.setText(name);
-        lockButton.setChecked(m.getLocked());
+        lockSwitch.setChecked(m.getLocked());
         //endregion
     }
 
@@ -232,7 +231,7 @@ public class MetadataEditFragment extends Fragment {
         TextInputEditText authorInput = view.findViewById(R.id.AuthorInput);
         TextInputEditText companyInput = view.findViewById(R.id.CompanyInput);
         TextInputEditText instructInput = view.findViewById(R.id.GameInstructInput);
-        ToggleButton lockButton = view.findViewById(R.id.LockToggleButton);
+        Switch lockSwitch = view.findViewById(R.id.LockSwitch);
         RadioButton shortButton = view.findViewById(R.id.ShortTimeButton);
         RadioButton longButton = view.findViewById(R.id.LongTimeButton);
         RadioButton bossButton = view.findViewById(R.id.BOSSTimeButton);
@@ -240,7 +239,7 @@ public class MetadataEditFragment extends Fragment {
         Spinner selfStyle = view.findViewById(R.id.StyleSelfSpinner);
         Spinner iconColor = view.findViewById(R.id.ColorIconSpinner);
         Spinner iconStyle = view.findViewById(R.id.StyleIconSpinner);
-        m.setLocked(lockButton.isChecked());
+        m.setLocked(lockSwitch.isChecked());
         //endregion
         //region Overall Settings
         try {
@@ -253,7 +252,8 @@ public class MetadataEditFragment extends Fragment {
                         .show();
             } else {
                 m.setSerial(splited[0], Integer.parseInt(splited[1]), Integer.parseInt(splited[2]));
-                // TODO: BUGS COME FROM HERE
+                // TODO: BUGS COME FROM HERE in Android R.
+                // DANGEROUS!!!!!!!! MUST BE FIXED BEFORE RELEASE
                 m.setName(Objects.requireNonNull(nameInput.getText()).toString());
                 m.setDescription(Objects.requireNonNull(commentInput.getText()).toString());
                 m.setCreator(Objects.requireNonNull(authorInput.getText()).toString());

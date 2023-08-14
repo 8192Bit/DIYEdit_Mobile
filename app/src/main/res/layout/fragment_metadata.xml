@@ -31,11 +31,13 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <ToggleButton
-                android:id="@+id/LockToggleButton"
+            <Switch
+                android:id="@+id/LockSwitch"
+                style="@style/Widget.Material3.CompoundButton.Switch"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:minHeight="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/unlockEditKey"
                 android:textOff="@string/unlockEditKey"
                 android:textOn="@string/lockEditKey" />
 
@@ -240,7 +242,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:entries="@array/game_shapes"
             android:minHeight="50dp" />
 
     </LinearLayout>
@@ -264,7 +265,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:entries="@array/diy_colors"
             android:minHeight="50dp"
             tools:ignore="DuplicateSpeakableTextCheck" />
 
@@ -289,7 +289,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:entries="@array/game_icons"
             android:minHeight="50dp" />
 
     </LinearLayout>
@@ -324,21 +323,27 @@
 
         <Button
             android:id="@+id/buttonDiscard"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:layout_marginEnd="2dp"
             android:layout_marginRight="2dp"
             android:layout_weight="1"
-            android:text="@string/discardKey" />
+            android:text="@string/discardKey"
+            app:cornerRadius="10dp" />
 
         <Button
             android:id="@+id/buttonSave"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:layout_marginStart="2dp"
             android:layout_marginLeft="2dp"
             android:layout_weight="1"
-            android:text="@string/saveKey" />
+            android:text="@string/saveKey"
+            app:cornerRadius="10dp" />
     </LinearLayout>
 
 </LinearLayout>

@@ -1,17 +1,17 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.MyApplication" parent="Theme.Material3.DayNight">
+    <style name="Theme.DIYEdit" parent="Theme.Material3.DayNight">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorPrimary">@color/red_500</item>
+        <item name="colorPrimaryDark">@color/red_700</item>
         <item name="colorAccent">@color/teal_200</item>
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.MyApplication.Night" parent="Theme.Material3.Dark">
+    <style name="Theme.DIYEdit.Night" parent="Theme.Material3.Dark">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryDark">@color/purple_700</item>
+        <item name="colorPrimary">@color/red_500</item>
+        <item name="colorPrimaryDark">@color/red_700</item>
         <item name="colorAccent">@color/teal_200</item>
         <!-- Customize your theme here. -->
     </style>

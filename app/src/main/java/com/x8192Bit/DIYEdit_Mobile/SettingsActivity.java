@@ -63,7 +63,7 @@ public class SettingsActivity extends AppCompatActivity {
                 SharedPreferences sp = this.requireContext().getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
                 sp.edit().putString("history", null).commit();
                 Toast t = new Toast(getContext());
-                t.setText("Cleaned.");
+                t.setText(R.string.cleanedKey);
                 t.show();
             }
             if (key.equals("openAboutDialog")) {
@@ -81,7 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 } else {
                     Toast t = new Toast(getContext());
-                    t.setText("it must be a number");
+                    t.setText(R.string.numberRequiredKey);
                     t.show();
                     return false;
                 }

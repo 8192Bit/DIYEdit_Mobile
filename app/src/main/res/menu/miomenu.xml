@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/importFile"
-        android:title="导入" />
+        android:title="@string/importKey" />
     <item
         android:id="@+id/extractFile"
-        android:title="导出" />
+        android:title="@string/exportKey" />
     <item
         android:id="@+id/deleteFile"
-        android:title="删除" />
+        android:title="@string/deleteKey" />
 </menu>

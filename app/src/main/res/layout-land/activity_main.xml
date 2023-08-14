@@ -10,7 +10,8 @@
         android:id="@+id/imageViewIcon"
         android:layout_width="168dp"
         android:layout_height="188dp"
-        app:srcCompat="@mipmap/ic_launcher"
+        android:importantForAccessibility="no"
+        app:srcCompat="@mipmap/ic_launcher_foreground"
         app:tintMode="add" />
 
     <LinearLayout
@@ -18,65 +19,72 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="12dp" />
-
         <Button
-            android:id="@+id/button"
+            android:id="@+id/OpenFileButton"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="chooseFile"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/baseline_file_open_24"
+            android:maxWidth="320dp"
             android:text="@string/openFileKey"
-            android:textColor="@color/teal_200"
-            app:cornerRadius="20px"
+            app:cornerRadius="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="VisualLintButtonSize" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/RecentFileButton"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="openRecentFile"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/baseline_history_24"
+            android:maxWidth="320dp"
             android:text="@string/openRecentFileKey"
-            android:textColor="@color/teal_200"
-            app:cornerRadius="20px"
+            app:cornerRadius="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="VisualLintButtonSize" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/SettingsButton"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="settingsMenu"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/baseline_settings_24"
+            android:maxWidth="320dp"
             android:text="@string/settingsKey"
-            android:textColor="@color/teal_200"
-            app:cornerRadius="20px"
+            app:cornerRadius="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="VisualLintButtonSize" />
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/ExitButton"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="exit"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/baseline_close_24"
+            android:maxWidth="320dp"
             android:text="@string/exitKey"
-            android:textColor="@color/teal_200"
-            app:cornerRadius="20px"
+            app:cornerRadius="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="VisualLintButtonSize" />
 
         <TextView
             android:id="@+id/MainVersionTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="DIYEdit_Mobile Version 1.0.0"
-            android:textColor="#000000" />
+            android:layout_weight="0"
+            android:gravity="center" />
 
     </LinearLayout>
 
