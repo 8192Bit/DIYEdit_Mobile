@@ -12,6 +12,20 @@
         <item>夜間</item>
     </string-array>
 
+    <string-array name="language_values">
+        <item>system</item>
+        <item>en-us</item>
+        <item>zh-rCN</item>
+        <item>zh-rHK</item>
+    </string-array>
+
+    <string-array name="language_entries">
+        <item>系統</item>
+        <item>英語</item>
+        <item>簡體中文</item>
+        <item>繁體中文</item>
+    </string-array>
+
     <string-array name="diy_colors">
         <item>黃色</item>
         <item>亮藍</item>

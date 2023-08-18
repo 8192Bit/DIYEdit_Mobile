@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,6 +20,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
 import com.codekidlabs.storagechooser.StorageChooser;
+import com.google.android.material.button.MaterialButton;
 import com.x8192Bit.DIYEdit_Mobile.Utils.GraphicsUtils;
 import com.xperia64.diyedit.FileByteOperations;
 import com.xperia64.diyedit.metadata.GameMetadata;
@@ -65,13 +65,13 @@ public class SaveEditFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        gv = (GridView) getView().findViewById(R.id.ShelfGridView);
+        gv = getView().findViewById(R.id.ShelfGridView);
 
-        ImageButton diy1 = getView().findViewById(R.id.diy_1);
-        ImageButton diy2 = getView().findViewById(R.id.diy_2);
-        ImageButton diy3 = getView().findViewById(R.id.diy_3);
-        ImageButton diy4 = getView().findViewById(R.id.diy_4);
-        ImageButton diy5 = getView().findViewById(R.id.diy_5);
+        MaterialButton diy1 = getView().findViewById(R.id.diy_1);
+        MaterialButton diy2 = getView().findViewById(R.id.diy_2);
+        MaterialButton diy3 = getView().findViewById(R.id.diy_3);
+        MaterialButton diy4 = getView().findViewById(R.id.diy_4);
+        MaterialButton diy5 = getView().findViewById(R.id.diy_5);
         int length = FileByteOperations.read(name).length;
         if (length == 4719808 || length == 591040 || length == 1033408 || length == 6438592) {
             ((LinearLayout) getView().findViewById(R.id.ShelfItemsLayout)).removeView(diy5);
@@ -180,7 +180,6 @@ public class SaveEditFragment extends Fragment {
     @Deprecated
     private void showMioPopupMenu(View view, int count) {
         if (!isPoppedUp) {
-
             PopupMenu popupMenu = new PopupMenu(getContext(), view);
             popupMenu.inflate(R.menu.miomenu);
             popupMenu.setOnMenuItemClickListener(item -> {
@@ -231,7 +230,7 @@ public class SaveEditFragment extends Fragment {
                     chooser.setOnSelectListener(pathExtract -> {
                         EditText fileNameEdit = new EditText(getContext());
                         AlertDialog ad = new AlertDialog.Builder(getContext())
-                                .setTitle("Set export file name")
+                                .setTitle(R.string.exportFileNameSetKey)
                                 .setCancelable(true)
                                 .setView(fileNameEdit)
                                 .setNeutralButton("默认", null)
@@ -245,7 +244,7 @@ public class SaveEditFragment extends Fragment {
                                         new File(pathName).createNewFile();
                                     } catch (IOException e) {
                                         e.printStackTrace();
-                                        Toast.makeText(getContext(), "Something went error.", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), R.string.warningKey, Toast.LENGTH_SHORT).show();
                                     }
                                     FileByteOperations.write(s.getMio(miotype, count + 18 * (shelfNo - 1)), pathName);
                                     s.saveChanges();
@@ -296,7 +295,6 @@ public class SaveEditFragment extends Fragment {
                 }
                 return false;
             });
-            // PopupMenu关闭事件
             popupMenu.setOnDismissListener(menu -> isPoppedUp = false);
 
             popupMenu.show();
@@ -336,8 +334,8 @@ public class SaveEditFragment extends Fragment {
             if (convertView == null) {
                 convertView = layoutInflater.inflate(R.layout.shelf_item_layout, null);
                 holder = new ViewHolder();
-                holder.iv = (ImageView) convertView.findViewById(R.id.ShelfItemImageView);
-                holder.tv = (TextView) convertView.findViewById(R.id.ShelfItemTextView);
+                holder.iv = convertView.findViewById(R.id.ShelfItemImageView);
+                holder.tv = convertView.findViewById(R.id.ShelfItemTextView);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -349,7 +347,7 @@ public class SaveEditFragment extends Fragment {
                 holder.tv.setText(titles.get(position));
                 holder.iv.setOnClickListener(v -> showMioPopupMenu(v, position));
             } else {
-                holder.tv.setText("");
+                holder.tv.setText(R.string.nullSlotKey);
                 holder.iv.setOnClickListener(v -> showMioPopupMenu(v, position));
             }
             return convertView;

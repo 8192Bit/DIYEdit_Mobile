@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -61,8 +62,7 @@ public class SaveFileMenu extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            System.exit(0);
-            overridePendingTransition(0, 0);
+            this.finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -97,25 +97,22 @@ public class SaveFileMenu extends AppCompatActivity {
                     performMANGA(fl, filePath);
                 }
             }
-            vp2.setAdapter(new FragmentStateAdapter(this) {
-                @NonNull
-                @Override
-                public Fragment createFragment(int position) {
-                    return fl.get(position);
-                }
+            if (savetype != 0 || miotype != 0) {
+                updateFileHistory(filePath);
+                vp2.setAdapter(new FragmentStateAdapter(this) {
+                    @NonNull
+                    @Override
+                    public Fragment createFragment(int position) {
+                        return fl.get(position);
+                    }
 
-                @Override
-                public int getItemCount() {
-                    return fl.size();
-                }
-            });
-            new TabLayoutMediator(tabs, vp2, (tab, position) -> tab.setText(titleList.get(position))).attach();
-            if (savetype != 0) {
-                updateFileHistory(filePath);
-            } else if (miotype != 0) {
-                updateFileHistory(filePath);
+                    @Override
+                    public int getItemCount() {
+                        return fl.size();
+                    }
+                });
+                new TabLayoutMediator(tabs, vp2, (tab, position) -> tab.setText(titleList.get(position))).attach();
             } else {
-                updateFileHistory(filePath);
                 fileUnavailableAlert();
             }
         } else {
@@ -270,36 +267,41 @@ public class SaveFileMenu extends AppCompatActivity {
 
     private void updateFileHistory(String realPath) {
         SharedPreferences sp = SaveFileMenu.this.getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
-        int historyCount = Integer.parseInt(sp.getString("maxHistoryCount", "10"));
-        SharedPreferences.Editor ed = sp.edit();
-        String history = sp.getString("history", null);
-        StringBuilder sb = new StringBuilder();
-        if (history != null) {
-            ArrayList<String> historyArray = new ArrayList<String>(Arrays.asList(history.split(",")));
-            boolean isDuplicated = false;
-            for (String s : historyArray) {
-                if (s.equals(realPath)) {
-                    isDuplicated = true;
-                    break;
+        try {
+            int historyCount = Integer.parseInt(sp.getString("maxHistoryCount", "10"));
+            SharedPreferences.Editor ed = sp.edit();
+            String history = sp.getString("history", null);
+            StringBuilder sb = new StringBuilder();
+            if (history != null) {
+                ArrayList<String> historyArray = new ArrayList<String>(Arrays.asList(history.split(",")));
+                boolean isDuplicated = false;
+                for (String s : historyArray) {
+                    if (s.equals(realPath)) {
+                        isDuplicated = true;
+                        break;
+                    }
                 }
+                if (!isDuplicated) {
+                    historyArray.add(0, realPath);
+                }
+                if (historyArray.size() > historyCount) {
+                    do {
+                        historyArray.remove(historyCount - 1);
+                    } while (historyArray.size() == historyCount);
+                }
+                for (int i = 0; i < historyArray.size(); i++) {
+                    sb.append(historyArray.get(i)).append(",");
+                }
+            } else {
+                sb.append(realPath);
             }
-            if (!isDuplicated) {
-                historyArray.add(0, realPath);
-            }
-            if (historyArray.size() > historyCount) {
-                do {
-                    historyArray.remove(historyCount - 1);
-                } while (historyArray.size() == historyCount);
-            }
-            for (int i = 0; i < historyArray.size(); i++) {
-                sb.append(historyArray.get(i)).append(",");
-            }
-        } else {
-            sb.append(realPath);
+            ed.putString("history", sb.toString());
+            ed.apply();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(), R.string.numberRequiredKey, Toast.LENGTH_SHORT).show();
+            this.finish();
         }
-
-        ed.putString("history", sb.toString());
-        ed.apply();
     }
 
     private void setMioMetadataEntries(String filePath) {

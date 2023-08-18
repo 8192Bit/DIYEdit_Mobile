@@ -1,349 +1,365 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="2dp"
     android:orientation="vertical"
     tools:context="com.x8192Bit.DIYEdit_Mobile.Fragments.MetadataEditFragment">
 
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="0,1,2,3">
+        android:orientation="vertical">
 
-        <TableRow
+        <TextView
+            android:id="@+id/CharLostModeTextView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:text="@string/normalModeKey"
+            android:textSize="16sp" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_span="3">
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="0,1,2,3">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/SeriesNumberInput"
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_span="3">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/SeriesNumberInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:baselineAligned="false"
+                        android:hint="@string/seriesNumberKey"
+                        android:singleLine="true" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/LockSwitch"
+                    style="@style/Widget.Material3.CompoundButton.MaterialSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_weight="1"
+                    android:text="@string/unlockEditKey"
+                    android:textOff="@string/unlockEditKey"
+                    android:textOn="@string/lockEditKey" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
+                    android:layout_span="3"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="12">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/NameInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:hint="@string/nameKey"
+                        android:maxLength="12"
+                        android:singleLine="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/MetadataIconPreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/spr_cart1"
+                    tools:ignore="ContentDescription" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_span="4"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="36">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/CommentInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:hint="@string/commentKey"
+                        android:maxLength="36"
+                        android:singleLine="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_span="2"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="9">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/AuthorInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:hint="@string/authorKey"
+                        android:maxLength="9"
+                        android:singleLine="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_span="2"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="9">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/CompanyInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:hint="@string/companyKey"
+                        android:maxLength="9"
+                        android:singleLine="true"
+                        tools:ignore="TextContrastCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_span="3"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="12">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/GameInstructInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:hint="@string/instructionKey"
+                        android:maxLength="12"
+                        android:singleLine="true"
+                        tools:ignore="TextContrastCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/DateInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="3dp"
+                        android:hint="@string/dateKey"
+                        android:inputType="date" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="3pt"
+                    android:layout_marginLeft="3pt"
+                    android:gravity="center|left"
+                    android:text="@string/gameDurationKey" />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_span="3"
                     android:baselineAligned="false"
-                    android:hint="@string/seriesNumberKey"
-                    android:singleLine="true" />
+                    android:orientation="horizontal">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <RadioButton
+                        android:id="@+id/ShortTimeButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="50dp"
+                        android:text="@string/shortKey" />
 
-            <Switch
-                android:id="@+id/LockSwitch"
-                style="@style/Widget.Material3.CompoundButton.Switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/unlockEditKey"
-                android:textOff="@string/unlockEditKey"
-                android:textOn="@string/lockEditKey" />
+                    <RadioButton
+                        android:id="@+id/LongTimeButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="50dp"
+                        android:text="@string/longKey" />
 
-        </TableRow>
+                    <RadioButton
+                        android:id="@+id/BOSSTimeButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="50dp"
+                        android:text="BOSS" />
+                </RadioGroup>
 
-        <TableRow
+            </TableRow>
+
+
+        </TableLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_span="3"
-                app:counterEnabled="true"
-                app:counterMaxLength="12">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/NameInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:hint="@string/nameKey"
-                    android:maxLength="12"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/MetadataIconPreview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/spr_cart1"
-                tools:ignore="ContentDescription" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_span="4"
-                app:counterEnabled="true"
-                app:counterMaxLength="36">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/CommentInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:hint="@string/commentKey"
-                    android:maxLength="36"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_span="2"
-                app:counterEnabled="true"
-                app:counterMaxLength="9">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/AuthorInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:hint="@string/authorKey"
-                    android:maxLength="9"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_span="2"
-                app:counterEnabled="true"
-                app:counterMaxLength="9">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/CompanyInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:hint="@string/companyKey"
-                    android:maxLength="9"
-                    android:singleLine="true"
-                    tools:ignore="TextContrastCheck" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_span="3"
-                app:counterEnabled="true"
-                app:counterMaxLength="12">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/GameInstructInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:hint="@string/instructionKey"
-                    android:maxLength="12"
-                    android:singleLine="true"
-                    tools:ignore="TextContrastCheck" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/DateInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:hint="@string/dateKey"
-                    android:inputType="date" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="3pt"
-                android:layout_marginLeft="3pt"
-                android:gravity="center|left"
-                android:text="@string/gameDurationKey" />
-
-            <RadioGroup
+                android:id="@+id/StyleSelfText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_span="3"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
+                android:layout_marginStart="3pt"
+                android:layout_marginLeft="3pt"
+                android:layout_weight="3"
+                android:text="@string/selfStyleKey" />
 
-                <RadioButton
-                    android:id="@+id/ShortTimeButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:minHeight="50dp"
-                    android:text="@string/shortKey" />
+            <Spinner
+                android:id="@+id/StyleSelfSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="50dp" />
 
-                <RadioButton
-                    android:id="@+id/LongTimeButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:minHeight="50dp"
-                    android:text="@string/longKey" />
+        </LinearLayout>
 
-                <RadioButton
-                    android:id="@+id/BOSSTimeButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:minHeight="50dp"
-                    android:text="BOSS" />
-            </RadioGroup>
-
-        </TableRow>
-
-
-    </TableLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/StyleSelfText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="3pt"
-            android:layout_marginLeft="3pt"
-            android:layout_weight="3"
-            android:text="@string/selfStyleKey" />
+            android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/StyleSelfSpinner"
+            <TextView
+                android:id="@+id/ColorSelfText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3pt"
+                android:layout_marginLeft="3pt"
+                android:layout_weight="3"
+                android:text="@string/selfColorKey" />
+
+            <Spinner
+                android:id="@+id/ColorSelfSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="50dp"
+                tools:ignore="DuplicateSpeakableTextCheck" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="50dp" />
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/StyleIconText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3pt"
+                android:layout_marginLeft="3pt"
+                android:layout_weight="3"
+                android:text="@string/iconStyleKey" />
+
+            <Spinner
+                android:id="@+id/StyleIconSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="50dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/ColorIconText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3pt"
+                android:layout_marginLeft="3pt"
+                android:layout_weight="3"
+                android:text="@string/iconColorKey" />
+
+            <Spinner
+                android:id="@+id/ColorIconSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:entries="@array/diy_colors"
+                android:minHeight="50dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonDiscard"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="@string/discardKey"
+                app:cornerRadius="10dp" />
+
+            <Button
+                android:id="@+id/buttonSave"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:text="@string/saveKey"
+                app:cornerRadius="10dp" />
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/ColorSelfText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="3pt"
-            android:layout_marginLeft="3pt"
-            android:layout_weight="3"
-            android:text="@string/selfColorKey" />
-
-        <Spinner
-            android:id="@+id/ColorSelfSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="50dp"
-            tools:ignore="DuplicateSpeakableTextCheck" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/StyleIconText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="3pt"
-            android:layout_marginLeft="3pt"
-            android:layout_weight="3"
-            android:text="@string/iconStyleKey" />
-
-        <Spinner
-            android:id="@+id/StyleIconSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:minHeight="50dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/ColorIconText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="3pt"
-            android:layout_marginLeft="3pt"
-            android:layout_weight="3"
-            android:text="@string/iconColorKey" />
-
-        <Spinner
-            android:id="@+id/ColorIconSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:entries="@array/diy_colors"
-            android:minHeight="50dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/buttonDiscard"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginRight="2dp"
-            android:layout_weight="1"
-            android:text="@string/discardKey"
-            app:cornerRadius="10dp" />
-
-        <Button
-            android:id="@+id/buttonSave"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_weight="1"
-            android:text="@string/saveKey"
-            app:cornerRadius="10dp" />
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

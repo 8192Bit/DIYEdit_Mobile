@@ -17,14 +17,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:src="@drawable/ic_baseline_stop_24" />
+            android:src="@drawable/baseline_stop_24" />
 
         <ImageButton
             android:id="@+id/playpauseButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:src="@drawable/ic_baseline_play_arrow_24" />
+            android:src="@drawable/baseline_play_arrow_24" />
 
         <SeekBar
             android:id="@+id/MIDIProgressBar"
@@ -53,6 +53,6 @@
         android:clickable="true"
         android:minWidth="48dp"
         android:minHeight="48dp"
-        android:src="@drawable/ic_baseline_save_24" />
+        android:src="@drawable/baseline_save_24" />
 
 </FrameLayout>

@@ -55,7 +55,7 @@
     <string name="metadataEmptyKey">Empty Entry(ies) in Metadata.</string>
     <string name="appearanceKey">Appearance</string>
     <string name="behaviorKey">Behavior</string>
-    <string name="themeModeKey">Theme Mode</string>
+    <string name="themeModeKey">Theme Mode(This version of DIYEdit does not support this option)</string>
     <string name="aboutKey">About</string>
     <string name="previewKey">Preview</string>
     <string name="BGKey">BG</string>
@@ -69,6 +69,18 @@
     <string name="openSourceLicenseKey">Open Source Code License</string>
     <string name="cleanedKey">Cleaned.</string>
     <string name="numberRequiredKey">Please enter a positive integer.</string>
+    <string name="storagePermissionRequireKey">Storage permission required. Please allow this permission</string>
+    <string name="tryAgainKey">Please try again.</string>
+    <string name="maxHistoryCountKey">Max history entries that will be stored</string>
+    <string name="maxHistoryCountTitleKey">Max history count</string>
+    <string name="cleanAllHistoryTitleKey">Clean all history entries</string>
+    <string name="cleanAllHistoryKey">Clean all open file history entries</string>
+    <string name="openAboutDialogKey">Open about window</string>
+    <string name="showFullPathTitleKey">Show full file path</string>
+    <string name="showFullPathOffKey">Show only file name for history entries</string>
+    <string name="showFullPathOnKey">Show full file path for history entries</string>
+    <string name="normalModeKey">fNormal Mode</string>
+    <string name="charLostModeKey">Char Lost Mode</string>
 
     <!-- Preference Titles -->
 

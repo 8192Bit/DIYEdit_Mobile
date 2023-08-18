@@ -18,6 +18,25 @@ import x8192Bit.DIYEdit_Mobile.R;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    /*
+    private boolean isNightMode, isChange;
+    private String
+
+    private void initView() {
+        //switch初始化
+        isNightMode = (boolean) getApplicationContext().getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE).getString("ThemeSelectKey", "system");
+        switchNight.setChecked(isNightMode);
+        //添加switch切换监听
+        switchNight.setOnCheckedChangeListener((compoundButton, b) -> {
+            //模式改变时才发送事件
+            if (isNightMode == b) return;
+            isChange = !isChange;
+            SharedPreferencesUtils.put("isNightMode", b);
+            EventBus.getDefault().post(new ChangeModeBean());
+        });
+    }*/
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,10 +69,13 @@ public class SettingsActivity extends AppCompatActivity {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             Preference maxHistoryCount = findPreference("maxHistoryCount");
             Preference cleanAllHistory = findPreference("cleanAllHistory");
+            Preference openAboutDialog = findPreference("openAboutDialog");
             assert maxHistoryCount != null;
             assert cleanAllHistory != null;
+            assert openAboutDialog != null;
             maxHistoryCount.setOnPreferenceChangeListener(this);
             cleanAllHistory.setOnPreferenceClickListener(this);
+            openAboutDialog.setOnPreferenceClickListener(this);
         }
 
         @Override
@@ -62,12 +84,10 @@ public class SettingsActivity extends AppCompatActivity {
             if (key.equals("cleanAllHistory")) {
                 SharedPreferences sp = this.requireContext().getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
                 sp.edit().putString("history", null).commit();
-                Toast t = new Toast(getContext());
-                t.setText(R.string.cleanedKey);
-                t.show();
+                Toast.makeText(requireContext(), R.string.cleanedKey, Toast.LENGTH_SHORT).show();
             }
             if (key.equals("openAboutDialog")) {
-                Intent i = new Intent(requireContext(), SettingsActivity.class);
+                Intent i = new Intent(this.requireContext(), AboutActivity.class);
                 startActivity(i);
             }
             return false;
@@ -80,9 +100,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (CharUtils.isNumeric((String) newValue)) {
                     return true;
                 } else {
-                    Toast t = new Toast(getContext());
-                    t.setText(R.string.numberRequiredKey);
-                    t.show();
+                    Toast.makeText(requireContext(), R.string.numberRequiredKey, Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }

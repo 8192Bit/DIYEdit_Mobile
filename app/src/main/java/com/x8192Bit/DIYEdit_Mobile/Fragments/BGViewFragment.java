@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +23,7 @@ import androidx.fragment.app.Fragment;
 
 import com.codekidlabs.storagechooser.StorageChooser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.xperia64.diyedit.editors.GameEdit;
 import com.xperia64.diyedit.editors.MangaEdit;
 
@@ -78,7 +78,7 @@ public class BGViewFragment extends Fragment {
         SeekBar ms = view.findViewById(R.id.MangaSeekBar);
         SeekBar resize = view.findViewById(R.id.resizeSeekBar);
         FloatingActionButton ss = view.findViewById(R.id.SaveBGButton);
-        ToggleButton bp = view.findViewById(R.id.BGPreviewToggle);
+        SwitchMaterial bp = view.findViewById(R.id.BGPreviewSwitch);
         resize.setMax(100);
         if (is_game) {
             ((ViewGroup) ms.getParent()).removeView(ms);
@@ -170,7 +170,7 @@ public class BGViewFragment extends Fragment {
         double rate = (resize.getProgress() / 10.0) + 1;
         ratio.setText(String.valueOf(rate) + 'x');
         if (is_game) {
-            ToggleButton bp = view.findViewById(R.id.BGPreviewToggle);
+            SwitchMaterial bp = view.findViewById(R.id.BGPreviewSwitch);
             if (bp.isChecked()) {
                 bg.setImageBitmap(DrawGamePreview((int) (96 * rate), (int) (64 * rate), name));
             } else {

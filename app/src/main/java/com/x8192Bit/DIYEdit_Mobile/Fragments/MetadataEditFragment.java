@@ -11,12 +11,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
-import android.widget.Switch;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.x8192Bit.DIYEdit_Mobile.Utils.CharUtils;
 import com.x8192Bit.DIYEdit_Mobile.Utils.GraphicsUtils;
@@ -39,8 +40,14 @@ public class MetadataEditFragment extends Fragment {
     private static final String ARG_NAME = "name";
     private static final String ARG_MIOTYPE = "miotype";
 
+    private boolean isCharLostMode = false;
+
     private String name;
+
     private int miotype;
+
+    private TextView CharLostIndicator;
+
     AdapterView.OnItemSelectedListener SpinnerEvent = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -130,7 +137,7 @@ public class MetadataEditFragment extends Fragment {
         TextInputEditText authorInput = view.findViewById(R.id.AuthorInput);
         TextInputEditText companyInput = view.findViewById(R.id.CompanyInput);
         TextInputEditText instructInput = view.findViewById(R.id.GameInstructInput);
-        Switch lockSwitch = view.findViewById(R.id.LockSwitch);
+        SwitchMaterial lockSwitch = view.findViewById(R.id.LockSwitch);
         TextInputEditText dateInput = view.findViewById(R.id.DateInput);
         RadioButton shortButton = view.findViewById(R.id.ShortTimeButton);
         RadioButton longButton = view.findViewById(R.id.LongTimeButton);
@@ -220,8 +227,8 @@ public class MetadataEditFragment extends Fragment {
         //endregion
     }
 
-
     void writeToFile(View view) {
+
         //region Init
         byte[] fil = FileByteOperations.read(name);
         Metadata m = new Metadata(fil);
@@ -231,7 +238,7 @@ public class MetadataEditFragment extends Fragment {
         TextInputEditText authorInput = view.findViewById(R.id.AuthorInput);
         TextInputEditText companyInput = view.findViewById(R.id.CompanyInput);
         TextInputEditText instructInput = view.findViewById(R.id.GameInstructInput);
-        Switch lockSwitch = view.findViewById(R.id.LockSwitch);
+        SwitchMaterial lockSwitch = view.findViewById(R.id.LockSwitch);
         RadioButton shortButton = view.findViewById(R.id.ShortTimeButton);
         RadioButton longButton = view.findViewById(R.id.LongTimeButton);
         RadioButton bossButton = view.findViewById(R.id.BOSSTimeButton);
@@ -240,6 +247,13 @@ public class MetadataEditFragment extends Fragment {
         Spinner iconColor = view.findViewById(R.id.ColorIconSpinner);
         Spinner iconStyle = view.findViewById(R.id.StyleIconSpinner);
         m.setLocked(lockSwitch.isChecked());
+        //endregion
+        //region CharLostMode Check PRE part
+        String pre_name = Objects.requireNonNull(nameInput.getText()).toString();
+        String pre_comment = Objects.requireNonNull(commentInput.getText()).toString();
+        String pre_author = Objects.requireNonNull(authorInput.getText()).toString();
+        String pre_company = Objects.requireNonNull(companyInput.getText()).toString();
+        String pre_command = null;
         //endregion
         //region Overall Settings
         try {
@@ -252,12 +266,10 @@ public class MetadataEditFragment extends Fragment {
                         .show();
             } else {
                 m.setSerial(splited[0], Integer.parseInt(splited[1]), Integer.parseInt(splited[2]));
-                // TODO: BUGS COME FROM HERE in Android R.
-                // DANGEROUS!!!!!!!! MUST BE FIXED BEFORE RELEASE
-                m.setName(Objects.requireNonNull(nameInput.getText()).toString());
-                m.setDescription(Objects.requireNonNull(commentInput.getText()).toString());
-                m.setCreator(Objects.requireNonNull(authorInput.getText()).toString());
-                m.setBrand(Objects.requireNonNull(companyInput.getText()).toString());
+                m.setName(isCharLostMode ? CharUtils.doubleFirstChar(pre_name) : pre_name);
+                m.setDescription(isCharLostMode ? CharUtils.doubleFirstChar(pre_comment) : pre_comment);
+                m.setCreator(isCharLostMode ? CharUtils.doubleFirstChar(pre_author) : pre_author);
+                m.setBrand(isCharLostMode ? CharUtils.doubleFirstChar(pre_company) : pre_company);
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -272,7 +284,9 @@ public class MetadataEditFragment extends Fragment {
         //region For GAME Settings
         if (miotype == 0) {
             GameMetadata gm = new GameMetadata(fil);
-            gm.setCommand(Objects.requireNonNull(instructInput.getText()).toString());
+
+            pre_command = Objects.requireNonNull(instructInput.getText()).toString();
+            gm.setCommand(isCharLostMode ? CharUtils.doubleFirstChar(pre_command) : pre_command);
             if (shortButton.isChecked()) {
                 gm.setLength((byte) 0);
             } else if (longButton.isChecked()) {
@@ -306,6 +320,25 @@ public class MetadataEditFragment extends Fragment {
             FileByteOperations.write(Checksums.writeChecksums(mm.file), name);
         }
         //endregion
+        //region CharLostMode Check POST part
+        String post_name = m.getName();
+        if (!isCharLostMode && !pre_name.equals(post_name) && pre_name.contains(post_name)) {
+            isCharLostMode = true;
+            CharLostIndicator.setText(R.string.charLostModeKey);
+            m.setName(CharUtils.doubleFirstChar(pre_name));
+            m.setDescription(CharUtils.doubleFirstChar(pre_comment));
+            m.setCreator(CharUtils.doubleFirstChar(pre_author));
+            m.setBrand(CharUtils.doubleFirstChar(pre_company));
+            if (miotype == 0) {
+                GameMetadata gm = new GameMetadata(fil);
+                gm.setCommand(CharUtils.doubleFirstChar(pre_command));
+                FileByteOperations.write(Checksums.writeChecksums(gm.file), name);
+            }
+
+        }
+        //endregion
+        FileByteOperations.write(Checksums.writeChecksums(m.file), name);
+        loadFromFile(view);
     }
 
     @Override
@@ -314,6 +347,7 @@ public class MetadataEditFragment extends Fragment {
         loadFromFile(view);
         Button save = view.findViewById(R.id.buttonSave);
         Button discard = view.findViewById(R.id.buttonDiscard);
+        CharLostIndicator = view.findViewById(R.id.CharLostModeTextView);
         discard.setOnClickListener((vd) -> loadFromFile(requireView()));
         save.setOnClickListener((vs) -> {
             writeToFile(requireView());

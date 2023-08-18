@@ -362,6 +362,7 @@ public class GraphicsUtils {
             int left = 2;
             int top = 2;
             plane.eraseColor(0x00FFFFFF);
+            boolean isIconColorRender = true;
 
             // SET ICON OFFSET
             switch (cartridgeShape) {
@@ -371,19 +372,34 @@ public class GraphicsUtils {
                 case GG_GBA:
                     left = 3;
                     break;
+                case GG_BIGNAME:
+                    isIconColorRender = false;
+                    break;
             }
 
             //Draw Cart
             Bitmap Cartridge = getBitmapFromID(ctx, getCartridgeShapeID(cartridgeShape));
             Canvas CartridgeCanvas = new Canvas(Cartridge);
-            CartridgeCanvas.drawColor(getDIYColor(cartridgeColor), PorterDuff.Mode.MULTIPLY);
+            if (isIconColorRender) {
+                if (cartridgeColor == BLACK) {
+                    CartridgeCanvas.drawColor(getDIYColor(cartridgeColor), PorterDuff.Mode.MULTIPLY);
+                } else {
+                    CartridgeCanvas.drawColor(getDIYColor(cartridgeColor), PorterDuff.Mode.MULTIPLY);
+                }
+            }
             PlaneCanvas.drawBitmap(Cartridge, 0, 0, p);
 
-            //Draw Icon
-            Bitmap Icon = getBitmapFromID(ctx, getCartridgeIconID(cartridgeColor == iconColor, iconShape));
-            Canvas IconCanvas = new Canvas(Icon);
-            IconCanvas.drawColor(getDIYColor(iconColor), PorterDuff.Mode.MULTIPLY);
-            PlaneCanvas.drawBitmap(Icon, left, top, p);
+            if (isIconColorRender) {
+                //Draw Icon
+                Bitmap Icon = getBitmapFromID(ctx, getCartridgeIconID(cartridgeColor == iconColor, iconShape));
+                Canvas IconCanvas = new Canvas(Icon);
+                if (iconColor == BLACK) {
+                    IconCanvas.drawColor(getDIYColor(iconColor), PorterDuff.Mode.LIGHTEN);
+                } else {
+                    IconCanvas.drawColor(getDIYColor(iconColor), PorterDuff.Mode.MULTIPLY);
+                }
+                PlaneCanvas.drawBitmap(Icon, left, top, p);
+            }
 
             Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             new Canvas(b).drawBitmap(plane, new Rect(0, 0, 28, 23), new Rect(0, 0, width, height), p);

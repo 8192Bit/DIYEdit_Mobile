@@ -1,6 +1,11 @@
 package com.x8192Bit.DIYEdit_Mobile.Fragments;
 
+import static com.x8192Bit.DIYEdit_Mobile.Fragments.MIDIFragment.egm;
+import static com.x8192Bit.DIYEdit_Mobile.Fragments.MIDIFragment.em;
+import static com.x8192Bit.DIYEdit_Mobile.Fragments.MIDIFragment.is_game;
+
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,12 +36,6 @@ import x8192Bit.DIYEdit_Mobile.R;
 
 
 public class MIDIFragment extends Fragment {
-
-    static {
-        System.loadLibrary("midi-interface");
-    }
-
-    public native String PlayMIDIFile(String MIDIFilePath, String SoundFontFilePath);
 
     private static final String ARG_NAME = "name";
     private static final String ARG_IS_GAME = "is_game";
@@ -83,10 +82,10 @@ public class MIDIFragment extends Fragment {
         }
     }
 
-    private String copyRawToTempFile(@RawRes int ResID, String prefix, String suffix) throws IOException {
-        InputStream is = requireContext().getResources().openRawResource(ResID);
-
-        File f = File.createTempFile(prefix, suffix, requireContext().getCacheDir());
+    public static String copyRawToTempFile(Context c, @RawRes int ResID, String prefix, String suffix) throws IOException {
+        InputStream is = c.getResources().openRawResource(ResID);
+        File f = File.createTempFile(prefix, suffix, c.getFilesDir());
+        //File f = File.createTempFile(prefix, suffix, requireContext().getCacheDir());
         /*
         if(f.exists()){
             //TODO
@@ -146,26 +145,10 @@ public class MIDIFragment extends Fragment {
                 }
             }
 
-            playPauseButton.setImageResource(R.drawable.ic_baseline_play_arrow_24);
+            playPauseButton.setImageResource(R.drawable.baseline_play_arrow_24);
         });
         playPauseButton.setOnClickListener(v -> {
-            try {
-                File f = File.createTempFile("midi", "mid", requireContext().getCacheDir());
-                if (is_game) {
-                    egm.export(f.getAbsolutePath(), false);
-                } else {
-                    em.export(f.getAbsolutePath());
-                }
-
-                // TODO: OH WE HAVE ASS(ET)LOADER NOW SO A LOT OF WORK IS NEED HERE
-                // AHH
-
-                String soundFontPath = copyRawToTempFile(R.raw.wwdiy_soundfont, "soundfont", "sf2");
-
-                PlayMIDIFile(f.getAbsolutePath(), soundFontPath);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            new PlayThread().setContext(requireContext()).start();
 
             //TODO AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
 
@@ -251,5 +234,47 @@ public class MIDIFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_midi, container, true);
+    }
+}
+
+class PlayThread extends Thread {
+
+    static {
+        System.loadLibrary("midi-interface");
+    }
+
+    Context c = null;
+
+    public native String PlayMIDIFile(byte[] MIDIArray, String SoundFontFilePath);
+
+    public PlayThread setContext(Context context) {
+        c = context;
+        return this;
+    }
+
+    @Override
+    public void run() {
+        super.run();
+        try {
+            File f = File.createTempFile("midi", "mid", c.getCacheDir());
+            if (is_game) {
+                egm.export(f.getAbsolutePath(), false);
+            } else {
+                em.export(f.getAbsolutePath());
+            }
+
+            // TODO: OH WE HAVE ASS(ET)LOADER NOW SO A LOT OF WORK IS NEED HERE
+            // AHH
+
+            String soundFontPath = MIDIFragment.copyRawToTempFile(c, R.raw.wwdiy_soundfont, "soundfont", "sf2");
+
+            byte[] MIDIFile = FileByteOperations.read(f.getAbsolutePath());
+
+            PlayMIDIFile(MIDIFile, soundFontPath);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,35 +13,51 @@
 
         <Button
             android:id="@+id/unlockGames"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="8dp"
             android:layout_weight="1"
             android:onClick="unlockGame"
-            android:text="@string/unlockGameKey" />
+            android:text="@string/unlockGameKey"
+            android:textSize="20sp"
+            app:cornerRadius="10dp" />
 
         <Button
             android:id="@+id/unlockRecords"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="8dp"
             android:layout_weight="1"
             android:onClick="unlockRecord"
-            android:text="@string/unlockRecordKey" />
+            android:text="@string/unlockRecordKey"
+            android:textSize="20sp"
+            app:cornerRadius="10dp" />
 
         <Button
             android:id="@+id/unlockMangas"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="8dp"
             android:layout_weight="1"
             android:onClick="unlockManga"
-            android:text="@string/unlockMangaKey" />
+            android:text="@string/unlockMangaKey"
+            android:textSize="20sp"
+            app:cornerRadius="10dp" />
 
         <Button
             android:id="@+id/unlockMedals"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="8dp"
             android:layout_weight="1"
             android:onClick="unlockMedal"
-            android:text="@string/unlockMedalKey" />
+            android:text="@string/unlockMedalKey"
+            android:textSize="20sp"
+            app:cornerRadius="10dp" />
     </LinearLayout>
 
 </FrameLayout>

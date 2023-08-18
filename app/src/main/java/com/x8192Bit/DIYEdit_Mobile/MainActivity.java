@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void requestBefore30() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            Toast.makeText(MainActivity.this, "Storage permission required. Please allow this permission", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, R.string.storagePermissionRequireKey, Toast.LENGTH_LONG).show();
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, 100);
         } else {
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                 readFiles();
             } else {
                 // Allow permission for storage access!
-                Toast.makeText(MainActivity.this, "Please try again.", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, R.string.tryAgainKey, Toast.LENGTH_LONG).show();
             }
         }
     }

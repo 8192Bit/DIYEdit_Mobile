@@ -9,4 +9,10 @@ public class CharUtils {
         }
         return true;
     }
+
+    public static String doubleFirstChar(String str) {
+        StringBuilder sb = new StringBuilder(str);
+        sb.insert(0, str.charAt(0));
+        return sb.toString();
+    }
 }

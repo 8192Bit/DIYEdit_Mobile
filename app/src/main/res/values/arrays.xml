@@ -12,6 +12,20 @@
         <item>Night</item>
     </string-array>
 
+    <string-array name="language_values">
+        <item>system</item>
+        <item>en-us</item>
+        <item>zh-rCN</item>
+        <item>zh-rHK</item>
+    </string-array>
+
+    <string-array name="language_entries">
+        <item>System</item>
+        <item>English</item>
+        <item>Simplified Chinese</item>
+        <item>Traditional Chinese</item>
+    </string-array>
+
     <string-array name="diy_colors">
         <item>Yellow</item>
         <item>Light Blue</item>

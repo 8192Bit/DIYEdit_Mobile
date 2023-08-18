@@ -49,7 +49,7 @@
     <string name="metadataEmptyKey">元数据必填项中有空项。</string>
     <string name="appearanceKey">界面</string>
     <string name="behaviorKey">行为</string>
-    <string name="themeModeKey">主题模式</string>
+    <string name="themeModeKey">主题模式（此版本不支持此选项）</string>
     <string name="aboutKey">关于</string>
     <string name="previewKey">预览</string>
     <string name="BGKey">背景</string>
@@ -58,9 +58,21 @@
     <string name="importKey">导入......</string>
     <string name="exportKey">导出......</string>
     <string name="deleteKey">删除......</string>
-    <string name="nullSlotKey">Null slot. Click to operate.</string>
-    <string name="aboutTextKey">DIYEdit_Mobile 是 xperia64 的 DIYEdit 在 Android 上的移植版本。<br /><br />感谢：<br /> · FluidSynth 提供使用自定义 sf2 音色库播放音乐的功能。<br /> · xperia64 的 DIYEdit 提供了简单易用的类。<br /> · codekidX 的 storage-chooser 用于选择文件与目录，以及 mendhak 提供的 Android R (11) 支持。<br /> · kshoji 的 JFugue-for-Android 播放与处理 MIDI 文件。<br /> · kshoji 的 javax.sound.midi-for-Android 提供对 JFugue-for-Android 的支持。<br /> · 部分参考了 Creating a Fluidsynth Hello World App for Android -- Hector Ricardo <br /><br />DIYEdit_Mobile 是一个自由软件，受到 GPLv3 许可证的保护。使用本软件时，请遵守当地法律法规。<br /><br />软件版本 1.0.0<br />内置的 FluidSynth 版本 2.3.3</string>
-    <string name="openSourceLicenseKey">Open Source Code License</string>
-    <string name="cleanedKey">Cleaned.</string>
-    <string name="numberRequiredKey">Please enter a positive integer.</string>
+    <string name="nullSlotKey">空槽位。点击以操作</string>
+    <string name="aboutTextKey">DIYEdit_Mobile 是 xperia64 的 DIYEdit 在 Android 上的移植版本。\\n\\n感谢：\\n · FluidSynth 提供使用自定义 sf2 音色库播放音乐的功能。\\n · xperia64 的 DIYEdit 提供了简单易用的类。\\n · codekidX 的 storage-chooser 用于选择文件与目录，以及 mendhak 提供的 Android R (11) 支持。\\n · kshoji 的 JFugue-for-Android 播放与处理 MIDI 文件。\\n · kshoji 的 javax.sound.midi-for-Android 提供对 JFugue-for-Android 的支持。\\n · 部分参考了 Creating a Fluidsynth Hello World App for Android -- Hector Ricardo \\n\\nDIYEdit_Mobile 是一个自由软件，受到 GPLv3 许可证的保护。使用本软件时，请遵守当地法律法规。\\n\\n软件版本 1.0.0\\n内置的 FluidSynth 版本 2.3.3</string>
+    <string name="openSourceLicenseKey">开源许可证</string>
+    <string name="cleanedKey">已清除。</string>
+    <string name="numberRequiredKey">请输入一个正整数。</string>
+    <string name="storagePermissionRequireKey">需要储存权限。请允许 DIYEdit 获取此权限</string>
+    <string name="tryAgainKey">请再试一次。</string>
+    <string name="maxHistoryCountKey">能够记录的最多文件历史记录项目</string>
+    <string name="maxHistoryCountTitleKey">最大历史记录数</string>
+    <string name="cleanAllHistoryTitleKey">清除所有历史记录项</string>
+    <string name="cleanAllHistoryKey">清除所有打开文件的历史记录</string>
+    <string name="openAboutDialogKey">打开关于窗口</string>
+    <string name="showFullPathTitleKey">显示完整的文件路径</string>
+    <string name="showFullPathOffKey">在文件打开历史中仅显示文件名</string>
+    <string name="showFullPathOnKey">在文件打开历史中显示完整的文件路径</string>
+    <string name="normalModeKey">正常模式</string>
+    <string name="charLostModeKey">字符丢失模式</string>
 </resources>

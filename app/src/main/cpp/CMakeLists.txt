@@ -4,10 +4,12 @@ cmake_minimum_required(VERSION 3.8.1)
 
 set(fluidsynth_DIR ${CMAKE_CURRENT_LIST_DIR}/fluidsynth)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-openmp -fopenmp -Lopenmp")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-openmp -fopenmp -Lopenmp")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-openmp -fopenmp -Lopenmp -llog")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-openmp -fopenmp -Lopenmp -llog")
+
 
 #region libFluidSynth import
+
 
 add_library(libFLAC SHARED IMPORTED)
 set_target_properties(libFLAC PROPERTIES IMPORTED_LOCATION ${fluidsynth_DIR}/lib/${ANDROID_ABI}/libFLAC.so)
