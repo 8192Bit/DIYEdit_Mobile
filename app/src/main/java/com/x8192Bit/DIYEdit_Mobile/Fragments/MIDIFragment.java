@@ -7,7 +7,6 @@ import static com.x8192Bit.DIYEdit_Mobile.Fragments.MIDIFragment.is_game;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,7 +98,6 @@ public class MIDIFragment extends Fragment {
             byte[] buffer = new byte[4096];
             while ((readBytes = is.read(buffer)) != -1) {
                 os.write(buffer, 0, readBytes);
-                Log.i("", readBytes + "Byte(s) wrote to the temp file.");
             }
         }
         return f.getAbsolutePath();
