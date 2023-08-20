@@ -4,6 +4,15 @@
 
 xperia64's DIYEdit porting to Android
 
+this repo will no longer update because of my education problems
+feel free to fork and pull request
+
+functionality planned to add(but canceled)
+- [ ] night mode support
+- [ ] multi language change
+- [ ] midi file playback
+- [ ] custom file chooser activity
+
 Thanks to:
  - [FluidSynth](https://github.com/FluidSynth/fluidsynth) gives music playback with custom sf2 soundbank support.
  - [xperia64's DIYEdit](https://github.com/xperia64/DIYEdit) gives easy-to-use classes.
@@ -18,6 +27,15 @@ Thanks to:
 
 xperia64 DIYEdit 的 Android 移植版本
 
+因为学业问题不再更新
+想怎么fork/pull request就怎么搞
+
+计划加入的功能（但是取消了）
+- [ ] 夜间模式
+- [ ] 多语言切换
+- [ ] MIDI播放
+- [ ] 自制文件选择器Activity
+
 感谢：
  - [FluidSynth](https://github.com/FluidSynth/fluidsynth) 提供使用自定义 sf2 音色库播放音乐的功能。
  - [xperia64 的 DIYEdit](https://github.com/xperia64/DIYEdit) 提供了简单易用的类。
@@ -27,3 +45,5 @@ xperia64 DIYEdit 的 Android 移植版本
  - [kshoji 的 javax.sound.midi-for-Android](https://github.com/kshoji/javax.sound.midi-for-Android) 提供对 JFugue-for-Android 的支持。
    
    部分参考了 [Creating a Fluidsynth Hello World App for Android -- Hector Ricardo](https://github.com/HectorRicardo/fluidsynth-android-hello-world)
+
+-- 大家爱的中国教育
