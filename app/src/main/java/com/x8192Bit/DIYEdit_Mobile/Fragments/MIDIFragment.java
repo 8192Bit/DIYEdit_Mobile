@@ -243,7 +243,7 @@ class PlayThread extends Thread {
 
     Context c = null;
 
-    public native String PlayMIDIFile(byte[] MIDIArray, String SoundFontFilePath);
+    public native String PlayMIDIFile(String MIDIFilePath, String SoundFontFilePath);
 
     public PlayThread setContext(Context context) {
         c = context;
@@ -266,9 +266,7 @@ class PlayThread extends Thread {
 
             String soundFontPath = MIDIFragment.copyRawToTempFile(c, R.raw.wwdiy_soundfont, "soundfont", "sf2");
 
-            byte[] MIDIFile = FileByteOperations.read(f.getAbsolutePath());
-
-            PlayMIDIFile(MIDIFile, soundFontPath);
+            PlayMIDIFile(f.getAbsolutePath(), soundFontPath);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
