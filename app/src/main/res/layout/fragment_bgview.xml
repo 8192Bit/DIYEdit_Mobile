@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.x8192Bit.DIYEdit_Mobile.Fragments.BGViewFragment">
+    tools:context="com.x8192Bit.DIYEdit_Mobile.fragments.BGViewFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,14 +59,16 @@
         <ImageView
             android:id="@+id/BGView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:src="@drawable/spr_manga"
             app:srcCompat="@drawable/diy_1" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="bottom|end">
+            android:layout_gravity="bottom|end"
+            android:layout_weight="1">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/SaveBGButton"

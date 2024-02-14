@@ -8,15 +8,21 @@
 
     <ImageView
         android:id="@+id/imageViewIcon"
-        android:layout_width="168dp"
-        android:layout_height="188dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_weight="5"
+        android:foregroundGravity="top"
         android:importantForAccessibility="no"
+        android:scaleX="1"
+        android:scaleY="1"
         app:srcCompat="@mipmap/ic_launcher_foreground"
         app:tintMode="add" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <Button
@@ -26,7 +32,8 @@
             android:layout_height="match_parent"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/baseline_file_open_24"
+            android:drawableLeft="@drawable/openfile"
+            android:drawablePadding="10dp"
             android:maxWidth="320dp"
             android:text="@string/openFileKey"
             app:cornerRadius="10dp"
@@ -41,7 +48,7 @@
             android:layout_height="match_parent"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/baseline_history_24"
+            android:drawableLeft="@drawable/recentfiles"
             android:maxWidth="320dp"
             android:text="@string/openRecentFileKey"
             app:cornerRadius="10dp"
@@ -56,7 +63,7 @@
             android:layout_height="match_parent"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/baseline_settings_24"
+            android:drawableLeft="@drawable/settings"
             android:maxWidth="320dp"
             android:text="@string/settingsKey"
             app:cornerRadius="10dp"
@@ -71,7 +78,7 @@
             android:layout_height="match_parent"
             android:layout_margin="4dp"
             android:layout_weight="1"
-            android:drawableLeft="@drawable/baseline_close_24"
+            android:drawableLeft="@drawable/exit"
             android:maxWidth="320dp"
             android:text="@string/exitKey"
             app:cornerRadius="10dp"

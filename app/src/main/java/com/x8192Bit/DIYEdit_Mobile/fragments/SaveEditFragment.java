@@ -1,4 +1,4 @@
-package com.x8192Bit.DIYEdit_Mobile.Fragments;
+package com.x8192Bit.DIYEdit_Mobile.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -21,7 +21,7 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 
 import com.codekidlabs.storagechooser.StorageChooser;
-import com.x8192Bit.DIYEdit_Mobile.Utils.GraphicsUtils;
+import com.x8192Bit.DIYEdit_Mobile.utils.GraphicsUtils;
 import com.xperia64.diyedit.FileByteOperations;
 import com.xperia64.diyedit.metadata.GameMetadata;
 import com.xperia64.diyedit.metadata.MangaMetadata;
@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Objects;
 
 import x8192Bit.DIYEdit_Mobile.R;
 
@@ -181,7 +182,7 @@ public class SaveEditFragment extends Fragment {
     private void showMioPopupMenu(View view, int count) {
         if (!isPoppedUp) {
 
-            PopupMenu popupMenu = new PopupMenu(getContext(), view);
+            PopupMenu popupMenu = new PopupMenu(requireContext(), view);
             popupMenu.inflate(R.menu.miomenu);
             popupMenu.setOnMenuItemClickListener(item -> {
                 SaveHandler s = new SaveHandler(name);
@@ -274,7 +275,16 @@ public class SaveEditFragment extends Fragment {
                                     date = date.plusDays(m.getTimestamp());
                                     @SuppressLint("DefaultLocale") String name = String.format("%s-%s(%s)-%04d (%s) (%04d-%02d-%02d) %s.mio",
                                             key, m.getCreator(), m.getBrand(), m.getSerial2(), (m.getRegion()) ? "J" : "UE", date.getYear(), date.getMonthOfYear(), date.getDayOfMonth(), (m.getLocked() ? "(#) " : "") + m.getName());
-                                    name = name.replace('?', '¿').replace('/', '〳').replace('\\', '〳').replace(':', '：').replace('*', '★').replace('\"', '\'').replace('<', '＜').replace('>', '＞').replace('|', 'l').replace('!', '¡');
+                                    name = name.replace('?', '¿')
+                                            .replace('/', '〳')
+                                            .replace('\\', '〳')
+                                            .replace(':', '：')
+                                            .replace('*', '★')
+                                            .replace('\"', '\'')
+                                            .replace('<', '＜')
+                                            .replace('>', '＞')
+                                            .replace('|', 'l')
+                                            .replace('!', '¡');
                                     fileNameEdit.setText(name);
                                 }));
                         ad.show();
@@ -302,6 +312,7 @@ public class SaveEditFragment extends Fragment {
             popupMenu.show();
         }
     }
+
 
 
     public class SaveItemAdapter extends BaseAdapter {
@@ -345,7 +356,7 @@ public class SaveEditFragment extends Fragment {
             GraphicsUtils.ShelfItem si = shelfItems.get(position);
             if (si != null) {
                 holder.iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                holder.iv.setImageBitmap(si.renderImage(getContext(), 256, 256));
+                holder.iv.setImageDrawable(si.renderImage(getContext()));
                 holder.tv.setText(titles.get(position));
                 holder.iv.setOnClickListener(v -> showMioPopupMenu(v, position));
             } else {

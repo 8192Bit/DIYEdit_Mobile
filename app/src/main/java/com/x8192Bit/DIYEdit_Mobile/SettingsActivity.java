@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.x8192Bit.DIYEdit_Mobile.Utils.CharUtils;
+import com.x8192Bit.DIYEdit_Mobile.utils.CharUtils;
 
 import x8192Bit.DIYEdit_Mobile.R;
 
@@ -50,10 +50,13 @@ public class SettingsActivity extends AppCompatActivity {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             Preference maxHistoryCount = findPreference("maxHistoryCount");
             Preference cleanAllHistory = findPreference("cleanAllHistory");
+            Preference openAboutDialog = findPreference("openAboutDialog");
             assert maxHistoryCount != null;
             assert cleanAllHistory != null;
+            assert openAboutDialog != null;
             maxHistoryCount.setOnPreferenceChangeListener(this);
             cleanAllHistory.setOnPreferenceClickListener(this);
+            openAboutDialog.setOnPreferenceClickListener(this);
         }
 
         @Override
@@ -61,13 +64,11 @@ public class SettingsActivity extends AppCompatActivity {
             String key = preference.getKey();
             if (key.equals("cleanAllHistory")) {
                 SharedPreferences sp = this.requireContext().getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
-                sp.edit().putString("history", null).commit();
-                Toast t = new Toast(getContext());
-                t.setText(R.string.cleanedKey);
-                t.show();
+                sp.edit().putString("history", null).apply();
+                Toast.makeText(getContext(), R.string.cleanedKey, Toast.LENGTH_SHORT).show();
             }
             if (key.equals("openAboutDialog")) {
-                Intent i = new Intent(requireContext(), SettingsActivity.class);
+                Intent i = new Intent(requireContext(), AboutActivity.class);
                 startActivity(i);
             }
             return false;
@@ -80,9 +81,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (CharUtils.isNumeric((String) newValue)) {
                     return true;
                 } else {
-                    Toast t = new Toast(getContext());
-                    t.setText(R.string.numberRequiredKey);
-                    t.show();
+                    Toast.makeText(getContext(), R.string.numberRequiredKey, Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }

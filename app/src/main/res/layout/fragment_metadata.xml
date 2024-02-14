@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="com.x8192Bit.DIYEdit_Mobile.Fragments.MetadataEditFragment">
+    tools:context="com.x8192Bit.DIYEdit_Mobile.fragments.MetadataEditFragment">
 
     <TableLayout
         android:layout_width="match_parent"

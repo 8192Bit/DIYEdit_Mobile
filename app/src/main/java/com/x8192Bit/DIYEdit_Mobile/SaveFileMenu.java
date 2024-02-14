@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -19,11 +20,11 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.x8192Bit.DIYEdit_Mobile.Fragments.BGViewFragment;
-import com.x8192Bit.DIYEdit_Mobile.Fragments.MIDIFragment;
-import com.x8192Bit.DIYEdit_Mobile.Fragments.MetadataEditFragment;
-import com.x8192Bit.DIYEdit_Mobile.Fragments.SaveEditFragment;
-import com.x8192Bit.DIYEdit_Mobile.Fragments.UnlockFragment;
+import com.x8192Bit.DIYEdit_Mobile.fragments.BGViewFragment;
+import com.x8192Bit.DIYEdit_Mobile.fragments.MIDIFragment;
+import com.x8192Bit.DIYEdit_Mobile.fragments.MetadataEditFragment;
+import com.x8192Bit.DIYEdit_Mobile.fragments.SaveEditFragment;
+import com.x8192Bit.DIYEdit_Mobile.fragments.UnlockFragment;
 import com.xperia64.diyedit.FileByteOperations;
 import com.xperia64.diyedit.metadata.Metadata;
 
@@ -49,8 +50,9 @@ public class SaveFileMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        String path = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String path = intent.getStringExtra(MainActivity.REAL_PATH);
         initEnable(path);
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
@@ -61,8 +63,7 @@ public class SaveFileMenu extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            System.exit(0);
-            overridePendingTransition(0, 0);
+            this.finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -70,53 +71,57 @@ public class SaveFileMenu extends AppCompatActivity {
 
     public void initEnable(String filePath) {
         if (filePath != null) {
-            file = FileByteOperations.read(filePath);
-            int length = file.length;
-            ArrayList<Fragment> fl = new ArrayList<>();
-            if (length == 33554432 || length == 33554554 || length == 33566720 || length == 16777216) {
-                performDSSaveDATA(fl, filePath);
-            } else {
-                if (file.length == 4719808) {
-                    performGDATA(fl, filePath);
-                } else if (length == 591040) {
-                    performRDATA(fl, filePath);
-                } else if (length == 1033408) {
-                    performMDATA(fl, filePath);
-                } else if (file.length == 6438592) {
-                    performWiiCompressedDATA(fl, filePath);
-                }
-            }
+            try {
 
-            // Only detect when the file is not a save file
-            if (savetype == 0) {
-                if (file.length == 65536) {
-                    performGAME(fl, filePath);
-                } else if (file.length == 8192) {
-                    performRECORD(fl, filePath);
-                } else if (file.length == 14336) {
-                    performMANGA(fl, filePath);
-                }
-            }
-            vp2.setAdapter(new FragmentStateAdapter(this) {
-                @NonNull
-                @Override
-                public Fragment createFragment(int position) {
-                    return fl.get(position);
+                file = FileByteOperations.read(filePath);
+                int length = file.length;
+                ArrayList<Fragment> fl = new ArrayList<>();
+                if (length == 33554432 || length == 33554554 || length == 33566720 || length == 16777216) {
+                    performDSSaveDATA(fl, filePath);
+                } else {
+                    if (file.length == 4719808) {
+                        performGDATA(fl, filePath);
+                    } else if (length == 591040) {
+                        performRDATA(fl, filePath);
+                    } else if (length == 1033408) {
+                        performMDATA(fl, filePath);
+                    } else if (file.length == 6438592) {
+                        performWiiCompressedDATA(fl, filePath);
+                    }
                 }
 
-                @Override
-                public int getItemCount() {
-                    return fl.size();
+                // Only detect when the file is not a save file
+                if (savetype == 0) {
+                    if (file.length == 65536) {
+                        performGAME(fl, filePath);
+                    } else if (file.length == 8192) {
+                        performRECORD(fl, filePath);
+                    } else if (file.length == 14336) {
+                        performMANGA(fl, filePath);
+                    }
                 }
-            });
-            new TabLayoutMediator(tabs, vp2, (tab, position) -> tab.setText(titleList.get(position))).attach();
-            if (savetype != 0) {
-                updateFileHistory(filePath);
-            } else if (miotype != 0) {
-                updateFileHistory(filePath);
-            } else {
-                updateFileHistory(filePath);
-                fileUnavailableAlert();
+                vp2.setAdapter(new FragmentStateAdapter(this) {
+                    @NonNull @Override
+                    public Fragment createFragment(int position) {
+                        return fl.get(position);
+                    }
+
+                    @Override
+                    public int getItemCount() {
+                        return fl.size();
+                    }
+                });
+                new TabLayoutMediator(tabs, vp2, (tab, position) -> tab.setText(titleList.get(position))).attach();
+                if (savetype != 0) {
+                    updateFileHistory(filePath);
+                } else if (miotype != 0) {
+                    updateFileHistory(filePath);
+                } else {
+                    updateFileHistory(filePath);
+                    fileUnavailableAlert();
+                }
+            } catch (NullPointerException e) {
+                Toast.makeText(getApplicationContext(), "呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃哦", Toast.LENGTH_SHORT).show();
             }
         } else {
             fileUnavailableAlert();

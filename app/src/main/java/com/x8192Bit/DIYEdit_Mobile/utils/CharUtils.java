@@ -1,4 +1,4 @@
-package com.x8192Bit.DIYEdit_Mobile.Utils;
+package com.x8192Bit.DIYEdit_Mobile.utils;
 
 public class CharUtils {
     public static boolean isNumeric(String str) {

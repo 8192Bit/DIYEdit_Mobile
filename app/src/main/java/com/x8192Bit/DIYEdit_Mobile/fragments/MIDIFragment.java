@@ -1,4 +1,4 @@
-package com.x8192Bit.DIYEdit_Mobile.Fragments;
+package com.x8192Bit.DIYEdit_Mobile.fragments;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -160,9 +160,10 @@ public class MIDIFragment extends Fragment {
                 // TODO: OH WE HAVE ASS(ET)LOADER NOW SO A LOT OF WORK IS NEED HERE
                 // AHH
 
-                String soundFontPath = copyRawToTempFile(R.raw.wwdiy_soundfont, "soundfont", "sf2");
+                //String soundFontPath = copyRawToTempFile(R.raw.wwdiy_soundfont, "soundfont", "sf2");
 
-                PlayMIDIFile(f.getAbsolutePath(), soundFontPath);
+                //PlayMIDIFile(f.getAbsolutePath(), soundFontPath);
+                //TODO AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

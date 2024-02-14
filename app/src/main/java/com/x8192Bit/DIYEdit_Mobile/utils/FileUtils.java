@@ -1,4 +1,4 @@
-package com.x8192Bit.DIYEdit_Mobile.Utils;
+package com.x8192Bit.DIYEdit_Mobile.utils;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;

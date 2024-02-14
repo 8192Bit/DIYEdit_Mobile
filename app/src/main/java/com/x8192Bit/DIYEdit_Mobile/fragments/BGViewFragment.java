@@ -1,7 +1,11 @@
-package com.x8192Bit.DIYEdit_Mobile.Fragments;
+package com.x8192Bit.DIYEdit_Mobile.fragments;
+
+import static com.x8192Bit.DIYEdit_Mobile.MainActivity.CHOOSE_RESULT;
+import static com.x8192Bit.DIYEdit_Mobile.MainActivity.CHOOSE_TYPE;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -18,12 +22,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.codekidlabs.storagechooser.StorageChooser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.x8192Bit.DIYEdit_Mobile.FileChooseActivity;
 import com.xperia64.diyedit.editors.GameEdit;
 import com.xperia64.diyedit.editors.MangaEdit;
 
@@ -102,48 +111,64 @@ public class BGViewFragment extends Fragment {
             });
             bg.setImageBitmap(DrawManga(192, 128, 0, name));
         }
-        ss.setOnClickListener(v -> SaveFileDialog(path -> {
-            EditText fileNameEdit = new EditText(getContext());
-            new AlertDialog.Builder(getContext())
-                    .setTitle(R.string.exportFileNameSetKey)
-                    .setCancelable(true)
-                    .setView(fileNameEdit)
-                    .setPositiveButton(R.string.okKey, (dialog, which) -> {
-                        String fileName = fileNameEdit.getText().toString();
-                        if (!fileName.toLowerCase(Locale.US).endsWith(".png")) {
-                            fileName += ".png";
-                        }
-                        String pathName = path + "//" + fileName;
-
-                        Bitmap b;
-                        if (is_game) {
-                            if (!bp.isChecked()) {
-                                b = DrawGameBG(192, 128, name);
-                            } else {
-                                b = DrawGamePreview(96, 64, name);
-                            }
-                        } else {
-                            b = DrawManga(192, 128, ms.getProgress(), name);
-                        }
-
-                        try {
-                            FileOutputStream out = new FileOutputStream(pathName);
-                            if (b.compress(Bitmap.CompressFormat.PNG, 100, out)) {
-                                try {
-                                    out.flush();
-                                    out.close();
-                                    Toast.makeText(getContext(), R.string.exportSuccessKey, Toast.LENGTH_SHORT).show();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(getContext(), R.string.exportSuccessKey, Toast.LENGTH_SHORT).show();
+        ss.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), FileChooseActivity.class);
+            intent.putExtra(CHOOSE_TYPE, FileChooseActivity.CHOOSE_DIRECTORY);
+            ActivityResultContracts.StartActivityForResult contract = new ActivityResultContracts.StartActivityForResult();
+            ActivityResultCallback<ActivityResult> callback = o -> {
+                try {
+                    String path = o.getData().getStringExtra(CHOOSE_RESULT);
+                    EditText fileNameEdit = new EditText(getContext());
+                    new AlertDialog.Builder(getContext())
+                            .setTitle(R.string.exportFileNameSetKey)
+                            .setCancelable(true)
+                            .setView(fileNameEdit)
+                            .setPositiveButton(R.string.okKey, (dialog, which) -> {
+                                String fileName = fileNameEdit.getText().toString();
+                                if (!fileName.toLowerCase(Locale.US).endsWith(".png")) {
+                                    fileName += ".png";
                                 }
-                            }
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
+                                String pathName = path + "//" + fileName;
 
-                    }).show();
-        }));
+                                Bitmap b;
+                                if (is_game) {
+                                    if (!bp.isChecked()) {
+                                        b = DrawGameBG(192, 128, name);
+                                    } else {
+                                        b = DrawGamePreview(96, 64, name);
+                                    }
+                                } else {
+                                    b = DrawManga(192, 128, ms.getProgress(), name);
+                                }
+
+                                try {
+                                    FileOutputStream out = new FileOutputStream(pathName);
+                                    if (b.compress(Bitmap.CompressFormat.PNG, 100, out)) {
+                                        try {
+                                            out.flush();
+                                            out.close();
+                                            Toast.makeText(getContext(), R.string.exportSuccessKey, Toast.LENGTH_SHORT).show();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                            Toast.makeText(getContext(), R.string.exportSuccessKey, Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }).show();
+                } catch (NullPointerException e) {
+                    new androidx.appcompat.app.AlertDialog.Builder(getContext())
+                            .setTitle("嘿嘿！！")
+                            .setMessage("安卓崩喽！安卓崩喽！！！1111")
+                            .show();
+                }
+            };
+            ActivityResultLauncher<Intent> launcher = registerForActivityResult(contract, callback);
+            launcher.launch(intent);
+        }
+        );
         resize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -252,7 +277,6 @@ public class BGViewFragment extends Fragment {
         Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         new Canvas(result)
                 .drawBitmap(b, new Rect(0, 0, 192, 128), new Rect(0, 0, width, height), p);
-
         return result;
     }
 

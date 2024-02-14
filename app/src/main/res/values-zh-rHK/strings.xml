@@ -10,7 +10,7 @@
     <string name="editMangaKey">編輯漫畫......</string>
     <string name="unlockKey">解鎖存檔......</string>
     <string name="title_activity_settings">設置</string>
-    <string name="openRecentFileKey">打開最近檔</string>
+    <string name="openRecentFileKey">打開最近文檔......</string>
     <string name="settingsKey">設置......</string>
     <string name="exitKey">退出</string>
     <string name="editGameKey">編輯遊戲</string>
@@ -43,7 +43,7 @@
     <string name="selfColorKey">本體顏色</string>
     <string name="discardKey">取消更改</string>
     <string name="saveKey">保存</string>
-    <string name="deleteMIOWaringKey">你正在刪除一個mio檔！請確認。</string>
+    <string name="deleteMIOWaringKey">你正在刪除一個mio文檔！請確認。</string>
     <string name="serialNumberWrongKey">序號格式錯誤。</string>
     <string name="exportSuccessKey">導出成功。</string>
     <string name="metadataEmptyKey">元數據必填項中有空項。</string>
@@ -58,10 +58,12 @@
     <string name="importKey">導入......</string>
     <string name="exportKey">導出......</string>
     <string name="deleteKey">刪除......</string>
-    <string name="nullSlotKey">Null slot. Click to operate.</string>
+    <string name="nullSlotKey">空槽位。輕觸以操作。</string>
     <string name="aboutTextKey">DIYEdit_Mobile 是 xperia64 的 DIYEdit 在 Android 上的移植版本。<br /><br />感谢：<br /> · FluidSynth 提供使用自定义 sf2 音色库播放音乐的功能。<br /> · xperia64 的 DIYEdit 提供了简单易用的类。<br /> · codekidX 的 storage-chooser 用于选择文件与目录，以及 mendhak 提供的 Android R (11) 支持。<br /> · kshoji 的 JFugue-for-Android 播放与处理 MIDI 文件。<br /> · kshoji 的 javax.sound.midi-for-Android 提供对 JFugue-for-Android 的支持。<br /> · 部分参考了 Creating a Fluidsynth Hello World App for Android -- Hector Ricardo <br /><br />DIYEdit_Mobile 是一个自由软件，受到 GPLv3 许可证的保护。使用本软件时，请遵守当地法律法规。<br /><br />软件版本 1.0.0<br />内置的 FluidSynth 版本 2.3.3</string>
-    <string name="openSourceLicenseKey">Open Source Code License</string>
-    <string name="cleanedKey">Cleaned.</string>
-    <string name="numberRequiredKey">Please enter a positive integer.</string>
+    <string name="openSourceLicenseKey">開源代碼許可證</string>
+    <string name="cleanedKey">已清除。</string>
+    <string name="numberRequiredKey">請輸入一個正整數。</string>
+    <string name="title_activity_file_choose">選擇......</string>
+    <string name="chooseCurrentDirectory">選擇當前目錄</string>
 </resources>
 

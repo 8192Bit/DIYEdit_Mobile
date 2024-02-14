@@ -6,9 +6,12 @@
         <ListPreference
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:defaultValue="1"
             android:title="@string/languageSelectKey"
-            app:key="LanguageSelect" />
+            app:defaultValue="system"
+            app:entries="@array/language_entries"
+            app:entryValues="@array/language_values"
+            app:key="LanguageSelect"
+            app:useSimpleSummaryProvider="true" />
         <ListPreference
             app:defaultValue="system"
             app:entries="@array/theme_entries"
