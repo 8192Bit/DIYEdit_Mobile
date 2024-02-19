@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="2dp"
     android:orientation="vertical"
-    tools:context="com.x8192Bit.DIYEdit_Mobile.Fragments.MetadataEditFragment">
+    tools:context="com.x8192Bit.DIYEdit_Mobile.fragments.MetadataEditFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

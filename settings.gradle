@@ -13,6 +13,7 @@ dependencyResolutionManagement {
         mavenCentral()
         maven { url("https://jitpack.io") }
         maven { url('https://github.com/kshoji/JFugue-for-Android/raw/master/jfugue-android/snapshot') }
+        // you can use this if your access to github is blocked maven { url('https://kkgithub.com/kshoji/JFugue-for-Android/raw/master/jfugue-android/snapshot') }
     }
 }
 rootProject.name = "DIYEdit_Mobile"

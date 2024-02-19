@@ -1,4 +1,4 @@
-package com.x8192Bit.DIYEdit_Mobile.Utils;
+package com.x8192Bit.DIYEdit_Mobile.utils;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
@@ -41,9 +41,9 @@ public class FileUtils {
                 String docId = DocumentsContract.getDocumentId(imageUri);
                 String[] split = docId.split(":");
                 String type = split[0];
-//                if ("primary".equalsIgnoreCase(type)) {
-                return Environment.getExternalStorageDirectory() + "/" + split[1];
-//                }
+                if ("primary".equalsIgnoreCase(type)) { // TODO I USED TO COMMENTED THIS LINE
+                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                } // TODO AND THIS LINE
             } else if (isDownloadsDocument(imageUri)) {
                 String id = DocumentsContract.getDocumentId(imageUri);
                 Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
@@ -194,8 +194,11 @@ public class FileUtils {
                     e.printStackTrace();
                 }
             }
-        }
+        }//TODO 改！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+
         return file.getAbsolutePath();
+
+
     }
 
 }

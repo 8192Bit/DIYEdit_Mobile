@@ -10,7 +10,7 @@
     <string name="editMangaKey">編輯漫畫......</string>
     <string name="unlockKey">解鎖存檔......</string>
     <string name="title_activity_settings">設置</string>
-    <string name="openRecentFileKey">打開最近檔</string>
+    <string name="openRecentFileKey">打開最近文檔......</string>
     <string name="settingsKey">設置......</string>
     <string name="exitKey">退出</string>
     <string name="editGameKey">編輯遊戲</string>
@@ -43,13 +43,13 @@
     <string name="selfColorKey">本體顏色</string>
     <string name="discardKey">取消更改</string>
     <string name="saveKey">保存</string>
-    <string name="deleteMIOWaringKey">你正在刪除一個mio檔！請確認。</string>
+    <string name="deleteMIOWaringKey">你正在刪除一個mio文檔！請確認。</string>
     <string name="serialNumberWrongKey">序號格式錯誤。</string>
     <string name="exportSuccessKey">導出成功。</string>
     <string name="metadataEmptyKey">元數據必填項中有空項。</string>
     <string name="appearanceKey">界面</string>
     <string name="behaviorKey">行為</string>
-    <string name="themeModeKey">主題模式（此版本不支持此选项）</string>
+    <string name="themeModeKey">主題模式</string>
     <string name="aboutKey">關於</string>
     <string name="previewKey">預覽</string>
     <string name="BGKey">背景</string>
@@ -75,5 +75,12 @@
     <string name="showFullPathOnKey">在檔案打開歷史中顯示完整的檔案路徑</string>
     <string name="normalModeKey">正常模式</string>
     <string name="charLostModeKey">字符丟失模式</string>
+    <string name="title_activity_file_choose">選擇......</string>
+    <string name="chooseCurrentDirectory">選擇當前目錄</string>
+    <string name="exportFailedKey">導出失敗。</string>
+    <string name="timeSortededKey">時間排序</string>
+    <string name="nameSortededKey">名稱排序</string>
+    <string name="reverseOrderKey">逆序</string>
+    <string name="historyTooExtremeKey">最大歷史記錄數過大或過小。</string>
 </resources>
 

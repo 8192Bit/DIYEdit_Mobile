@@ -1,12 +1,12 @@
 <resources>
-    <string name="openFileKey">Open file…</string>
-    <string name="metaDataEditKey">Edit metadata…</string>
+    <string name="openFileKey">Open file...</string>
+    <string name="metaDataEditKey">Edit metadata...</string>
     <string name="midiToolsKey">Play/Export MIDI</string>
-    <string name="viewMangaKey">View Manga…</string>
-    <string name="viewBGKey">View Game BG…</string>
+    <string name="viewMangaKey">View Manga...</string>
+    <string name="viewBGKey">View Game BG...</string>
     <string name="editRecordKey">Edit Records</string>
     <string name="editMangaKey">Edit Mangas</string>
-    <string name="unlockKey">Unlock…</string>
+    <string name="unlockKey">Unlock...</string>
     <!-- Strings used for fragments for navigation -->
     <string name="title_activity_settings">Settings</string>
 
@@ -15,8 +15,8 @@
     <!-- Messages Preferences -->
 
     <!-- Sync Preferences -->
-    <string name="openRecentFileKey">Open recent file…</string>
-    <string name="settingsKey">Settings…</string>
+    <string name="openRecentFileKey">Open recent file...</string>
+    <string name="settingsKey">Settings...</string>
     <string name="exitKey">Exit</string>
     <string name="editGameKey">Edit Games</string>
     <string name="dsSaveKey">DS Save</string>
@@ -55,7 +55,7 @@
     <string name="metadataEmptyKey">Empty Entry(ies) in Metadata.</string>
     <string name="appearanceKey">Appearance</string>
     <string name="behaviorKey">Behavior</string>
-    <string name="themeModeKey">Theme Mode(This version of DIYEdit does not support this option)</string>
+    <string name="themeModeKey">Theme Mode</string>
     <string name="aboutKey">About</string>
     <string name="previewKey">Preview</string>
     <string name="BGKey">BG</string>
@@ -64,6 +64,7 @@
     <string name="importKey">Import...</string>
     <string name="exportKey">Export...</string>
     <string name="deleteKey">Delete...</string>
+
     <string name="nullSlotKey">Null slot. Click to operate.</string>
     <string name="aboutTextKey">DIYEdit_Mobile 是 xperia64 的 DIYEdit 在 Android 上的移植版本。<br /><br />感谢：<br /> · FluidSynth 提供使用自定义 sf2 音色库播放音乐的功能。<br /> · xperia64 的 DIYEdit 提供了简单易用的类。<br /> · codekidX 的 storage-chooser 用于选择文件与目录，以及 mendhak 提供的 Android R (11) 支持。<br /> · kshoji 的 JFugue-for-Android 播放与处理 MIDI 文件。<br /> · kshoji 的 javax.sound.midi-for-Android 提供对 JFugue-for-Android 的支持。<br /> · 部分参考了 Creating a Fluidsynth Hello World App for Android -- Hector Ricardo <br /><br />DIYEdit_Mobile 是一个自由软件，受到 GPLv3 许可证的保护。使用本软件时，请遵守当地法律法规。<br /><br />软件版本 1.0.0<br />内置的 FluidSynth 版本 2.3.3</string>
     <string name="openSourceLicenseKey">Open Source Code License</string>
@@ -81,6 +82,14 @@
     <string name="showFullPathOnKey">Show full file path for history entries</string>
     <string name="normalModeKey">fNormal Mode</string>
     <string name="charLostModeKey">Char Lost Mode</string>
+    <string name="title_activity_file_choose">Select...</string>
+    <string name="chooseCurrentDirectory">Select Current Directory</string>
+    <string name="exportFailedKey">Failed to export requested item(s).</string>
+    <string name="timeSortededKey">Sort by time</string>
+    <string name="nameSortededKey">Sort by name</string>
+    <string name="reverseOrderKey">Reversed Order</string>
+    <string name="historyTooExtremeKey">The max count of history entry is too big or too small.</string>
+    <!-- Strings used for fragments for navigation -->
 
     <!-- Preference Titles -->
 

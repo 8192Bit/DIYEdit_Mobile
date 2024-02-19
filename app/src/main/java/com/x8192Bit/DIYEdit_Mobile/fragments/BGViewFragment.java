@@ -1,7 +1,15 @@
-package com.x8192Bit.DIYEdit_Mobile.Fragments;
+package com.x8192Bit.DIYEdit_Mobile.fragments;
+
+import static com.x8192Bit.DIYEdit_Mobile.SaveFileMenu.FILE_CHOOSE_ACTIVITY_RESULT;
+import static com.x8192Bit.DIYEdit_Mobile.SaveFileMenu.FILE_CHOOSE_REAL_PATH;
+import static com.x8192Bit.DIYEdit_Mobile.SaveFileMenu.OPEN_FILE_CHOOSE_ACTIVITY;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -21,7 +29,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.codekidlabs.storagechooser.StorageChooser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.xperia64.diyedit.editors.GameEdit;
@@ -29,8 +36,8 @@ import com.xperia64.diyedit.editors.MangaEdit;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Locale;
+import java.util.Objects;
 
 import x8192Bit.DIYEdit_Mobile.R;
 
@@ -38,9 +45,13 @@ public class BGViewFragment extends Fragment {
 
     private static final String ARG_NAME = "name";
     private static final String ARG_IS_GAME = "is_game";
+    public static final String IS_SAVE_EDIT = "com.x8192Bit.DIYEdit_Mobile.IS_SAVE_EDIT";
 
     private String name;
     private Boolean is_game;
+
+    SwitchMaterial bp = null;
+    SeekBar ms = null;
 
     public BGViewFragment() {
 
@@ -55,14 +66,62 @@ public class BGViewFragment extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            name = getArguments().getString(ARG_NAME);
-            is_game = getArguments().getBoolean(ARG_IS_GAME);
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Objects.equals(intent.getAction(), FILE_CHOOSE_ACTIVITY_RESULT)) {
+                try {
+                    SwitchMaterial bp = requireView().findViewById(R.id.BGPreviewSwitch);
+                    SeekBar ms = requireView().findViewById(R.id.MangaSeekBar);
+                    String path = intent.getStringExtra(FILE_CHOOSE_REAL_PATH);
+                    EditText fileNameEdit = new EditText(getContext());
+                    new AlertDialog.Builder(getContext())
+                            .setTitle(R.string.exportFileNameSetKey)
+                            .setCancelable(true)
+                            .setView(fileNameEdit)
+                            .setPositiveButton(R.string.okKey, (dialog, which) -> {
+                                String fileName = fileNameEdit.getText().toString();
+                                if (!fileName.toLowerCase(Locale.US).endsWith(".png")) {
+                                    fileName += ".png";
+                                }
+                                String pathName = path + "//" + fileName;
+
+                                Bitmap b;
+                                if (is_game) {
+                                    if (!bp.isChecked()) {
+                                        b = DrawGameBG(192, 128, name);
+                                    } else {
+                                        b = DrawGamePreview(96, 64, name);
+                                    }
+                                } else {
+                                    b = DrawManga(192, 128, ms.getProgress(), name);
+                                }
+
+                                try {
+                                    FileOutputStream out = new FileOutputStream(pathName);
+                                    if (b.compress(Bitmap.CompressFormat.PNG, 100, out)) {
+                                        try {
+                                            out.flush();
+                                            out.close();
+                                            Toast.makeText(getContext(), R.string.exportSuccessKey, Toast.LENGTH_SHORT).show();
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            Toast.makeText(getContext(), R.string.exportFailedKey, Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                            }).show();
+                } catch (NullPointerException e) {
+                    new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                            .setTitle("嘿嘿！！")
+                            .setMessage("安卓崩喽！安卓崩喽！！！1111")
+                            .show();
+                }
+            }
         }
-    }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,96 +129,15 @@ public class BGViewFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_bgview, container, false);
     }
 
-
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        ImageView bg = view.findViewById(R.id.BGView);
-        SeekBar ms = view.findViewById(R.id.MangaSeekBar);
-        SeekBar resize = view.findViewById(R.id.resizeSeekBar);
-        FloatingActionButton ss = view.findViewById(R.id.SaveBGButton);
-        SwitchMaterial bp = view.findViewById(R.id.BGPreviewSwitch);
-        resize.setMax(100);
-        if (is_game) {
-            ((ViewGroup) ms.getParent()).removeView(ms);
-            bp.setOnClickListener(v -> refreshBG(requireView()));
-            bg.setImageBitmap(DrawGameBG(192, 128, name));
-        } else {
-            ((ViewGroup) bp.getParent()).removeView(bp);
-            ms.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    refreshBG(requireView());
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                }
-            });
-            bg.setImageBitmap(DrawManga(192, 128, 0, name));
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            name = getArguments().getString(ARG_NAME);
+            is_game = getArguments().getBoolean(ARG_IS_GAME);
         }
-        ss.setOnClickListener(v -> SaveFileDialog(path -> {
-            EditText fileNameEdit = new EditText(getContext());
-            new AlertDialog.Builder(getContext())
-                    .setTitle(R.string.exportFileNameSetKey)
-                    .setCancelable(true)
-                    .setView(fileNameEdit)
-                    .setPositiveButton(R.string.okKey, (dialog, which) -> {
-                        String fileName = fileNameEdit.getText().toString();
-                        if (!fileName.toLowerCase(Locale.US).endsWith(".png")) {
-                            fileName += ".png";
-                        }
-                        String pathName = path + "//" + fileName;
-
-                        Bitmap b;
-                        if (is_game) {
-                            if (!bp.isChecked()) {
-                                b = DrawGameBG(192, 128, name);
-                            } else {
-                                b = DrawGamePreview(96, 64, name);
-                            }
-                        } else {
-                            b = DrawManga(192, 128, ms.getProgress(), name);
-                        }
-
-                        try {
-                            FileOutputStream out = new FileOutputStream(pathName);
-                            if (b.compress(Bitmap.CompressFormat.PNG, 100, out)) {
-                                try {
-                                    out.flush();
-                                    out.close();
-                                    Toast.makeText(getContext(), R.string.exportSuccessKey, Toast.LENGTH_SHORT).show();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(getContext(), R.string.exportSuccessKey, Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
-
-                    }).show();
-        }));
-        resize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                refreshBG(requireView());
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
+        IntentFilter intentFilter = new IntentFilter(FILE_CHOOSE_ACTIVITY_RESULT);
+        requireActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
 
     @SuppressLint("SetTextI18n")
@@ -201,18 +179,6 @@ public class BGViewFragment extends Fragment {
         return result;
     }
 
-    public void SaveFileDialog(StorageChooser.OnSelectListener oc) {
-        StorageChooser chooser = new StorageChooser.Builder()
-                .withActivity(getActivity())
-                .withFragmentManager(requireActivity().getFragmentManager())
-                .withMemoryBar(true)
-                .allowCustomPath(true)
-                .setType(StorageChooser.DIRECTORY_CHOOSER)
-                .build();
-        chooser.show();
-        chooser.setOnSelectListener(oc);
-    }
-
     public Bitmap DrawGameBG(int width, int height, String file) {
         Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         Canvas c = new Canvas(b);
@@ -252,7 +218,6 @@ public class BGViewFragment extends Fragment {
         Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         new Canvas(result)
                 .drawBitmap(b, new Rect(0, 0, 192, 128), new Rect(0, 0, width, height), p);
-
         return result;
     }
 
@@ -348,5 +313,66 @@ public class BGViewFragment extends Fragment {
                 return 0;
         }
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ImageView bg = view.findViewById(R.id.BGView);
+        ms = view.findViewById(R.id.MangaSeekBar);
+        SeekBar resize = view.findViewById(R.id.resizeSeekBar);
+        FloatingActionButton ss = view.findViewById(R.id.SaveBGButton);
+        bp = view.findViewById(R.id.BGPreviewSwitch);
+        resize.setMax(100);
+        if (is_game) {
+            ((ViewGroup) ms.getParent()).removeView(ms);
+            bp.setOnClickListener(v -> refreshBG(requireView()));
+            bg.setImageBitmap(DrawGameBG(192, 128, name));
+        } else {
+            ((ViewGroup) bp.getParent()).removeView(bp);
+            ms.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    refreshBG(requireView());
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                }
+            });
+            bg.setImageBitmap(DrawManga(192, 128, 0, name));
+        }
+        ss.setOnClickListener(v -> {
+                    Intent intent = new Intent(OPEN_FILE_CHOOSE_ACTIVITY);
+                    intent.putExtra(IS_SAVE_EDIT, false);
+                    requireActivity().sendBroadcast(intent);
+                    // 事件处理请移步broadcastReceiver.onReceive
+                }
+        );
+        resize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                refreshBG(requireView());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        requireActivity().unregisterReceiver(broadcastReceiver);
+    }
+
 
 }

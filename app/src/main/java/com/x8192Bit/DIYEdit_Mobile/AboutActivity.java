@@ -24,13 +24,14 @@ public class AboutActivity extends AppCompatActivity {
         findViewById(R.id.AboutButton).setOnClickListener(this::OnAboutButtonClicked);
         findViewById(R.id.LicenseButton).setOnClickListener(this::OnLicenseButtonClicked);
         OnAboutButtonClicked(null);
+        TextView tv = findViewById(R.id.InformationTextView);
+        tv.setText(getString(R.string.aboutTextKey).replace("\\n", "\n"));
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             this.finish();
-            overridePendingTransition(0, 0);
             return true;
         }
         return super.onOptionsItemSelected(item);

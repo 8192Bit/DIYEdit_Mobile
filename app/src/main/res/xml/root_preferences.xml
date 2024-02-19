@@ -8,17 +8,15 @@
             android:title="@string/languageSelectKey"
             app:entries="@array/language_entries"
             app:entryValues="@array/language_values"
-            app:icon="@drawable/baseline_language_24"
+            app:icon="@drawable/language"
             app:key="LanguageSelect"
             app:useSimpleSummaryProvider="true" />
         <ListPreference
             app:defaultValue="system"
-            app:enabled="false"
             app:entries="@array/theme_entries"
             app:entryValues="@array/theme_values"
-            app:icon="@drawable/baseline_dark_mode_24"
-            app:key="ThemeSelectKey"
-            app:shouldDisableView="true"
+            app:icon="@drawable/daynightcycle"
+            app:key="ThemeSelect"
             app:title="@string/themeModeKey"
             app:useSimpleSummaryProvider="true" />
 
@@ -29,7 +27,6 @@
         <EditTextPreference
             android:summary="@string/maxHistoryCountKey"
             app:defaultValue="10"
-            app:icon="@drawable/baseline_manage_history_24"
             app:key="maxHistoryCount"
             app:title="@string/maxHistoryCountTitleKey"
             app:useSimpleSummaryProvider="false" />
@@ -38,7 +35,7 @@
             android:key="cleanAllHistory"
             android:summary="@string/cleanAllHistoryKey"
             android:title="@string/cleanAllHistoryTitleKey"
-            app:icon="@drawable/baseline_clear_all_24" />
+            app:icon="@drawable/cleanuphistory" />
 
 
         <SwitchPreference
@@ -46,7 +43,7 @@
             android:switchTextOff="@string/showFullPathOffKey"
             android:switchTextOn="@string/showFullPathOnKey"
             android:title="@string/showFullPathTitleKey"
-            app:icon="@drawable/baseline_file_open_24"
+            app:icon="@drawable/showfullfilepath"
             app:summaryOff="@string/showFullPathOffKey"
             app:summaryOn="@string/showFullPathOnKey" />
 
@@ -60,7 +57,7 @@
             android:key="openAboutDialog"
             android:summary="@string/openAboutDialogKey"
             android:title="@string/aboutKey"
-            app:icon="@drawable/baseline_info_24" />
+            app:icon="@drawable/about" />
     </PreferenceCategory>
 
 </PreferenceScreen>

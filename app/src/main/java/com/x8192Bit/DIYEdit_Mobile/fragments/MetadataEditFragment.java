@@ -1,5 +1,6 @@
-package com.x8192Bit.DIYEdit_Mobile.Fragments;
+package com.x8192Bit.DIYEdit_Mobile.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,8 +20,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
-import com.x8192Bit.DIYEdit_Mobile.Utils.CharUtils;
-import com.x8192Bit.DIYEdit_Mobile.Utils.GraphicsUtils;
+import com.x8192Bit.DIYEdit_Mobile.utils.CharUtils;
+import com.x8192Bit.DIYEdit_Mobile.utils.GraphicsUtils;
 import com.xperia64.diyedit.FileByteOperations;
 import com.xperia64.diyedit.metadata.Checksums;
 import com.xperia64.diyedit.metadata.GameMetadata;
@@ -102,7 +103,7 @@ public class MetadataEditFragment extends Fragment {
             gi.setCartridgeShape(selfStyle.getSelectedItemPosition());
             gi.setIconColor(iconColor.getSelectedItemPosition());
             gi.setIconShape(iconStyle.getSelectedItemPosition());
-            preview.setImageBitmap(gi.renderImage(getContext(), 26, 26));
+            preview.setImageDrawable(gi.renderImage(getContext()));
         }
         //endregion
         //region For RECORD Refresh
@@ -113,7 +114,7 @@ public class MetadataEditFragment extends Fragment {
             ri.setRecordShape(selfStyle.getSelectedItemPosition());
             ri.setIconColor(iconColor.getSelectedItemPosition());
             ri.setIconShape(iconStyle.getSelectedItemPosition());
-            preview.setImageBitmap(ri.renderImage(getContext(), 26, 26));
+            preview.setImageDrawable(ri.renderImage(getContext()));
         }
         //endregion
         //region For MANGA Refresh
@@ -123,11 +124,12 @@ public class MetadataEditFragment extends Fragment {
             mi.setMangaColor(selfColor.getSelectedItemPosition());
             mi.setIconColor(iconColor.getSelectedItemPosition());
             mi.setIconShape(iconStyle.getSelectedItemPosition());
-            preview.setImageBitmap(mi.renderImage(getContext(), 26, 26));
+            preview.setImageDrawable(mi.renderImage(getContext()));
         }
         //endregion
     }
 
+    @SuppressLint("SetTextI18n")
     void loadFromFile(View view) {
         //region Init
         Metadata m = new Metadata(name);
@@ -166,10 +168,10 @@ public class MetadataEditFragment extends Fragment {
                     bossButton.toggle();
                     break;
             }
-            selfColor.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.diy_colors)));
-            selfStyle.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.game_shapes)));
-            iconColor.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.diy_colors)));
-            iconStyle.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.game_icons)));
+            selfColor.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, requireContext().getResources().getTextArray(R.array.diy_colors)));
+            selfStyle.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, requireContext().getResources().getTextArray(R.array.game_shapes)));
+            iconColor.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, requireContext().getResources().getTextArray(R.array.diy_colors)));
+            iconStyle.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, requireContext().getResources().getTextArray(R.array.game_icons)));
             selfColor.setSelection(gm.getCartColor());
             selfStyle.setSelection(gm.getCartType());
             iconColor.setSelection(gm.getLogoColor());
@@ -184,10 +186,10 @@ public class MetadataEditFragment extends Fragment {
         //region For RECORD Settings
         if (miotype == 1) {
 
-            selfColor.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.diy_colors)));
-            selfStyle.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.record_shapes)));
-            iconColor.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.diy_colors)));
-            iconStyle.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.record_icons)));
+            selfColor.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.FileChooseItemTextView, requireContext().getResources().getTextArray(R.array.diy_colors)));
+            selfStyle.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.FileChooseItemTextView, requireContext().getResources().getTextArray(R.array.record_shapes)));
+            iconColor.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.FileChooseItemTextView, requireContext().getResources().getTextArray(R.array.diy_colors)));
+            iconStyle.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.FileChooseItemTextView, requireContext().getResources().getTextArray(R.array.record_icons)));
             RecordMetadata rm = new RecordMetadata(name);
             selfColor.setSelection(rm.getRecordColor());
             selfStyle.setSelection(rm.getRecordType());
@@ -199,9 +201,9 @@ public class MetadataEditFragment extends Fragment {
         if (miotype == 2) {
             MangaMetadata mm = new MangaMetadata(name);
             selfStyle.setEnabled(false);
-            selfColor.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.diy_colors)));
-            iconColor.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.diy_colors)));
-            iconStyle.setAdapter(new ArrayAdapter<>(getContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, getContext().getResources().getTextArray(R.array.manga_icons)));
+            selfColor.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.FileChooseItemTextView, requireContext().getResources().getTextArray(R.array.diy_colors)));
+            iconColor.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.FileChooseItemTextView, requireContext().getResources().getTextArray(R.array.diy_colors)));
+            iconStyle.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.FileChooseItemTextView, requireContext().getResources().getTextArray(R.array.manga_icons)));
             selfColor.setSelection(mm.getMangaColor());
             iconColor.setSelection(mm.getLogoColor());
             iconStyle.setSelection(mm.getLogo());
@@ -227,8 +229,8 @@ public class MetadataEditFragment extends Fragment {
         //endregion
     }
 
-    void writeToFile(View view) {
 
+    void writeToFile(View view) {
         //region Init
         byte[] fil = FileByteOperations.read(name);
         Metadata m = new Metadata(fil);
@@ -279,6 +281,7 @@ public class MetadataEditFragment extends Fragment {
                     .setNegativeButton(R.string.okKey, null)
                     .show();
         }
+
         fil = m.file;
         //endregion
         //region For GAME Settings
@@ -299,26 +302,26 @@ public class MetadataEditFragment extends Fragment {
             gm.setLogoColor((byte) iconColor.getSelectedItemPosition());
             gm.setLogo((byte) iconStyle.getSelectedItemPosition());
             FileByteOperations.write(Checksums.writeChecksums(gm.file), name);
-        }
-        //endregion
-        //region For RECORD Settings
-        if (miotype == 1) {
-            RecordMetadata rm = new RecordMetadata(fil);
-            rm.setRecordColor((byte) selfColor.getSelectedItemPosition());
-            rm.setRecordType((byte) selfStyle.getSelectedItemPosition());
-            rm.setLogoColor((byte) iconColor.getSelectedItemPosition());
-            rm.setLogo((byte) iconStyle.getSelectedItemPosition());
-            FileByteOperations.write(Checksums.writeChecksums(rm.file), name);
-        }
-        //endregion
-        //region For MANGA Settings
-        if (miotype == 2) {
-            MangaMetadata mm = new MangaMetadata(fil);
-            mm.setMangaColor((byte) selfColor.getSelectedItemPosition());
-            mm.setLogoColor((byte) iconColor.getSelectedItemPosition());
-            mm.setLogo((byte) iconStyle.getSelectedItemPosition());
-            FileByteOperations.write(Checksums.writeChecksums(mm.file), name);
-        }
+        } else
+            //endregion
+            //region For RECORD Settings
+            if (miotype == 1) {
+                RecordMetadata rm = new RecordMetadata(fil);
+                rm.setRecordColor((byte) selfColor.getSelectedItemPosition());
+                rm.setRecordType((byte) selfStyle.getSelectedItemPosition());
+                rm.setLogoColor((byte) iconColor.getSelectedItemPosition());
+                rm.setLogo((byte) iconStyle.getSelectedItemPosition());
+                FileByteOperations.write(Checksums.writeChecksums(rm.file), name);
+            } else
+                //endregion
+                //region For MANGA Settings
+                if (miotype == 2) {
+                    MangaMetadata mm = new MangaMetadata(fil);
+                    mm.setMangaColor((byte) selfColor.getSelectedItemPosition());
+                    mm.setLogoColor((byte) iconColor.getSelectedItemPosition());
+                    mm.setLogo((byte) iconStyle.getSelectedItemPosition());
+                    FileByteOperations.write(Checksums.writeChecksums(mm.file), name);
+                }
         //endregion
         //region CharLostMode Check POST part
         String post_name = m.getName();

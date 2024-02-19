@@ -15,21 +15,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.codekidlabs.storagechooser.StorageChooser;
-import com.x8192Bit.DIYEdit_Mobile.Utils.FileUtils;
+import com.x8192Bit.DIYEdit_Mobile.utils.FileUtils;
 
 import x8192Bit.DIYEdit_Mobile.BuildConfig;
 import x8192Bit.DIYEdit_Mobile.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String EXTRA_MESSAGE = "com.x8192Bit.DIYEdit_Mobile.MESSAGE";
+    public static final String REAL_PATH = "com.x8192Bit.DIYEdit_Mobile.REAL_PATH";
+    public static final String CHOOSE_TYPE = "com.x8192Bit.DIYEdit_Mobile.CHOOSE_TYPE";
+    public static final String CHOOSE_RESULT = "com.x8192Bit.DIYEdit_Mobile.CHOOSE_RESULT";
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -44,32 +47,72 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        try {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_main);
 
-        ((TextView) findViewById(R.id.MainVersionTextView)).setText(getText(R.string.app_name) + " " + BuildConfig.VERSION_NAME + ' ' + BuildConfig.BUILD_TYPE.toUpperCase());
+            SharedPreferences sp = MainActivity.this.getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
+            switch (sp.getString("ThemeSelect", "system")) {
+                case "system":
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        //((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                    } else {
+                        //邪术
+                    }
+                    break;
+                case "day":
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        //((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    } else {
+                        //邪术
+                    }
+                    break;
+                case "night":
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        //((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    } else {
+                        //邪术
+                    }
+                    break;
+            }
 
-        findViewById(R.id.OpenFileButton).setOnClickListener(this::chooseFile);
-        findViewById(R.id.RecentFileButton).setOnClickListener(this::openRecentFile);
-        findViewById(R.id.SettingsButton).setOnClickListener(this::settingsMenu);
-        findViewById(R.id.ExitButton).setOnClickListener(this::exit);
+            ((TextView) findViewById(R.id.MainVersionTextView)).setText(getText(R.string.app_name) + " " + BuildConfig.VERSION_NAME + ' ' + BuildConfig.BUILD_TYPE.toUpperCase());
 
-        if (getIntent().getData() != null) {
-            Uri uri = getIntent().getData();
-            openFile(FileUtils.getFileAbsolutePath(this, uri));
+            findViewById(R.id.OpenFileButton).setOnClickListener(this::chooseFile);
+            findViewById(R.id.RecentFileButton).setOnClickListener(this::openRecentFile);
+            findViewById(R.id.SettingsButton).setOnClickListener(this::settingsMenu);
+            findViewById(R.id.ExitButton).setOnClickListener(this::exit);
+
+            if (getIntent().getData() != null) {
+                Uri uri = getIntent().getData();
+                openFile(FileUtils.getFileAbsolutePath(this, uri));
+            }
+        } catch (Exception e) {
+            new AlertDialog.Builder(getApplicationContext())
+                    .setMessage(e.getMessage())
+                    .show();
         }
     }
 
     public void chooseFile(View v) {
-        if (Build.VERSION.SDK_INT < 30) {
-            if (!checkBefore30()) {
-                requestBefore30();
+        try {
+            if (Build.VERSION.SDK_INT < 30) {
+                if (!checkBefore30()) {
+                    requestBefore30();
+                } else {
+                    // User granted file permission, Access your file
+                    readFiles();
+                }
             } else {
-                // User granted file permission, Access your file
-                readFiles();
+                check30AndAfter();
             }
-        } else {
-            check30AndAfter();
+        } catch (Exception e) {
+            new AlertDialog.Builder(MainActivity.this)
+                    .setMessage(e.getMessage())
+                    .show();
         }
     }
 
@@ -105,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @RequiresApi(api = Build.VERSION_CODES.R)
-    @Deprecated
+    @Deprecated// 爱用不用吧 反正新版API多恶心大家都知道
     private void check30AndAfter() {
         if (!Environment.isExternalStorageManager()) {
             try {
@@ -121,20 +164,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Deprecated
     private void readFiles() {
-        final StorageChooser[] chooser = {new StorageChooser.Builder()
-                .withActivity(MainActivity.this)
-                .withFragmentManager(getFragmentManager())
-                .withMemoryBar(true)
-                .allowCustomPath(true)
-                .setType(StorageChooser.FILE_PICKER)
-                .build()};
-        chooser[0].show();
-        chooser[0].setOnSelectListener(path -> {
-            openFile(path);
-            chooser[0] = null;
-        });
+        Intent intent = new Intent(this, FileChooseActivity.class);
+        intent.putExtra(CHOOSE_TYPE, FileChooseActivity.CHOOSE_FILE);
+        startActivityForResult(intent, 114514);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 114514 && resultCode == 1919810) {
+            if (data != null) {
+                openFile(data.getStringExtra(CHOOSE_RESULT));
+            } else {
+                new AlertDialog.Builder(getApplicationContext())
+                        .setTitle("嘿嘿！！")
+                        .setMessage("安卓崩喽！安卓崩喽！！！1111")
+                        .show();
+            }
+        }
     }
 
     public void openRecentFile(View view) {
@@ -164,14 +212,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void exit(View view) {
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(0);
+        this.finish();
     }
 
     // Common method for open a file
     private void openFile(String realPath) {
         Intent intent = new Intent(this, SaveFileMenu.class);
-        intent.putExtra(EXTRA_MESSAGE, realPath);
+        intent.putExtra(REAL_PATH, realPath);
         startActivity(intent);
     }
 

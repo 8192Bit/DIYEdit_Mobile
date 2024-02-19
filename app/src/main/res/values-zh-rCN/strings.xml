@@ -49,7 +49,7 @@
     <string name="metadataEmptyKey">元数据必填项中有空项。</string>
     <string name="appearanceKey">界面</string>
     <string name="behaviorKey">行为</string>
-    <string name="themeModeKey">主题模式（此版本不支持此选项）</string>
+    <string name="themeModeKey">主题模式</string>
     <string name="aboutKey">关于</string>
     <string name="previewKey">预览</string>
     <string name="BGKey">背景</string>
@@ -75,4 +75,12 @@
     <string name="showFullPathOnKey">在文件打开历史中显示完整的文件路径</string>
     <string name="normalModeKey">正常模式</string>
     <string name="charLostModeKey">字符丢失模式</string>
+    <string name="title_activity_file_choose">选择......</string>
+    <string name="chooseCurrentDirectory">选择当前目录</string>
+    <string name="exportFailedKey">导出失败。</string>
+    <string name="timeSortededKey">时间排序</string>
+    <string name="nameSortededKey">名称排序</string>
+    <string name="reverseOrderKey">逆序</string>
+    <string name="historyTooExtremeKey">最大历史记录数过大或过小。</string>
+
 </resources>

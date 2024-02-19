@@ -10,8 +10,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,8 +40,8 @@
                         android:layout_width="113dp"
                         android:layout_height="wrap_content"
                         android:text="@string/nameKey"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="#263238" />
+                        android:textColor="#263238"
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/nameValue"
@@ -62,8 +61,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/authorKey"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="#263238" />
+                        android:textColor="#263238"
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/authorValue"
@@ -83,8 +82,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/companyKey"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="#263238" />
+                        android:textColor="#263238"
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/companyValue"
@@ -104,8 +103,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dateKey"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="#263238" />
+                        android:textColor="#263238"
+                        android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/timeValue"

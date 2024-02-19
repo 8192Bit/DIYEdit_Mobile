@@ -1,4 +1,4 @@
-package com.x8192Bit.DIYEdit_Mobile.Fragments;
+package com.x8192Bit.DIYEdit_Mobile.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

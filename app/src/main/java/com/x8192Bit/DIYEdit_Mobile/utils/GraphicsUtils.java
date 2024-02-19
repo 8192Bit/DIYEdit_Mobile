@@ -1,4 +1,4 @@
-package com.x8192Bit.DIYEdit_Mobile.Utils;
+package com.x8192Bit.DIYEdit_Mobile.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 
 import java.io.InputStream;
 
@@ -310,7 +312,7 @@ public class GraphicsUtils {
     }
 
     public abstract class ShelfItem {
-        public abstract Bitmap renderImage(Context ctx, int width, int height);
+        public abstract Drawable renderImage(Context ctx);
     }
 
     public class GameItem extends ShelfItem {
@@ -355,7 +357,7 @@ public class GraphicsUtils {
 
         //endregion
         @Override
-        public Bitmap renderImage(Context ctx, int width, int height) {
+        public Drawable renderImage(Context ctx) {
             Bitmap plane = Bitmap.createBitmap(28, 23, Bitmap.Config.ARGB_8888);
             Paint p = new Paint();
             Canvas PlaneCanvas = new Canvas(plane);
@@ -401,10 +403,10 @@ public class GraphicsUtils {
                 PlaneCanvas.drawBitmap(Icon, left, top, p);
             }
 
-            Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            new Canvas(b).drawBitmap(plane, new Rect(0, 0, 28, 23), new Rect(0, 0, width, height), p);
-            return b;
+            BitmapDrawable d = new BitmapDrawable(plane);
+            d.setAntiAlias(false);
 
+            return d;
         }
 
     }
@@ -453,7 +455,7 @@ public class GraphicsUtils {
         //endregion
 
         @Override
-        public Bitmap renderImage(Context ctx, int width, int height) {
+        public Drawable renderImage(Context ctx) {
             Bitmap plane = Bitmap.createBitmap(26, 26, Bitmap.Config.ARGB_8888);
             Paint p = new Paint();
             Canvas PlaneCanvas = new Canvas(plane);
@@ -471,9 +473,9 @@ public class GraphicsUtils {
             IconCanvas.drawColor(getDIYColor(iconColor), PorterDuff.Mode.MULTIPLY);
             PlaneCanvas.drawBitmap(Icon, 5, 5, p);
 
-            Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            new Canvas(b).drawBitmap(plane, new Rect(0, 0, 26, 26), new Rect(0, 0, width, height), p);
-            return b;
+            BitmapDrawable d = new BitmapDrawable(plane);
+            d.setAntiAlias(false);
+            return d;
         }
     }
 
@@ -510,7 +512,7 @@ public class GraphicsUtils {
         //endregion
 
         @Override
-        public Bitmap renderImage(Context ctx, int width, int height) {
+        public Drawable renderImage(Context ctx) {
             Bitmap plane = Bitmap.createBitmap(26, 26, Bitmap.Config.ARGB_8888);
             Paint p = new Paint();
             Canvas PlaneCanvas = new Canvas(plane);
@@ -528,9 +530,10 @@ public class GraphicsUtils {
             IconCanvas.drawColor(getDIYColor(iconColor), PorterDuff.Mode.MULTIPLY);
             PlaneCanvas.drawBitmap(Icon, 5, 5, p);
 
-            Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            new Canvas(b).drawBitmap(plane, new Rect(0, 0, 26, 26), new Rect(0, 0, width, height), p);
-            return b;
+            BitmapDrawable d = new BitmapDrawable(plane);
+            d.setAntiAlias(false);
+
+            return d;
         }
     }
 

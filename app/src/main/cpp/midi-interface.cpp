@@ -9,7 +9,7 @@
 extern "C" {
 
 JNIEXPORT void JNICALL
-Java_com_x8192Bit_DIYEdit_1Mobile_Fragments_PlayThread_PlayMIDIFile(JNIEnv *env, jobject,
+Java_com_x8192Bit_DIYEdit_1Mobile_fragments_PlayThread_PlayMIDIFile(JNIEnv *env, jobject,
                                                                     jstring MIDIFilePath,
                                                                     jstring SoundFontFilePath) {
     fluid_settings_t *settings;
@@ -32,6 +32,4 @@ Java_com_x8192Bit_DIYEdit_1Mobile_Fragments_PlayThread_PlayMIDIFile(JNIEnv *env,
     delete_fluid_synth(synth);
     delete_fluid_settings(settings);
 }
-
-
 }

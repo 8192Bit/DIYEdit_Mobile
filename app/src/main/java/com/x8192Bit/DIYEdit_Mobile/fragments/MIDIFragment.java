@@ -1,16 +1,14 @@
-package com.x8192Bit.DIYEdit_Mobile.Fragments;
+package com.x8192Bit.DIYEdit_Mobile.fragments;
 
-import static com.x8192Bit.DIYEdit_Mobile.Fragments.MIDIFragment.egm;
-import static com.x8192Bit.DIYEdit_Mobile.Fragments.MIDIFragment.em;
-import static com.x8192Bit.DIYEdit_Mobile.Fragments.MIDIFragment.is_game;
+import static com.x8192Bit.DIYEdit_Mobile.fragments.MIDIFragment.egm;
+import static com.x8192Bit.DIYEdit_Mobile.fragments.MIDIFragment.em;
+import static com.x8192Bit.DIYEdit_Mobile.fragments.MIDIFragment.is_game;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 
@@ -19,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RawRes;
 import androidx.fragment.app.Fragment;
 
-import com.codekidlabs.storagechooser.StorageChooser;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.xperia64.diyedit.ExportGameMidi;
 import com.xperia64.diyedit.ExportMidi;
@@ -29,7 +26,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Locale;
 
 import x8192Bit.DIYEdit_Mobile.R;
 
@@ -199,7 +195,7 @@ public class MIDIFragment extends Fragment {
         });
 
         exportButton.setOnClickListener(v -> {
-            StorageChooser chooser = new StorageChooser.Builder()
+            /*StorageChooser chooser = new StorageChooser.Builder()
                     .withActivity(getActivity())
                     .withFragmentManager(requireActivity().getFragmentManager())
                     .withMemoryBar(true)
@@ -223,7 +219,7 @@ public class MIDIFragment extends Fragment {
 
                         })
                         .show();
-            });
+            });*/
         });
         timeBar.setEnabled(false);
     }

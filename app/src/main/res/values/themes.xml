@@ -5,15 +5,9 @@
         <item name="colorPrimary">@color/red_500</item>
         <item name="colorPrimaryDark">@color/red_700</item>
         <item name="colorAccent">@color/teal_200</item>
+        android:forceDarkAllowed="true"
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.DIYEdit.Night" parent="Theme.Material3.Dark">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/red_500</item>
-        <item name="colorPrimaryDark">@color/red_700</item>
-        <item name="colorAccent">@color/teal_200</item>
-        <!-- Customize your theme here. -->
-    </style>
 
 </resources>
