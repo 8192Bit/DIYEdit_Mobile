@@ -20,7 +20,6 @@
             android:layout_weight="1"
             android:ellipsize="marquee"
             android:minHeight="10dp"
-            android:text="oh"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -37,6 +36,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:text="选择" />
+        android:text="@string/title_activity_file_choose" />
 
 </LinearLayout>

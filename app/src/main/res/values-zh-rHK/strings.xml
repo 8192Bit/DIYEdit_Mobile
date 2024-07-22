@@ -82,5 +82,8 @@
     <string name="nameSortededKey">名稱排序</string>
     <string name="reverseOrderKey">逆序</string>
     <string name="historyTooExtremeKey">最大歷史記錄數過大或過小。</string>
+    <string name="normalOrderKey">順序</string>
+    <string name="hideHiddenFilesKey">隱藏隱藏檔案</string>
+    <string name="showHiddenFilesKey">顯示隱藏檔案</string>
 </resources>
 

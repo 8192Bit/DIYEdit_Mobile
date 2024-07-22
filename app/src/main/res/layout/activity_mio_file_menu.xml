@@ -40,7 +40,6 @@
                         android:layout_width="113dp"
                         android:layout_height="wrap_content"
                         android:text="@string/nameKey"
-                        android:textColor="#263238"
                         android:textSize="18sp" />
 
                     <TextView
@@ -48,8 +47,7 @@
                         android:layout_width="116dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="#263238" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
                 </TableRow>
 
                 <TableRow
@@ -61,7 +59,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/authorKey"
-                        android:textColor="#263238"
                         android:textSize="18sp" />
 
                     <TextView
@@ -69,8 +66,7 @@
                         android:layout_width="207dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="#263238" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
                 </TableRow>
 
                 <TableRow
@@ -82,7 +78,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/companyKey"
-                        android:textColor="#263238"
                         android:textSize="18sp" />
 
                     <TextView
@@ -90,8 +85,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="#263238" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
                 </TableRow>
 
                 <TableRow
@@ -103,7 +97,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/dateKey"
-                        android:textColor="#263238"
                         android:textSize="18sp" />
 
                     <TextView
@@ -111,8 +104,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                        android:textColor="#263238" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
                 </TableRow>
 
             </TableLayout>

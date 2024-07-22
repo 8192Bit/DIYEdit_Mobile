@@ -52,32 +52,7 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
 
             SharedPreferences sp = MainActivity.this.getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
-            switch (sp.getString("ThemeSelect", "system")) {
-                case "system":
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        //((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-                    } else {
-                        //邪术
-                    }
-                    break;
-                case "day":
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        //((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    } else {
-                        //邪术
-                    }
-                    break;
-                case "night":
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        //((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    } else {
-                        //邪术
-                    }
-                    break;
-            }
+            setUIMode(sp.getString("ThemeSelect", "system"));
 
             ((TextView) findViewById(R.id.MainVersionTextView)).setText(getText(R.string.app_name) + " " + BuildConfig.VERSION_NAME + ' ' + BuildConfig.BUILD_TYPE.toUpperCase());
 
@@ -97,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Deprecated
     public void chooseFile(View v) {
         try {
             if (Build.VERSION.SDK_INT < 30) {
@@ -148,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @RequiresApi(api = Build.VERSION_CODES.R)
-    @Deprecated// 爱用不用吧 反正新版API多恶心大家都知道
+    @Deprecated
     private void check30AndAfter() {
         if (!Environment.isExternalStorageManager()) {
             try {
@@ -161,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
                 intent.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
                 startActivityForResult(intent, 200);
             }
+        } else {
+            readFiles();
         }
     }
 
@@ -222,5 +200,18 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public static void setUIMode(String UImode) {
+        switch (UImode) {
+            case "system":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case "day":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case "night":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+        }
+    }
 
 }

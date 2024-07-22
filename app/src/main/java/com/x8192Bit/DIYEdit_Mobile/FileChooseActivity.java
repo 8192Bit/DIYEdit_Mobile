@@ -23,8 +23,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -41,8 +45,9 @@ public class FileChooseActivity extends AppCompatActivity {
     private boolean isSaveEdit;
     private int saveEditCount;
     private boolean isTimeSorted;
+    private boolean isNormalOrder;
+    private boolean showHiddenFiles;
 
-    //TODO UPDATE!!!!!!!!!!!!!!!!!!!!!!!!FUK LISTVIEW
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,12 +94,14 @@ public class FileChooseActivity extends AppCompatActivity {
 
         CurrentPath = Environment.getExternalStorageDirectory();
 
-        refreshList(getApplicationContext());
-
         ListView fileChooser = findViewById(R.id.fileChooseView);
         SharedPreferences sp = this.getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
 
-        isTimeSorted = sp.getBoolean("isTimeOrdered", false);
+        isTimeSorted = sp.getBoolean("isTimeSorted", false);
+        isNormalOrder = sp.getBoolean("isNormalOrder", false);
+        showHiddenFiles = sp.getBoolean("showHiddenFiles", false);
+
+        refreshList(getApplicationContext());
 
 
         fileChooser.setOnItemClickListener((adapterView, view, i, l) -> {
@@ -133,16 +140,41 @@ public class FileChooseActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             this.finish();
             return true;
+        } else {
+            SharedPreferences sp = this.getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
+            if (item.getItemId() == 0) {
+                isTimeSorted = !isTimeSorted;
+                sp.edit().putBoolean("isTimeSorted", isTimeSorted).commit();
+                refreshList(getApplicationContext());
+            } else if (item.getItemId() == 1) {
+                isNormalOrder = !isNormalOrder;
+                sp.edit().putBoolean("isNormalOrder", isNormalOrder).commit();
+                refreshList(getApplicationContext());
+            } else if (item.getItemId() == 2) {
+                showHiddenFiles = !showHiddenFiles;
+                sp.edit().putBoolean("isNormalOrder", isNormalOrder).commit();
+                refreshList(getApplicationContext());
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        int sortType = isTimeSorted ? R.string.timeSortededKey : R.string.nameSortededKey;
-        menu.add(0, 0, 0, sortType);
-        menu.add(0, 0, 0, R.string.reverseOrderKey);
+        menu.clear();
+        menu.add(0, 0, 0, isTimeSorted ? R.string.nameSortededKey : R.string.timeSortededKey);
+        menu.add(0, 1, 1, isNormalOrder ? R.string.normalOrderKey : R.string.reverseOrderKey);
+        menu.add(0, 2, 2, showHiddenFiles ? R.string.hideHiddenFilesKey : R.string.showHiddenFilesKey);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.clear();
+        menu.add(0, 0, 0, isTimeSorted ? R.string.nameSortededKey : R.string.timeSortededKey);
+        menu.add(0, 1, 1, isNormalOrder ? R.string.normalOrderKey : R.string.reverseOrderKey);
+        menu.add(0, 2, 2, showHiddenFiles ? R.string.hideHiddenFilesKey : R.string.showHiddenFilesKey);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     public void refreshList(Context c) {
@@ -151,29 +183,42 @@ public class FileChooseActivity extends AppCompatActivity {
         String[] from = {"img", "text"};
         int[] to = {R.id.FileChooseItemImageView, R.id.FileChooseItemTextView};
         ArrayList<Map<String, Object>> files = new ArrayList<>();
+
+        for (File f : Objects.requireNonNull(CurrentPath.listFiles())) {
+            if (showHiddenFiles || !f.isHidden()) {
+                HashMap<String, Object> file = new HashMap<>();
+                if (f.isFile()) {
+                    String[] split = f.getName().split("\\.");
+                    if (f.getName().equals("MDATA") || f.getName().equals("GDATA") || f.getName().equals("RDATA")) {
+                        file.put("img", R.drawable.save_wii);
+                    } else if (split.length > 1 && (split[split.length - 1].equals("sav") || split[split.length - 1].equals("dsv"))) {
+                        file.put("img", R.drawable.save_ds);
+                    } else if (split.length > 1 && split[split.length - 1].equals("mio")) {
+                        file.put("img", R.mipmap.ic_launcher_foreground);
+                    } else {
+                        file.put("img", R.drawable.baseline_file_open_24);
+                    }
+                } else if (f.isDirectory()) {
+                    file.put("img", R.drawable.directory);
+                }
+                file.put("text", f.getName());
+                file.put("date", f.lastModified());
+                files.add(file);
+            }
+        }
+        if (isTimeSorted) {
+            Collections.sort(files, (o1, o2) -> {
+                Comparator<Object> comparator = Collator.getInstance(Locale.CHINA);
+                return isNormalOrder ? comparator.compare(o1.get("text"), o2.get("text")) : -comparator.compare(o1.get("text"), o2.get("text"));
+            });
+        } else {
+            Collections.sort(files, (o1, o2) -> (isNormalOrder ? (long) o1.get("date") > (long) o2.get("date") ? 1 : -1 : (long) o1.get("date") > (long) o2.get("date") ? -1 : 1));
+        }
         HashMap<String, Object> parentFolder = new HashMap<>();
         parentFolder.put("img", R.drawable.exit);
         parentFolder.put("text", "..");
-        files.add(parentFolder);
-        for (File f : Objects.requireNonNull(CurrentPath.listFiles())) {
-            HashMap<String, Object> file = new HashMap<>();
-            if (f.isFile()) {
-                String splited[] = f.getName().split("\\.");
-                if (f.getName().equals("MDATA") || f.getName().equals("GDATA") || f.getName().equals("RDATA")) {
-                    file.put("img", R.drawable.save_wii);
-                } else if (splited.length > 1 && (splited[splited.length - 1].equals("sav") || splited[splited.length - 1].equals("dsv"))) {
-                    file.put("img", R.drawable.save_ds);
-                } else if (splited.length > 1 && splited[splited.length - 1].equals("mio")) {
-                    file.put("img", R.mipmap.ic_launcher_foreground);
-                } else {
-                    file.put("img", R.drawable.baseline_file_open_24);
-                }
-            } else if (f.isDirectory()) {
-                file.put("img", R.drawable.directory);
-            }
-            file.put("text", f.getName());
-            files.add(file);
-        }
+        parentFolder.put("date", 0);
+        files.add(0, parentFolder);
         fileChooser.setAdapter(new SimpleAdapter(c, files, R.layout.filechoose_item_layout, from, to));
         PathView.setText(CurrentPath.getAbsolutePath());
     }

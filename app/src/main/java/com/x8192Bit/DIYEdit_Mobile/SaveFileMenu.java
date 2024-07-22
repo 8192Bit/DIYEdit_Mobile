@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -61,6 +62,9 @@ public class SaveFileMenu extends AppCompatActivity {
                 i.putExtra(CHOOSE_TYPE, FileChooseActivity.CHOOSE_FILE);
                 i.putExtra(IS_SAVE_EDIT, intent.getBooleanExtra(IS_SAVE_EDIT, false));
                 if (intent.getBooleanExtra(IS_SAVE_EDIT, false)) {
+                    if (!intent.getBooleanExtra(IS_IMPORT_MIO, false)) {
+                        i.putExtra(CHOOSE_TYPE, FileChooseActivity.CHOOSE_DIRECTORY);
+                    }
                     i.putExtra(IS_IMPORT_MIO, intent.getBooleanExtra(IS_IMPORT_MIO, false));
                     i.putExtra(SAVE_EDIT_COUNT, intent.getIntExtra(SAVE_EDIT_COUNT, 0));
                 }
@@ -293,17 +297,15 @@ public class SaveFileMenu extends AppCompatActivity {
             String history = sp.getString("history", null);
             StringBuilder sb = new StringBuilder();
             if (history != null) {
-                ArrayList<String> historyArray = new ArrayList<String>(Arrays.asList(history.split(",")));
+                ArrayList<String> historyArray = new ArrayList<>(Arrays.asList(history.split(",")));
                 boolean isDuplicated = false;
-                for (String s : historyArray) {
-                    if (s.equals(realPath)) {
-                        isDuplicated = true;
+                for (int i = 0; i < historyArray.size(); i++) {
+                    if (historyArray.get(i).equals(realPath)) {
+                        historyArray.remove(i);
                         break;
                     }
                 }
-                if (!isDuplicated) {
-                    historyArray.add(0, realPath);
-                }
+                historyArray.add(0, realPath);
                 if (historyArray.size() > historyCount) {
                     do {
                         historyArray.remove(historyCount - 1);
@@ -370,7 +372,11 @@ public class SaveFileMenu extends AppCompatActivity {
     public void registerBroadcastReceiver() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(OPEN_FILE_CHOOSE_ACTIVITY);
-        registerReceiver(broadcastReceiver, intentFilter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(broadcastReceiver, intentFilter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            registerReceiver(broadcastReceiver, intentFilter);
+        }
     }
 
     @Override

@@ -20,6 +20,7 @@
         android:layout_margin="4dp"
         android:layout_weight="1"
         android:padding="12dp"
+        android:textColor="#666666"
         android:textSize="20sp"
         tools:ignore="SpeakableTextPresentCheck" />
 

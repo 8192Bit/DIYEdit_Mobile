@@ -66,7 +66,7 @@
     <string name="deleteKey">Delete...</string>
 
     <string name="nullSlotKey">Null slot. Click to operate.</string>
-    <string name="aboutTextKey">DIYEdit_Mobile 是 xperia64 的 DIYEdit 在 Android 上的移植版本。<br /><br />感谢：<br /> · FluidSynth 提供使用自定义 sf2 音色库播放音乐的功能。<br /> · xperia64 的 DIYEdit 提供了简单易用的类。<br /> · codekidX 的 storage-chooser 用于选择文件与目录，以及 mendhak 提供的 Android R (11) 支持。<br /> · kshoji 的 JFugue-for-Android 播放与处理 MIDI 文件。<br /> · kshoji 的 javax.sound.midi-for-Android 提供对 JFugue-for-Android 的支持。<br /> · 部分参考了 Creating a Fluidsynth Hello World App for Android -- Hector Ricardo <br /><br />DIYEdit_Mobile 是一个自由软件，受到 GPLv3 许可证的保护。使用本软件时，请遵守当地法律法规。<br /><br />软件版本 1.0.0<br />内置的 FluidSynth 版本 2.3.3</string>
+    <string name="aboutTextKey">DIYEdit_Mobile is Android port of xperia64\'s DIYEdit.\\n\\nThanks to:\\n · FluidSynth provides the ability to play music by using a custom sf2 library.\\n · DIYEdit by xperia64 (bobmcjr) provides easy-to-use classes.\\n · Disk_Drive created the icons of the software.\\n · kshoji\'s JFugue-for-Android provides the ability to play and processes MIDI files.\\n · kshoji\'s javax.sound.midi-for-Android provides the support for Jfugue-for-Android.\\n · Christanes\' PhotoView provides easy zooming on comics, game backgrounds and game previews.\\n · Partially references to Creating a Fluidsynth Hello World App for Android -- Hector Ricardo \\n\\nDIYEdit_Mobile is a free software and licensed under the GPLv3 license. Please comply with local laws and regulations when using the Software.\\n\\nSoftware version 1.0.0\\nBuilt-in FluidSynth version 2.3.3</string>
     <string name="openSourceLicenseKey">Open Source Code License</string>
     <string name="cleanedKey">Cleaned.</string>
     <string name="numberRequiredKey">Please enter a positive integer.</string>
@@ -80,7 +80,7 @@
     <string name="showFullPathTitleKey">Show full file path</string>
     <string name="showFullPathOffKey">Show only file name for history entries</string>
     <string name="showFullPathOnKey">Show full file path for history entries</string>
-    <string name="normalModeKey">fNormal Mode</string>
+    <string name="normalModeKey">Normal Mode</string>
     <string name="charLostModeKey">Char Lost Mode</string>
     <string name="title_activity_file_choose">Select...</string>
     <string name="chooseCurrentDirectory">Select Current Directory</string>
@@ -89,6 +89,9 @@
     <string name="nameSortededKey">Sort by name</string>
     <string name="reverseOrderKey">Reversed Order</string>
     <string name="historyTooExtremeKey">The max count of history entry is too big or too small.</string>
+    <string name="normalOrderKey">Normal Order</string>
+    <string name="hideHiddenFilesKey">Hide Hidden Files</string>
+    <string name="showHiddenFilesKey">Show Hidden Files</string>
     <!-- Strings used for fragments for navigation -->
 
     <!-- Preference Titles -->

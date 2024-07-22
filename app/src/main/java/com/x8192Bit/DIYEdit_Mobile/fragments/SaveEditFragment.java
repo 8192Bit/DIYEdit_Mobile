@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -213,7 +214,11 @@ public class SaveEditFragment extends Fragment {
         }
         si = new SaveItemAdapter();
         IntentFilter intentFilter = new IntentFilter(FILE_CHOOSE_ACTIVITY_RESULT);
-        requireActivity().registerReceiver(broadcastReceiver, intentFilter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().registerReceiver(broadcastReceiver, intentFilter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            requireActivity().registerReceiver(broadcastReceiver, intentFilter);
+        }
     }
 
     @Override
@@ -355,7 +360,7 @@ public class SaveEditFragment extends Fragment {
         @SuppressLint("InflateParams")
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
+            ViewHolder holder;
             if (convertView == null) {
                 convertView = layoutInflater.inflate(R.layout.shelf_item_layout, null);
                 holder = new ViewHolder();
@@ -366,6 +371,7 @@ public class SaveEditFragment extends Fragment {
                 holder = (ViewHolder) convertView.getTag();
             }
             GraphicsUtils.ShelfItem si = shelfItems.get(position);
+            holder.tv.setSelected(true);
             if (si != null) {
                 holder.iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
                 holder.iv.setImageDrawable(si.renderImage(getContext()));

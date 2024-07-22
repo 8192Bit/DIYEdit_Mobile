@@ -19,7 +19,7 @@ android {
 
     defaultConfig {
         applicationId "com.x8192Bit.DIYEdit_Mobile"
-        minSdk 14
+        minSdk 17
         targetSdk 34
         versionCode 1
         versionName '1.0.0'
@@ -39,7 +39,6 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            // I do not want the decompilers works harder. I just want it loads and runs faster. If you want to modify its resource, please do it and build from the source code.
         }
     }
     compileOptions {
@@ -82,6 +81,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.7.7'
     implementation 'androidx.navigation:navigation-ui:2.7.7'
     implementation 'androidx.navigation:navigation-runtime:2.7.7'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

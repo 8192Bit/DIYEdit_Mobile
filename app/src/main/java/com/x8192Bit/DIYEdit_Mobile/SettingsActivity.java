@@ -2,15 +2,12 @@ package com.x8192Bit.DIYEdit_Mobile;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
@@ -20,25 +17,6 @@ import x8192Bit.DIYEdit_Mobile.R;
 
 
 public class SettingsActivity extends AppCompatActivity {
-
-    /*
-    private boolean isNightMode, isChange;
-    private String
-
-    private void initView() {
-        //switch初始化
-        isNightMode = (boolean) getApplicationContext().getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE).getString("ThemeSelectKey", "system");
-        switchNight.setChecked(isNightMode);
-        //添加switch切换监听
-        switchNight.setOnCheckedChangeListener((compoundButton, b) -> {
-            //模式改变时才发送事件
-            if (isNightMode == b) return;
-            isChange = !isChange;
-            SharedPreferencesUtils.put("isNightMode", b);
-            EventBus.getDefault().post(new ChangeModeBean());
-        });
-    }*/
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,15 +32,11 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-
     }
 
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            this.finish(); // back button
-            //process here
+            this.finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -79,8 +53,8 @@ public class SettingsActivity extends AppCompatActivity {
             assert maxHistoryCount != null;
             assert cleanAllHistory != null;
             assert openAboutDialog != null;
-            maxHistoryCount.setOnPreferenceChangeListener(this);
             assert ThemeSelect != null;
+            maxHistoryCount.setOnPreferenceChangeListener(this);
             ThemeSelect.setOnPreferenceChangeListener(this);
             cleanAllHistory.setOnPreferenceClickListener(this);
             openAboutDialog.setOnPreferenceClickListener(this);
@@ -122,28 +96,7 @@ public class SettingsActivity extends AppCompatActivity {
                     return false;
                 }
             } else if (key.equals("ThemeSelect")) {
-                if (newValue.equals("day")) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        //((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    } else {
-                        //邪术
-                    }
-                } else if (newValue.equals("night")) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        //((AppCompatActivity) requireActivity()).getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    } else {
-                        //邪术
-                    }
-                } else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                        //((AppCompatActivity) requireActivity()).getDelegate().set(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-                    } else {
-                        //邪术
-                    }
-                }
+                MainActivity.setUIMode((String) newValue);
                 return true;
             }
             return false;

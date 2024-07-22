@@ -38,7 +38,7 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void OnAboutButtonClicked(View v) {
-        ((TextView) findViewById(R.id.InformationTextView)).setText("DIYEdit_Mobile 是 xperia64 的 DIYEdit 在 Android 上的移植版本。\n\n感谢：\n · FluidSynth 提供使用自定义 sf2 音色库播放音乐的功能。\n · xperia64 的 DIYEdit 提供了简单易用的类。\n · codekidX 的 storage-chooser 用于选择文件与目录，以及 mendhak 提供的 Android R (11) 支持。\n · kshoji 的 JFugue-for-Android 播放与处理 MIDI 文件。\n · kshoji 的 javax.sound.midi-for-Android 提供对 JFugue-for-Android 的支持。\n · 部分参考了 Creating a Fluidsynth Hello World App for Android -- Hector Ricardo \n\nDIYEdit_Mobile 是一个自由软件，受到 GPLv3 许可证的保护。使用本软件时，请遵守当地法律法规。\n\n软件版本 1.0.0\n内置的 FluidSynth 版本 2.3.3");
+        ((TextView) findViewById(R.id.InformationTextView)).setText(getString(R.string.aboutTextKey).replace("\\n", "\n"));
     }
 
 

@@ -64,11 +64,11 @@ public class MetadataEditFragment extends Fragment {
     public MetadataEditFragment() {
     }
 
-    public static MetadataEditFragment newInstance(String name, int miotype) {
+    public static MetadataEditFragment newInstance(String name, int mio_type) {
         MetadataEditFragment fragment = new MetadataEditFragment();
         Bundle args = new Bundle();
         args.putString(ARG_NAME, name);
-        args.putInt(ARG_MIOTYPE, miotype);
+        args.putInt(ARG_MIOTYPE, mio_type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -139,6 +139,7 @@ public class MetadataEditFragment extends Fragment {
         TextInputEditText authorInput = view.findViewById(R.id.AuthorInput);
         TextInputEditText companyInput = view.findViewById(R.id.CompanyInput);
         TextInputEditText instructInput = view.findViewById(R.id.GameInstructInput);
+        TextView lockTextView = view.findViewById(R.id.LockTextView);
         SwitchMaterial lockSwitch = view.findViewById(R.id.LockSwitch);
         TextInputEditText dateInput = view.findViewById(R.id.DateInput);
         RadioButton shortButton = view.findViewById(R.id.ShortTimeButton);
@@ -186,10 +187,10 @@ public class MetadataEditFragment extends Fragment {
         //region For RECORD Settings
         if (miotype == 1) {
 
-            selfColor.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.FileChooseItemTextView, requireContext().getResources().getTextArray(R.array.diy_colors)));
-            selfStyle.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.FileChooseItemTextView, requireContext().getResources().getTextArray(R.array.record_shapes)));
-            iconColor.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.FileChooseItemTextView, requireContext().getResources().getTextArray(R.array.diy_colors)));
-            iconStyle.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.FileChooseItemTextView, requireContext().getResources().getTextArray(R.array.record_icons)));
+            selfColor.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, requireContext().getResources().getTextArray(R.array.diy_colors)));
+            selfStyle.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, requireContext().getResources().getTextArray(R.array.record_shapes)));
+            iconColor.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, requireContext().getResources().getTextArray(R.array.diy_colors)));
+            iconStyle.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, requireContext().getResources().getTextArray(R.array.record_icons)));
             RecordMetadata rm = new RecordMetadata(name);
             selfColor.setSelection(rm.getRecordColor());
             selfStyle.setSelection(rm.getRecordType());
@@ -201,9 +202,9 @@ public class MetadataEditFragment extends Fragment {
         if (miotype == 2) {
             MangaMetadata mm = new MangaMetadata(name);
             selfStyle.setEnabled(false);
-            selfColor.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.FileChooseItemTextView, requireContext().getResources().getTextArray(R.array.diy_colors)));
-            iconColor.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.FileChooseItemTextView, requireContext().getResources().getTextArray(R.array.diy_colors)));
-            iconStyle.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.FileChooseItemTextView, requireContext().getResources().getTextArray(R.array.manga_icons)));
+            selfColor.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, requireContext().getResources().getTextArray(R.array.diy_colors)));
+            iconColor.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, requireContext().getResources().getTextArray(R.array.diy_colors)));
+            iconStyle.setAdapter(new ArrayAdapter<>(requireContext(), R.layout.spinner_item_layout, R.id.SpinnerItemTextView, requireContext().getResources().getTextArray(R.array.manga_icons)));
             selfColor.setSelection(mm.getMangaColor());
             iconColor.setSelection(mm.getLogoColor());
             iconStyle.setSelection(mm.getLogo());
@@ -226,6 +227,7 @@ public class MetadataEditFragment extends Fragment {
         String name = String.format(Locale.getDefault(), "%04d-%02d-%02d", date.getYear(), date.getMonthOfYear(), date.getDayOfMonth());
         dateInput.setText(name);
         lockSwitch.setChecked(m.getLocked());
+        lockTextView.setText(m.getLocked() ? R.string.lockEditKey : R.string.unlockEditKey);
         //endregion
     }
 
@@ -351,10 +353,11 @@ public class MetadataEditFragment extends Fragment {
         Button save = view.findViewById(R.id.buttonSave);
         Button discard = view.findViewById(R.id.buttonDiscard);
         CharLostIndicator = view.findViewById(R.id.CharLostModeTextView);
-        discard.setOnClickListener((vd) -> loadFromFile(requireView()));
-        save.setOnClickListener((vs) -> {
-            writeToFile(requireView());
-            loadFromFile(requireView());
+        SwitchMaterial lockSwitch = view.findViewById(R.id.LockSwitch);
+        lockSwitch.setOnClickListener((vl) -> {
+            ((TextView) view.findViewById(R.id.LockTextView)).setText(lockSwitch.isChecked() ? R.string.lockEditKey : R.string.unlockEditKey);
         });
+        discard.setOnClickListener((vd) -> loadFromFile(requireView()));
+        save.setOnClickListener((vs) -> writeToFile(requireView()));
     }
 }

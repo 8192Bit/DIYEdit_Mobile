@@ -14,13 +14,12 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.xperia64.diyedit.editors.GameEdit;
@@ -89,12 +89,12 @@ public class BGViewFragment extends Fragment {
                                 Bitmap b;
                                 if (is_game) {
                                     if (!bp.isChecked()) {
-                                        b = DrawGameBG(192, 128, name);
+                                        b = DrawGameBG(name);
                                     } else {
-                                        b = DrawGamePreview(96, 64, name);
+                                        b = DrawGamePreview(name);
                                     }
                                 } else {
-                                    b = DrawManga(192, 128, ms.getProgress(), name);
+                                    b = DrawManga(ms.getProgress(), name);
                                 }
 
                                 try {
@@ -137,30 +137,30 @@ public class BGViewFragment extends Fragment {
             is_game = getArguments().getBoolean(ARG_IS_GAME);
         }
         IntentFilter intentFilter = new IntentFilter(FILE_CHOOSE_ACTIVITY_RESULT);
-        requireActivity().registerReceiver(broadcastReceiver, intentFilter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().registerReceiver(broadcastReceiver, intentFilter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            requireActivity().registerReceiver(broadcastReceiver, intentFilter);
+        }
     }
 
     @SuppressLint("SetTextI18n")
     void refreshBG(View view) {
-        ImageView bg = view.findViewById(R.id.BGView);
-        SeekBar resize = view.findViewById(R.id.resizeSeekBar);
-        TextView ratio = view.findViewById(R.id.resizeRatioTextView);
-        double rate = (resize.getProgress() / 10.0) + 1;
-        ratio.setText(String.valueOf(rate) + 'x');
+        PhotoView bg = view.findViewById(R.id.BGView);
         if (is_game) {
             SwitchMaterial bp = view.findViewById(R.id.BGPreviewSwitch);
             if (bp.isChecked()) {
-                bg.setImageBitmap(DrawGamePreview((int) (96 * rate), (int) (64 * rate), name));
+                bg.setImageBitmap(DrawGamePreview(name));
             } else {
-                bg.setImageBitmap(DrawGameBG((int) (192 * rate), (int) (128 * rate), name));
+                bg.setImageBitmap(DrawGameBG(name));
             }
         } else {
             SeekBar ms = view.findViewById(R.id.MangaSeekBar);
-            bg.setImageBitmap(DrawManga((int) (192 * rate), (int) (128 * rate), ms.getProgress(), name));
+            bg.setImageBitmap(DrawManga(ms.getProgress(), name));
         }
     }
 
-    Bitmap DrawGamePreview(int width, int height, String name) {
+    Bitmap DrawGamePreview(String name) {
         Bitmap b = Bitmap.createBitmap(96, 64, Bitmap.Config.RGB_565);
         Canvas c = new Canvas(b);
         GameEdit e2 = new GameEdit(name);
@@ -173,14 +173,11 @@ public class BGViewFragment extends Fragment {
                 x++;
             }
         }
-        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-        new Canvas(result)
-                .drawBitmap(b, new Rect(0, 0, 96, 64), new Rect(0, 0, width, height), p);
-        return result;
+        return b;
     }
 
-    public Bitmap DrawGameBG(int width, int height, String file) {
-        Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+    public Bitmap DrawGameBG(String file) {
+        Bitmap b = Bitmap.createBitmap(192, 128, Bitmap.Config.RGB_565);
         Canvas c = new Canvas(b);
         GameEdit ge = new GameEdit(file);
         Paint p = new Paint();
@@ -193,15 +190,11 @@ public class BGViewFragment extends Fragment {
                 c.drawPoint(x, y, p);
             }
         }
-        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-        new Canvas(result)
-                .drawBitmap(b, new Rect(0, 0, 192, 128), new Rect(0, 0, width, height), p);
-
-        return result;
+        return b;
     }
 
-    public Bitmap DrawManga(int width, int height, int page, String file) {
-        Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+    public Bitmap DrawManga(int page, String file) {
+        Bitmap b = Bitmap.createBitmap(192, 128, Bitmap.Config.RGB_565);
         Canvas c = new Canvas(b);
         MangaEdit me = new MangaEdit(file);
         Paint p = new Paint();
@@ -215,10 +208,7 @@ public class BGViewFragment extends Fragment {
                 c.drawPoint(x, y, p);
             }
         }
-        Bitmap result = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-        new Canvas(result)
-                .drawBitmap(b, new Rect(0, 0, 192, 128), new Rect(0, 0, width, height), p);
-        return result;
+        return b;
     }
 
     public int r(int b) {
@@ -317,18 +307,21 @@ public class BGViewFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ImageView bg = view.findViewById(R.id.BGView);
+        PhotoView bg = view.findViewById(R.id.BGView);
         ms = view.findViewById(R.id.MangaSeekBar);
-        SeekBar resize = view.findViewById(R.id.resizeSeekBar);
+        TextView tv = view.findViewById(R.id.BGPreviewTextView);
         FloatingActionButton ss = view.findViewById(R.id.SaveBGButton);
         bp = view.findViewById(R.id.BGPreviewSwitch);
-        resize.setMax(100);
         if (is_game) {
             ((ViewGroup) ms.getParent()).removeView(ms);
-            bp.setOnClickListener(v -> refreshBG(requireView()));
-            bg.setImageBitmap(DrawGameBG(192, 128, name));
+            bp.setOnClickListener(v -> {
+                refreshBG(requireView());
+                tv.setText(bp.isChecked() ? getText(R.string.previewKey) : "BG ");
+            });
+            bg.setImageBitmap(DrawGameBG(name));
         } else {
             ((ViewGroup) bp.getParent()).removeView(bp);
+            ((ViewGroup) tv.getParent()).removeView(tv);
             ms.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -343,7 +336,7 @@ public class BGViewFragment extends Fragment {
                 public void onStopTrackingTouch(SeekBar seekBar) {
                 }
             });
-            bg.setImageBitmap(DrawManga(192, 128, 0, name));
+            bg.setImageBitmap(DrawManga(0, name));
         }
         ss.setOnClickListener(v -> {
                     Intent intent = new Intent(OPEN_FILE_CHOOSE_ACTIVITY);
@@ -352,20 +345,6 @@ public class BGViewFragment extends Fragment {
                     // 事件处理请移步broadcastReceiver.onReceive
                 }
         );
-        resize.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                refreshBG(requireView());
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
     }
 
     @Override
