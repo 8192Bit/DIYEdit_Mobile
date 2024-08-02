@@ -2,95 +2,106 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.x8192Bit.DIYEdit_Mobile.MainActivity">
+    android:orientation="vertical"
+    tools:context="com.x8192bit.diyeditmobile.MainActivity">
 
     <ImageView
-        android:id="@+id/imageViewIcon"
+        android:id="@+id/main_logo_iv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_weight="5"
-        android:foregroundGravity="top"
-        android:importantForAccessibility="no"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="0dp"
+        android:minHeight="100dp"
         android:scaleX="1"
         android:scaleY="1"
-        app:srcCompat="@mipmap/ic_launcher_foreground"
-        app:tintMode="add" />
+        app:srcCompat="@mipmap/ic_launcher_round"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
+        android:id="@+id/main_menu_portrait_ll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/OpenFileButton"
+            android:id="@+id/main_open_file_btn"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
             android:drawableLeft="@drawable/openfile"
-            android:drawablePadding="10dp"
             android:maxWidth="320dp"
+            android:minHeight="80dp"
             android:text="@string/openFileKey"
+            android:textSize="16sp"
             app:cornerRadius="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="VisualLintButtonSize" />
 
         <Button
-            android:id="@+id/RecentFileButton"
+            android:id="@+id/main_recent_file_btn"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
             android:drawableLeft="@drawable/recentfiles"
             android:maxWidth="320dp"
+            android:minHeight="80dp"
             android:text="@string/openRecentFileKey"
+            android:textSize="16sp"
             app:cornerRadius="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="VisualLintButtonSize" />
 
         <Button
-            android:id="@+id/SettingsButton"
+            android:id="@+id/main_settings_btn"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
             android:drawableLeft="@drawable/settings"
             android:maxWidth="320dp"
+            android:minHeight="80dp"
             android:text="@string/settingsKey"
+            android:textSize="16sp"
             app:cornerRadius="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="VisualLintButtonSize" />
 
         <Button
-            android:id="@+id/ExitButton"
+            android:id="@+id/main_exit_btn"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:layout_weight="1"
             android:drawableLeft="@drawable/exit"
             android:maxWidth="320dp"
+            android:minHeight="80dp"
             android:text="@string/exitKey"
+            android:textSize="16sp"
             app:cornerRadius="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="VisualLintButtonSize" />
 
         <TextView
-            android:id="@+id/MainVersionTextView"
+            android:id="@+id/main_version_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0"
             android:gravity="center" />
 
     </LinearLayout>

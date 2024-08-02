@@ -2,17 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
+    android:id="@+id/save_edit_ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar"
+        android:id="@+id/mio_info_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/save_info_ll"
             android:layout_width="match_parent"
             android:layout_height="113dp"
             android:layout_margin="4dp"
@@ -20,7 +21,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/SaveImage"
+                android:id="@+id/save_info_iv"
                 android:layout_width="133dp"
                 android:layout_height="69dp"
                 android:layout_margin="6dp"
@@ -29,7 +30,7 @@
                 app:srcCompat="@drawable/save_wii" />
 
             <TextView
-                android:id="@+id/saveView"
+                android:id="@+id/save_info_tv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
@@ -40,7 +41,7 @@
         </LinearLayout>
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabs"
+            android:id="@+id/mio_tabs"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
@@ -50,7 +51,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/saveViewPager"
+        android:id="@+id/save_vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:minHeight="100dp" />

@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fileChooseLayout"
+    android:id="@+id/file_select_ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.x8192Bit.DIYEdit_Mobile.FileChooseActivity">
+    tools:context="com.x8192bit.diyeditmobile.FileSelectActivity">
 
     <LinearLayout
+        android:id="@+id/file_select_dir_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/fileChooseTextView"
+            android:id="@+id/file_select_dir_tv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -24,7 +25,7 @@
     </LinearLayout>
 
     <ListView
-        android:id="@+id/fileChooseView"
+        android:id="@+id/file_select_lv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -32,7 +33,7 @@
     </ListView>
 
     <Button
-        android:id="@+id/fileChooseButton"
+        android:id="@+id/file_select_ok_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"

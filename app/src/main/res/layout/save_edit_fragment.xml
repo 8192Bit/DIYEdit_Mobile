@@ -2,20 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/save_shelf_ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:splitMotionEvents="false"
-    tools:context="com.x8192Bit.DIYEdit_Mobile.Fragments.SaveEditFragment">
+    tools:context="com.x8192bit.diyeditmobile.Fragments.SaveEditFragment">
 
     <LinearLayout
-        android:id="@+id/ShelfItemsLayout"
+        android:id="@+id/save_shelf_select_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/diy_1"
+            android:id="@+id/save_shelf_1_btn"
 
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
@@ -36,7 +37,7 @@
             tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
-            android:id="@+id/diy_2"
+            android:id="@+id/save_shelf_2_btn"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,7 +56,7 @@
             tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
-            android:id="@+id/diy_3"
+            android:id="@+id/save_shelf_3_btn"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,7 +75,7 @@
             tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
-            android:id="@+id/diy_4"
+            android:id="@+id/save_shelf_4_btn"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,7 +94,7 @@
             tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
-            android:id="@+id/diy_5"
+            android:id="@+id/save_shelf_5_btn"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -114,11 +115,11 @@
     </LinearLayout>
 
     <GridView
-        android:id="@+id/ShelfGridView"
+        android:id="@+id/save_shelf_gv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:columnWidth="50dp"
-        android:numColumns="6"
+        android:numColumns="5"
         android:splitMotionEvents="false" />
 
 </LinearLayout>

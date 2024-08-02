@@ -1,17 +1,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bg_ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.x8192Bit.DIYEdit_Mobile.fragments.BGViewFragment">
+    tools:context="com.x8192bit.diyeditmobile.fragments.BGViewFragment">
 
     <LinearLayout
+        android:id="@+id/bg_control_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <SeekBar
-            android:id="@+id/MangaSeekBar"
+            android:id="@+id/bg_manga_sb"
             style="@style/Widget.AppCompat.SeekBar.Discrete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,7 +24,7 @@
             android:progress="0" />
 
         <TextView
-            android:id="@+id/BGPreviewTextView"
+            android:id="@+id/bg_preview_tv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -30,7 +32,7 @@
             android:text="BG" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
-            android:id="@+id/BGPreviewSwitch"
+            android:id="@+id/bg_preview_sw"
             style="@style/Widget.Material3.CompoundButton.MaterialSwitch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,18 +42,19 @@
     </LinearLayout>
 
     <com.github.chrisbanes.photoview.PhotoView
-        android:id="@+id/BGView"
+        android:id="@+id/bg_pv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1" />
 
     <FrameLayout
+        android:id="@+id/bg_fl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/SaveBGButton"
+            android:id="@+id/bg_save_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"

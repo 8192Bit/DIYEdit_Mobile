@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/importFile"
+        android:id="@+id/import_file"
         android:title="@string/importKey" />
     <item
-        android:id="@+id/extractFile"
+        android:id="@+id/extract_file"
         android:title="@string/exportKey" />
     <item
-        android:id="@+id/deleteFile"
+        android:id="@+id/delete_file"
         android:title="@string/deleteKey" />
 </menu>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/unlock_ll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.x8192bit.diyeditmobile.fragments.UnlockFragment">
+
+    <Button
+        android:id="@+id/unlock_game_btn"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:onClick="unlockGame"
+        android:text="@string/unlockGameKey"
+        android:textSize="20sp"
+        app:cornerRadius="10dp" />
+
+    <Button
+        android:id="@+id/unlock_record_btn"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:onClick="unlockRecord"
+        android:text="@string/unlockRecordKey"
+        android:textSize="20sp"
+        app:cornerRadius="10dp" />
+
+    <Button
+        android:id="@+id/unlock_manga_btn"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:onClick="unlockManga"
+        android:text="@string/unlockMangaKey"
+        android:textSize="20sp"
+        app:cornerRadius="10dp" />
+
+    <Button
+        android:id="@+id/unlock_medal_btn"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:onClick="unlockMedal"
+        android:text="@string/unlockMedalKey"
+        android:textSize="20sp"
+        app:cornerRadius="10dp" />
+
+</LinearLayout>

@@ -1,39 +1,40 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/midi_fl"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="160dp"
-    tools:context="com.x8192Bit.DIYEdit_Mobile.fragments.MIDIFragment">
+    tools:context="com.x8192bit.diyeditmobile.fragments.MIDIFragment">
 
     <LinearLayout
-        android:id="@+id/playBar"
+        android:id="@+id/midi_ll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:minHeight="60dp"
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/stopButton"
+            android:id="@+id/midi_stop_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="5"
             android:src="@drawable/baseline_stop_24" />
 
         <ImageButton
-            android:id="@+id/playpauseButton"
+            android:id="@+id/midi_play_pause_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="5"
             android:src="@drawable/baseline_play_arrow_24" />
 
         <SeekBar
-            android:id="@+id/MIDIProgressBar"
+            android:id="@+id/midi_progress_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="2" />
 
         <TextView
-            android:id="@+id/MIDITimeTextView"
+            android:id="@+id/midi_time_tv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="5"
@@ -43,7 +44,7 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/exportMIDIButton"
+        android:id="@+id/midi_save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"

@@ -5,7 +5,7 @@
 
     <dist:module dist:instant="true" />
 
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" /> <!-- support as more devices as possible -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         tools:node="merge" />
@@ -25,7 +25,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DIYEdit">
         <activity
-            android:name="com.x8192Bit.DIYEdit_Mobile.FileChooseActivity"
+            android:name="com.x8192bit.diyeditmobile.FileSelectActivity"
             android:exported="false"
             android:label="@string/title_activity_file_choose">
             <intent-filter>
@@ -34,19 +34,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.x8192Bit.DIYEdit_Mobile.AboutActivity"
+            android:name="com.x8192bit.diyeditmobile.AboutActivity"
             android:exported="false" />
         <activity
-            android:name="com.x8192Bit.DIYEdit_Mobile.SettingsActivity"
+            android:name="com.x8192bit.diyeditmobile.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name="com.x8192Bit.DIYEdit_Mobile.SaveFileMenu"
+            android:name="com.x8192bit.diyeditmobile.SaveEditActivity"
             android:exported="false" />
         <activity
-            android:name="com.x8192Bit.DIYEdit_Mobile.MainActivity"
+            android:name="com.x8192bit.diyeditmobile.MainActivity"
             android:exported="true"
-            android:launchMode="singleTop">
+            android:launchMode="singleTask">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
 
