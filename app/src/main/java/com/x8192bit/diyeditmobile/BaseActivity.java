@@ -16,8 +16,8 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        changeLanguage(getBaseContext());
         super.onCreate(savedInstanceState);
-        changeLanguage(getApplicationContext());
     }
 
     public void changeLanguage(Context context) {

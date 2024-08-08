@@ -29,9 +29,9 @@ import x8192Bit.DIYEdit_Mobile.R;
 
 public class MainActivity extends BaseActivity {
 
-    public static final String REAL_PATH = "com.x8192Bit.DIYEdit_Mobile.REAL_PATH";
-    public static final String CHOOSE_TYPE = "com.x8192Bit.DIYEdit_Mobile.CHOOSE_TYPE";
-    public static final String CHOOSE_RESULT = "com.x8192Bit.DIYEdit_Mobile.CHOOSE_RESULT";
+    public static final String REAL_PATH = "com.x8192bit.diyeditmobile.REAL_PATH";
+    public static final String CHOOSE_TYPE = "com.x8192bit.diyeditmobile.CHOOSE_TYPE";
+    public static final String CHOOSE_RESULT = "com.x8192bit.diyeditmobile.CHOOSE_RESULT";
 
     public static void setUIMode(String UIMode) {
         switch (UIMode) {
@@ -186,10 +186,17 @@ public class MainActivity extends BaseActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
         String[] HistoryItems = SPUtils.getHistoryItems(getApplicationContext());
         String[] HistoryPaths = SPUtils.getHistoryPaths(getApplicationContext());
-        if (HistoryPaths.length == 0) {
-            alertDialogBuilder.setTitle(R.string.warningKey).setMessage(R.string.noHistoryKey).show();
+        if (HistoryPaths == null) {
+            alertDialogBuilder
+                    .setTitle(R.string.warningKey)
+                    .setMessage(R.string.noHistoryKey)
+                    .setNegativeButton(R.string.okKey, (dialog, which) -> dialog.dismiss())
+                    .show();
         } else {
-            alertDialogBuilder.setTitle(R.string.openRecentFileKey).setItems(HistoryItems, (dialog, which) -> openFile(HistoryPaths[which])).show();
+            alertDialogBuilder
+                    .setTitle(R.string.openRecentFileKey)
+                    .setItems(HistoryItems, (dialog, which) -> openFile(HistoryPaths[which]))
+                    .show();
         }
     }
 

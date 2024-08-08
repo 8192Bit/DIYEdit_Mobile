@@ -127,6 +127,7 @@ public class FileSelectActivity extends BaseActivity {
         if (actionBar != null) {
             actionBar.setHomeButtonEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle(R.string.title_activity_file_choose);
         }
 
         CurrentPath = Environment.getExternalStorageDirectory();

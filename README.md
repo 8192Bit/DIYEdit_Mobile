@@ -8,7 +8,7 @@ functions planned to add
 
 - [x] night mode support
 - [x] custom file select activity
-- [ ] multi language
+- [x] multi language
 - [ ] midi file playback
 
 Thanks to:
@@ -29,7 +29,7 @@ Thanks to:
 
 - [x] 夜间模式
 - [x] 自制文件选择器Activity
-- [ ] 多语言切换
+- [x] 多语言切换
 - [ ] MIDI播放
 
 感谢：

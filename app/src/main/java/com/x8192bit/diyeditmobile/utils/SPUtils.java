@@ -5,14 +5,16 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 
 public class SPUtils {
 
-    private final static String sharedPreferencesName = "com.x8192Bit.DIYEdit_Mobile_preferences";
+    private final static String sharedPreferencesName = "com.x8192bit.diyeditmobile_preferences";
 
     public static Locale getLocale(Context context) {
-        SharedPreferences sp = context.getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences(sharedPreferencesName, MODE_PRIVATE);
         String locale = sp.getString("LanguageSelect", "system");
         return LocaleUtils.getLocaleFromString(locale);
     }
@@ -53,30 +55,73 @@ public class SPUtils {
     }
 
     private static Boolean isFullFilePath(Context context) {
-        SharedPreferences sp = context.getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences(sharedPreferencesName, MODE_PRIVATE);
         return sp.getBoolean("showFullPath", false);
     }
 
     public static String[] getHistoryItems(Context context) {
-        SharedPreferences sp = context.getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences(sharedPreferencesName, MODE_PRIVATE);
         String history = sp.getString("history", null);
-        String[] paths = history.split(",");
-        if (isFullFilePath(context)) {
-            return paths;
-        } else {
-            String[] items = new String[paths.length];
-            for (int i = 0; i < items.length; i++) {
-                String[] slashSplit = paths[i].split("/");
-                items[i] = slashSplit[slashSplit.length - 1];
+        if (history != null) {
+            String[] paths = history.split(",");
+            if (isFullFilePath(context)) {
+                return paths;
+            } else {
+                String[] items = new String[paths.length];
+                for (int i = 0; i < items.length; i++) {
+                    String[] slashSplit = paths[i].split("/");
+                    items[i] = slashSplit[slashSplit.length - 1];
+                }
+                return items;
             }
-            return items;
+        } else {
+            return null;
         }
     }
 
     public static String[] getHistoryPaths(Context context) {
-        SharedPreferences sp = context.getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences(sharedPreferencesName, MODE_PRIVATE);
         String history = sp.getString("history", null);
-        String[] paths = history.split(",");
-        return paths;
+        if (history != null) {
+            String[] paths = history.split(",");
+            return paths;
+        } else {
+            return null;
+        }
+    }
+
+    public static void appendHistory(Context context, String realPath) throws NumberFormatException {
+        SharedPreferences sp = context.getSharedPreferences(sharedPreferencesName, MODE_PRIVATE);
+        try {
+            int historyCount = Integer.parseInt(sp.getString("maxHistoryCount", "10"));
+            SharedPreferences.Editor ed = sp.edit();
+            String history = sp.getString("history", null);
+            StringBuilder sb = new StringBuilder();
+            if (history != null) {
+                ArrayList<String> historyArray = new ArrayList<>(Arrays.asList(history.split(",")));
+                boolean isDuplicated = false;
+                for (int i = 0; i < historyArray.size(); i++) {
+                    if (historyArray.get(i).equals(realPath)) {
+                        historyArray.remove(i);
+                        break;
+                    }
+                }
+                historyArray.add(0, realPath);
+                if (historyArray.size() > historyCount) {
+                    do {
+                        historyArray.remove(historyCount - 1);
+                    } while (historyArray.size() == historyCount);
+                }
+                for (int i = 0; i < historyArray.size(); i++) {
+                    sb.append(historyArray.get(i)).append(",");
+                }
+            } else {
+                sb.append(realPath);
+            }
+            ed.putString("history", sb.toString());
+            ed.apply();
+        } catch (NumberFormatException e) {
+            throw e;
+        }
     }
 }

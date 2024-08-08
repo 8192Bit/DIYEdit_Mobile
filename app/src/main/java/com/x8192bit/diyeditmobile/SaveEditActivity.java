@@ -11,13 +11,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,22 +33,22 @@ import com.x8192bit.diyeditmobile.fragments.MIDIFragment;
 import com.x8192bit.diyeditmobile.fragments.MetadataFragment;
 import com.x8192bit.diyeditmobile.fragments.SaveEditFragment;
 import com.x8192bit.diyeditmobile.fragments.UnlockFragment;
+import com.x8192bit.diyeditmobile.utils.SPUtils;
 import com.xperia64.diyedit.FileByteOperations;
 import com.xperia64.diyedit.metadata.Metadata;
 
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 import x8192Bit.DIYEdit_Mobile.R;
 
 public class SaveEditActivity extends BaseActivity {
 
-    public static final String OPEN_FILE_CHOOSE_ACTIVITY = "com.x8192Bit.DIYEdit_Mobile.OPEN_FILE_CHOOSE_ACTIVITY";
-    public static final String FILE_CHOOSE_ACTIVITY_RESULT = "com.x8192Bit.DIYEdit_Mobile.FILE_CHOOSE_ACTIVITY_RESULT";
-    public static final String FILE_CHOOSE_REAL_PATH = "com.x8192Bit.DIYEdit_Mobile.FILE_CHOOSE_REAL_PATH";
+    public static final String OPEN_FILE_CHOOSE_ACTIVITY = "com.x8192bit.diyeditmobile.OPEN_FILE_CHOOSE_ACTIVITY";
+    public static final String FILE_CHOOSE_ACTIVITY_RESULT = "com.x8192bit.diyeditmobile.FILE_CHOOSE_ACTIVITY_RESULT";
+    public static final String FILE_CHOOSE_REAL_PATH = "com.x8192bit.diyeditmobile.FILE_CHOOSE_REAL_PATH";
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -132,7 +130,7 @@ public class SaveEditActivity extends BaseActivity {
                     }
                 }
                 if (savetype != 0 || mio_type != 0) {
-                    updateFileHistory(filePath);
+                    SPUtils.appendHistory(getApplicationContext(), filePath);
                     vp2.setAdapter(new FragmentStateAdapter(this) {
                         @NonNull
                         @Override
@@ -288,43 +286,6 @@ public class SaveEditActivity extends BaseActivity {
         fl.add(UnlockFragment.newInstance(filePath));
     }
 
-
-    private void updateFileHistory(String realPath) {
-        SharedPreferences sp = SaveEditActivity.this.getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
-        try {
-            int historyCount = Integer.parseInt(sp.getString("maxHistoryCount", "10"));
-            SharedPreferences.Editor ed = sp.edit();
-            String history = sp.getString("history", null);
-            StringBuilder sb = new StringBuilder();
-            if (history != null) {
-                ArrayList<String> historyArray = new ArrayList<>(Arrays.asList(history.split(",")));
-                boolean isDuplicated = false;
-                for (int i = 0; i < historyArray.size(); i++) {
-                    if (historyArray.get(i).equals(realPath)) {
-                        historyArray.remove(i);
-                        break;
-                    }
-                }
-                historyArray.add(0, realPath);
-                if (historyArray.size() > historyCount) {
-                    do {
-                        historyArray.remove(historyCount - 1);
-                    } while (historyArray.size() == historyCount);
-                }
-                for (int i = 0; i < historyArray.size(); i++) {
-                    sb.append(historyArray.get(i)).append(",");
-                }
-            } else {
-                sb.append(realPath);
-            }
-            ed.putString("history", sb.toString());
-            ed.apply();
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), R.string.numberRequiredKey, Toast.LENGTH_SHORT).show();
-            this.finish();
-        }
-    }
 
     private void performRECORD(ArrayList<Fragment> fl, String filePath) {
         mio_type = 1;

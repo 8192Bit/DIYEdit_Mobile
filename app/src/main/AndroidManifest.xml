@@ -26,10 +26,9 @@
         android:theme="@style/Theme.DIYEdit">
         <activity
             android:name="com.x8192bit.diyeditmobile.FileSelectActivity"
-            android:exported="false"
-            android:label="@string/title_activity_file_choose">
+            android:exported="false">
             <intent-filter>
-                <action android:name="com.x8192Bit.DIYEdit_Mobile.OPEN_FILECHOOSE_ACTIVITY" />
+                <action android:name="com.x8192bit.diyeditmobile.OPEN_FILECHOOSE_ACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -38,8 +37,7 @@
             android:exported="false" />
         <activity
             android:name="com.x8192bit.diyeditmobile.SettingsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_settings" />
+            android:exported="false" />
         <activity
             android:name="com.x8192bit.diyeditmobile.SaveEditActivity"
             android:exported="false" />

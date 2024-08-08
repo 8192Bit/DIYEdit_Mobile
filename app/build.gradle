@@ -18,7 +18,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.x8192Bit.DIYEdit_Mobile"
+        applicationId "com.x8192bit.diyeditmobile"
         minSdk 16
         targetSdk 35
         versionCode 1
@@ -67,6 +67,7 @@ configurations {
 }
 
 dependencies {
+    // not updating in order to support old devices
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -95,7 +96,7 @@ dependencies {
             because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
         }
     }
-    // partly copied from https://stackoverflow.com/questions/75263047/duplicate-class-in-kotlin-android hope works
+    // partly copied from https://stackoverflow.com/questions/75263047/duplicate-class-in-kotlin-android hope it works
 }
 
 tasks.withType(JavaCompile).configureEach {
