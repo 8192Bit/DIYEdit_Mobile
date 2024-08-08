@@ -78,8 +78,8 @@
     <string name="title_activity_file_choose">選擇......</string>
     <string name="chooseCurrentDirectory">選擇當前目錄</string>
     <string name="exportFailedKey">導出失敗。</string>
-    <string name="timeSortededKey">時間排序</string>
-    <string name="nameSortededKey">名稱排序</string>
+    <string name="timeSortedKey">時間排序</string>
+    <string name="nameSortedKey">名稱排序</string>
     <string name="reverseOrderKey">逆序</string>
     <string name="historyTooExtremeKey">最大歷史記錄數過大或過小。</string>
     <string name="normalOrderKey">順序</string>

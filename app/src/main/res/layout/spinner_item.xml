@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        android:padding="12dp"
+        android:padding="8dp"
         android:textSize="20sp"
         tools:ignore="SpeakableTextPresentCheck" />
 </LinearLayout>

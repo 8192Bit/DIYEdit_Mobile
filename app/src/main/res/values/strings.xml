@@ -85,8 +85,8 @@
     <string name="title_activity_file_choose">Select...</string>
     <string name="chooseCurrentDirectory">Select Current Directory</string>
     <string name="exportFailedKey">Failed to export requested item(s).</string>
-    <string name="timeSortededKey">Sort by time</string>
-    <string name="nameSortededKey">Sort by name</string>
+    <string name="timeSortedKey">Sort by time</string>
+    <string name="nameSortedKey">Sort by name</string>
     <string name="reverseOrderKey">Reversed Order</string>
     <string name="historyTooExtremeKey">The max count of history entry is too big or too small.</string>
     <string name="normalOrderKey">Normal Order</string>
