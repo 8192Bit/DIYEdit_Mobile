@@ -42,7 +42,7 @@ import org.joda.time.DateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import x8192Bit.DIYEdit_Mobile.R;
+import x8192bit.diyeditmobile.R;
 
 public class SaveEditActivity extends BaseActivity {
 

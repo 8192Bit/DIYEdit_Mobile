@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.xperia64.diyedit.FileByteOperations;
 import com.xperia64.diyedit.saveutils.SaveHandler;
 
-import x8192Bit.DIYEdit_Mobile.R;
+import x8192bit.diyeditmobile.R;
 
 /**
  * A simple {@link Fragment} subclass.

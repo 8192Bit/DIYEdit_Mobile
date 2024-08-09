@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 
-import x8192Bit.DIYEdit_Mobile.R;
+import x8192bit.diyeditmobile.R;
 
 public class AboutActivity extends BaseActivity {
 

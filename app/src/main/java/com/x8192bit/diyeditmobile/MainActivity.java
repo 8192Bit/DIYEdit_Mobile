@@ -24,8 +24,8 @@ import androidx.core.content.ContextCompat;
 import com.x8192bit.diyeditmobile.utils.FileUtils;
 import com.x8192bit.diyeditmobile.utils.SPUtils;
 
-import x8192Bit.DIYEdit_Mobile.BuildConfig;
-import x8192Bit.DIYEdit_Mobile.R;
+import x8192bit.diyeditmobile.BuildConfig;
+import x8192bit.diyeditmobile.R;
 
 public class MainActivity extends BaseActivity {
 
@@ -213,7 +213,14 @@ public class MainActivity extends BaseActivity {
     private void openFile(String realPath) {
         Intent intent = new Intent(this, SaveEditActivity.class);
         intent.putExtra(REAL_PATH, realPath);
-        startActivity(intent);
+        try {
+            startActivity(intent);
+        } catch (Exception e) {
+            new AlertDialog.Builder(getApplicationContext())
+                    .setTitle(e.getClass().getName())
+                    .setMessage(e.getMessage())
+                    .show();
+        }
     }
 
 }

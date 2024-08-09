@@ -44,13 +44,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import x8192Bit.DIYEdit_Mobile.R;
+import x8192bit.diyeditmobile.R;
 
 public class SaveEditFragment extends Fragment {
 
-    public static final String IS_IMPORT_MIO = "com.x8192Bit.DIYEdit_Mobile.IS_IMPORT_MIO";
-    public static final String IS_SAVE_EDIT = "com.x8192Bit.DIYEdit_Mobile.IS_SAVE_EDIT";
-    public static final String SAVE_EDIT_COUNT = "com.x8192Bit.DIYEdit_Mobile.SAVE_EDIT_COUNT";
+    public static final String IS_IMPORT_MIO = "com.x8192bit.diyeditmobile.IS_IMPORT_MIO";
+    public static final String IS_SAVE_EDIT = "com.x8192bit.diyeditmobile.IS_SAVE_EDIT";
+    public static final String SAVE_EDIT_COUNT = "com.x8192bit.diyeditmobile.SAVE_EDIT_COUNT";
     private static final String ARG_NAME = "name";
     private static final String ARG_MIO_TYPE = "mio_type";
     private String name;

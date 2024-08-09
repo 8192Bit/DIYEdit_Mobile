@@ -49,7 +49,7 @@ android {
         viewBinding true
         buildConfig true
     }
-    namespace 'x8192Bit.DIYEdit_Mobile'
+    namespace 'x8192bit.diyeditmobile'
     lint {
         abortOnError false
     }

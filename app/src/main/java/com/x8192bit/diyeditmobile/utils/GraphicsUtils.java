@@ -11,7 +11,7 @@ import android.graphics.drawable.Drawable;
 
 import java.io.InputStream;
 
-import x8192Bit.DIYEdit_Mobile.R;
+import x8192bit.diyeditmobile.R;
 
 public class GraphicsUtils {
 

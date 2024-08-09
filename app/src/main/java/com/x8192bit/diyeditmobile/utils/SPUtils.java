@@ -124,4 +124,9 @@ public class SPUtils {
             throw e;
         }
     }
+
+    public static void cleanHistory(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(sharedPreferencesName, MODE_PRIVATE);
+        sp.edit().putString("history", null).apply();
+    }
 }

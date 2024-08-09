@@ -1,7 +1,6 @@
 package com.x8192bit.diyeditmobile;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -12,6 +11,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.x8192bit.diyeditmobile.utils.CharUtils;
 import com.x8192bit.diyeditmobile.utils.LocaleUtils;
+import com.x8192bit.diyeditmobile.utils.SPUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import x8192Bit.DIYEdit_Mobile.R;
+import x8192bit.diyeditmobile.R;
 
 
 public class SettingsActivity extends BaseActivity {
@@ -99,8 +99,7 @@ public class SettingsActivity extends BaseActivity {
         public boolean onPreferenceClick(Preference preference) {
             String key = preference.getKey();
             if (key.equals("cleanAllHistory")) {
-                SharedPreferences sp = this.requireContext().getSharedPreferences("com.x8192Bit.DIYEdit_Mobile_preferences", MODE_PRIVATE);
-                sp.edit().putString("history", null).apply();
+                SPUtils.cleanHistory(getContext());
                 Toast.makeText(requireContext(), R.string.cleanedKey, Toast.LENGTH_SHORT).show();
             }
             if (key.equals("openAboutDialog")) {

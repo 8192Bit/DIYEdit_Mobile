@@ -39,11 +39,11 @@ import java.io.FileOutputStream;
 import java.util.Locale;
 import java.util.Objects;
 
-import x8192Bit.DIYEdit_Mobile.R;
+import x8192bit.diyeditmobile.R;
 
 public class BGViewFragment extends Fragment {
 
-    public static final String IS_SAVE_EDIT = "com.x8192Bit.DIYEdit_Mobile.IS_SAVE_EDIT";
+    public static final String IS_SAVE_EDIT = "com.x8192bit.diyeditmobile.IS_SAVE_EDIT";
     private static final String ARG_NAME = "name";
     private static final String ARG_IS_GAME = "is_game";
     SwitchMaterial bp = null;

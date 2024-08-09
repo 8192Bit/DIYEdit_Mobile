@@ -36,7 +36,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
-import x8192Bit.DIYEdit_Mobile.R;
+import x8192bit.diyeditmobile.R;
 
 /**
  * A simple {@link Fragment} subclass.
